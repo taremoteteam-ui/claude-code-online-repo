@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/resolved_primitive.schema.json",
+  "title": "ResolvedPrimitive",
+  "description": "A materialized (family x runtime wrapper) resolved primitive: one reusable capability lowered into one concrete runtime shape, with composed input/output edges, unioned effects, and unioned proof obligations. Materialized by scripts/build_universal_primitive_pack.py - a principled cross of each family with its applicable wrappers, never a blind cartesian.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "resolved_id",
+    "base_family_ref",
+    "runtime_wrapper_ref",
+    "domain",
+    "title",
+    "input_edge",
+    "output_edge",
+    "runtime_target",
+    "effects",
+    "proof_requirements",
+    "problem_solution_ref",
+    "risk_class",
+    "human_review_required",
+    "version",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "resolved_primitive" },
+    "resolved_id": {
+      "type": "string",
+      "pattern": "^resolved:[a-z0-9_]+\\.[a-z0-9_]+\\.[a-z0-9_]+$"
+    },
+    "base_family_ref": { "type": "string", "pattern": "^prim:[a-z0-9_]+\\.[a-z0-9_]+$" },
+    "runtime_wrapper_ref": { "type": "string", "pattern": "^wrap:[a-z0-9_]+$" },
+    "domain": { "type": "string" },
+    "title": { "type": "string", "minLength": 3 },
+    "input_edge": { "type": "string", "pattern": "^[A-Za-z0-9+]+$" },
+    "output_edge": { "type": "string", "pattern": "^[A-Za-z0-9+]+$" },
+    "runtime_target": { "type": "string" },
+    "effects": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "proof_requirements": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+    "problem_solution_ref": { "type": "string", "pattern": "^prim:[a-z0-9_]+\\.[a-z0-9_]+$" },
+    "risk_class": { "enum": ["low", "medium", "high"] },
+    "human_review_required": { "type": "boolean" },
+    "version": { "type": "string" },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}
