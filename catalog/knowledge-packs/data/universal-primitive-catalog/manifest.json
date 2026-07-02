@@ -1,0 +1,33 @@
+{
+  "pack_id": "universal-primitive-catalog",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_universal_primitive_pack.py",
+  "schema_refs": [
+    "schemas/reusable_primitive_family.schema.json",
+    "schemas/runtime_wrapper.schema.json",
+    "schemas/resolved_primitive.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "primitive_families.jsonl": {
+      "rows": 264,
+      "content_sha256": "34acca14b00502b19a15c87c561fb8aa4dec9eeb2ea09a55013679dcb7f530fd"
+    },
+    "resolved_primitives.jsonl": {
+      "rows": 1030,
+      "content_sha256": "5474518d1669bbcad1ed1693541b2a5fcc1f7e3eff4f8d5e6816d0616d969279"
+    },
+    "runtime_wrappers.jsonl": {
+      "rows": 10,
+      "content_sha256": "3069804a6587e0e10e90da071b49c69a709338b0f2247ff62ccc1101304e17da"
+    }
+  },
+  "row_counts": {
+    "primitive_families.jsonl": 264,
+    "resolved_primitives.jsonl": 1030,
+    "runtime_wrappers.jsonl": 10
+  },
+  "total_rows": 1304,
+  "candidate": true,
+  "serves_truth": false
+}
