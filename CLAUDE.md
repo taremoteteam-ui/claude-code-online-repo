@@ -19,6 +19,13 @@ the proof-aware primitive route market).
   playbook.
 - `docs/codex/place-discovery-compliance-and-policy.md` — promotion gates,
   license/attribution/privacy boundaries for this lane.
+- `docs/codex/document-extraction-lane-handoff.md` — the contract/document
+  schema-extraction lane (source-span grounding).
+- `docs/codex/primitive-foundry-operating-manual.md` — the operating manual
+  (search/remix/compile/proof/telemetry paths); Appendix A maps each section
+  to what already exists in this repo.
+- `docs/codex/compiled-primitive-ai-99pct-handoff.md` — the Compiled Primitive
+  AI framing and the 99%-programmatic-development coverage claim language.
 
 ## Non-negotiable conventions
 
