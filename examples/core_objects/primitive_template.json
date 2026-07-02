@@ -1,0 +1,32 @@
+{
+  "record_type": "primitive_template",
+  "template_id": "tmpl:place_discovery.bounded_source_ingest",
+  "title": "Bounded source ingest adapter template",
+  "input_edge_template": "AreaOfInterest+{SearchPolicy}",
+  "output_edge_template": "{RecordSet}+SourceSnapshotReceipt",
+  "slots": [
+    {
+      "slot_name": "SearchPolicy",
+      "description": "Source-specific search or filter policy edge kind, e.g. ClinicSearchPolicy for HRSA or POITagSpec for Overpass; the instantiated adapter must validate it before any request is issued.",
+      "allowed_kinds": ["ClinicSearchPolicy", "POITagSpec", "SoQLQuerySpec", "PackageSearchSpec"]
+    },
+    {
+      "slot_name": "RecordSet",
+      "description": "Typed record-set edge kind the instantiated adapter emits, e.g. HRSASiteRecordSet or OSMPOIRecordSet; rows must carry stable record ids and source_id provenance.",
+      "allowed_kinds": ["HRSASiteRecordSet", "OSMPOIRecordSet", "SocrataRowRecordSet", "CKANResourceRecordSet"]
+    }
+  ],
+  "overlay_hooks": ["region", "compliance", "data_format"],
+  "proof_requirements": [
+    "schema_validation of the search policy payload before any request",
+    "snapshot_meta discloses retrieved_mode (fixture_synthetic vs live) on every response",
+    "attribution string present when the source license requires it"
+  ],
+  "known_failure_modes": [
+    "source pagination truncates result sets silently when page limits are not exhausted",
+    "rate limits or outages return partial data that looks like a small-but-valid result set"
+  ],
+  "version": "0.1.0",
+  "candidate": true,
+  "serves_truth": false
+}

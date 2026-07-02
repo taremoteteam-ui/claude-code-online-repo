@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/primitive_template.schema.json",
+  "title": "PrimitiveTemplate",
+  "description": "A primitive template candidate: an edge contract with {Slot} placeholders plus slot constraints and overlay hooks. Instantiating a template with concrete slot fills yields a primitive candidate; the template itself never executes and never promotes truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "template_id",
+    "title",
+    "input_edge_template",
+    "output_edge_template",
+    "slots",
+    "overlay_hooks",
+    "proof_requirements",
+    "known_failure_modes",
+    "version",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "primitive_template" },
+    "template_id": { "type": "string", "pattern": "^tmpl:[a-z0-9_.]+$" },
+    "title": { "type": "string", "minLength": 3 },
+    "input_edge_template": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9+{}]+$",
+      "description": "Edge kind expression; {Slot} placeholders are resolved from slots at instantiation."
+    },
+    "output_edge_template": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9+{}]+$",
+      "description": "Edge kind expression; {Slot} placeholders are resolved from slots at instantiation."
+    },
+    "slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["slot_name", "description", "allowed_kinds"],
+        "properties": {
+          "slot_name": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9]*$" },
+          "description": { "type": "string", "minLength": 10 },
+          "allowed_kinds": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 2 },
+            "minItems": 1,
+            "description": "Edge or primitive-card kinds allowed to fill this slot at instantiation."
+          }
+        }
+      }
+    },
+    "overlay_hooks": {
+      "type": "array",
+      "items": {
+        "enum": ["industry", "schema", "region", "role", "compliance", "runtime", "data_format"]
+      },
+      "description": "Variation overlay types that may specialize instances of this template."
+    },
+    "proof_requirements": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "known_failure_modes": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+    "version": { "type": "string" },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}

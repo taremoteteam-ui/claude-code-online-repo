@@ -1,0 +1,61 @@
+{
+  "record_type": "plan_lock",
+  "lock_id": "lock:place_discovery.clinic_discovery_fixture_replay",
+  "route": [
+    {
+      "step": 1,
+      "primitive_id": "prim:place_discovery.source_surface_registry",
+      "input_edge": "SourceQuery+SourcePolicy",
+      "output_edge": "SourceSurfaceSet+RegistryReceipt"
+    },
+    {
+      "step": 2,
+      "primitive_id": "prim:place_discovery.hrsa_health_center_ingester",
+      "input_edge": "AreaOfInterest+ClinicSearchPolicy",
+      "output_edge": "HRSASiteRecordSet+SourceSnapshotReceipt"
+    },
+    {
+      "step": 3,
+      "primitive_id": "prim:place_discovery.nppes_provider_identity_resolver",
+      "input_edge": "ProviderCandidateSet+MatchPolicy",
+      "output_edge": "ResolvedProviderSet+MatchDecisionReceipt"
+    },
+    {
+      "step": 4,
+      "primitive_id": "prim:place_discovery.osm_overpass_bounded_poi_query",
+      "input_edge": "AreaOfInterest+POITagSpec+SourcePolicy",
+      "output_edge": "OSMPOIRecordSet+AttributionReceipt"
+    },
+    {
+      "step": 5,
+      "primitive_id": "prim:place_discovery.entity_normalize_and_dedupe",
+      "input_edge": "RawEntityRecordSet+NormalizationPolicy+DedupePolicy",
+      "output_edge": "CanonicalEntitySet+MergeDecisionReceipt"
+    },
+    {
+      "step": 6,
+      "primitive_id": "prim:place_discovery.point_to_boundary_spatial_join",
+      "input_edge": "PointRecordSet+BoundaryLayer+JoinPolicy",
+      "output_edge": "BoundaryTaggedRecordSet+BoundaryVintageReceipt"
+    },
+    {
+      "step": 7,
+      "primitive_id": "prim:place_discovery.evidence_bundle_wrapper",
+      "input_edge": "AnswerDraft+SourceSpanSet+ArtifactManifest",
+      "output_edge": "EvidenceBackedAnswer+SourceBundle+UncertaintyReport"
+    }
+  ],
+  "route_hash": "sha256:948f48a80233688a751ede93191aaf34860221e531ddadd5ccc74080c8bcd740",
+  "compiled_from": "delta:place_discovery.clinic_discovery_route",
+  "proof_plan": [
+    "schema_validation on every primitive payload before execution",
+    "no_cross_state_merge on entity_normalize_and_dedupe output",
+    "idempotency_test: dedupe re-run over canonical entities produces no further merges",
+    "boundary vintage disclosed by point_to_boundary_spatial_join receipts",
+    "evidence bundle discloses retrieved_mode for every source snapshot"
+  ],
+  "replayable": true,
+  "version": "0.1.0",
+  "candidate": true,
+  "serves_truth": false
+}

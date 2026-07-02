@@ -1,0 +1,25 @@
+{
+  "record_type": "strategy_genome",
+  "genome_id": "genome:place_discovery.clinic_discovery_fixture_baseline",
+  "task_family": "clinic_discovery",
+  "components": {
+    "decomposer": "static_task_family_route",
+    "retriever": "pack_registry_exact_edge_lookup",
+    "reranker": "deterministic_pack_order",
+    "planner": "deterministic_route_definition",
+    "compiler": "python_route_runner",
+    "proof_policy": "all_primitive_proofs_must_pass",
+    "cache_policy": "no_cache_fixture_replay"
+  },
+  "parameters": {
+    "name_similarity_threshold": 0.82,
+    "max_distance_m": 500.0,
+    "require_same_zip5": false,
+    "arm_id": "A4",
+    "execution_mode": "fixture_offline",
+    "nppes_candidate_names_limit": 4
+  },
+  "version": "0.1.0",
+  "candidate": true,
+  "serves_truth": false
+}

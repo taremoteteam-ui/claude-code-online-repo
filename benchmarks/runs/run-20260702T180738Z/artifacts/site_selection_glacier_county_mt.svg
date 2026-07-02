@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+<rect width="600" height="600" fill="#fafafa"/>
+<path class="boundary" d="M 550.00 290.00 L 425.00 80.91 L 175.00 80.91 L 50.00 290.00 L 175.00 499.09 L 425.00 499.09 L 550.00 290.00 Z" fill="#e8eef7" fill-opacity="0.6" stroke="#33415c" stroke-width="1.5"/>
+<rect class="pt pt-facility" data-id="ent:42a1dbe88e5b" x="450.43" y="328.84" width="12.00" height="12.00" fill="#1a237e" stroke="#ffffff" stroke-width="1"/>
+<rect class="pt pt-facility" data-id="ent:52bce3d806f7" x="277.57" y="382.64" width="12.00" height="12.00" fill="#1a237e" stroke="#ffffff" stroke-width="1"/>
+<rect class="pt pt-facility" data-id="ent:ca19db4546cf" x="129.00" y="430.93" width="12.00" height="12.00" fill="#1a237e" stroke="#ffffff" stroke-width="1"/>
+<circle class="pt pt-uncovered" data-id="dp:glacier_02" cx="369.46" cy="163.83" r="4.5" fill="#c62828" stroke="#ffffff" stroke-width="1"/>
+<circle class="pt pt-uncovered" data-id="dp:glacier_03" cx="276.43" cy="215.55" r="4.5" fill="#c62828" stroke="#ffffff" stroke-width="1"/>
+<circle class="pt pt-uncovered" data-id="dp:glacier_04" cx="129.72" cy="202.56" r="4.5" fill="#c62828" stroke="#ffffff" stroke-width="1"/>
+<text class="map-title" x="300" y="32" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#1c2431">Ranked site candidates - aoi:glacier_county_mt (synthetic fixture data)</text>
+<text class="map-attribution" x="300" y="588" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#5b6470">Synthetic fixture data; straight-line proxy distances; suitability factors not modeled</text>
+<rect x="20" y="526" width="264" height="24" fill="#ffffff" fill-opacity="0.85" stroke="#c5ccd6" stroke-width="0.5"/>
+<circle class="legend-mark" cx="30.00" cy="538" r="4" fill="#2e7d32"/>
+<text x="38.00" y="542" font-family="sans-serif" font-size="10" fill="#1c2431">covered</text>
+<circle class="legend-mark" cx="118.00" cy="538" r="4" fill="#c62828"/>
+<text x="126.00" y="542" font-family="sans-serif" font-size="10" fill="#1c2431">uncovered</text>
+<rect class="legend-mark" x="202.00" y="534" width="8" height="8" fill="#1a237e"/>
+<text x="214.00" y="542" font-family="sans-serif" font-size="10" fill="#1c2431">facility</text>
+</svg>

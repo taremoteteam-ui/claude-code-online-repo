@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/plan_lock.schema.json",
+  "title": "PlanLock",
+  "description": "The canonical locked route: ordered steps with concrete input/output edges, a content hash over the route (primitives/core.py canonical_hash), the delta or deterministic definition it was compiled from, and the proof plan every replay must satisfy. A lock is execution truth for replay purposes only; the record itself remains candidate material.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "lock_id",
+    "route",
+    "route_hash",
+    "compiled_from",
+    "proof_plan",
+    "replayable",
+    "version",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "plan_lock" },
+    "lock_id": { "type": "string", "pattern": "^lock:[a-z0-9_.]+$" },
+    "route": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step", "primitive_id", "input_edge", "output_edge"],
+        "properties": {
+          "step": { "type": "integer", "minimum": 1 },
+          "primitive_id": { "type": "string", "pattern": "^prim:[a-z0-9_.]+$" },
+          "input_edge": { "type": "string", "pattern": "^[A-Za-z0-9+]+$" },
+          "output_edge": { "type": "string", "pattern": "^[A-Za-z0-9+]+$" }
+        }
+      }
+    },
+    "route_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "primitives.core.canonical_hash over the route array; recomputed by the checker, never typed."
+    },
+    "compiled_from": {
+      "type": "string",
+      "pattern": "^(delta:[a-z0-9_.]+|deterministic_route_definition)$"
+    },
+    "proof_plan": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "replayable": { "const": true },
+    "version": { "type": "string" },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}

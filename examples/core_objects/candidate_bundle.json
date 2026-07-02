@@ -1,0 +1,31 @@
+{
+  "record_type": "candidate_bundle",
+  "bundle_id": "bundle:place_discovery.clinic_discovery_route_search",
+  "query_intent": "resolve deduplicated clinic facilities inside a county boundary by comparing official HRSA/NPPES sources with community OSM data",
+  "exact_matches": [
+    "prim:place_discovery.hrsa_health_center_ingester",
+    "prim:place_discovery.entity_normalize_and_dedupe",
+    "prim:place_discovery.point_to_boundary_spatial_join",
+    "grp:place_discovery.area_question_to_evidence_backed_answer"
+  ],
+  "near_matches": [
+    "prim:place_discovery.overture_openaddresses_place_ingester",
+    "grp:place_discovery.osm_official_coverage_comparison"
+  ],
+  "template_candidates": ["tmpl:place_discovery.bounded_source_ingest"],
+  "mutator_candidates": [
+    "overlay:compliance.odbl_attribution",
+    "overlay:data_format.geojson"
+  ],
+  "negative_memory_warnings": [
+    "negmem:place_discovery.zip_only_blocking_misses_unpostcoded_records"
+  ],
+  "fallback_options": [
+    "run HRSA-only route without OSM comparison and disclose reduced source coverage",
+    "emit a GapRecord instead of a scorecard if no adapter for the area is available"
+  ],
+  "ranking_explanation": "Exact edge matches on the P0 clinic route rank first; the coverage-comparison group ranks as near match because its visible edge adds comparison outputs the query did not ask for; templates and overlays rank below concrete primitives because instantiation costs a build step. Ranking reflects edge-fit classes only; no runtime performance is claimed for any candidate.",
+  "version": "0.1.0",
+  "candidate": true,
+  "serves_truth": false
+}

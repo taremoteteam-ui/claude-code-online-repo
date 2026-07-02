@@ -1,0 +1,36 @@
+{
+  "run_id": "run-20260702T180738Z",
+  "arm_id": "A4",
+  "execution_mode": "fixture_offline",
+  "tasks_executed": 16,
+  "tasks_succeeded": 16,
+  "total_receipts": 80,
+  "total_proofs_passed": 252,
+  "total_proofs": 252,
+  "distinct_primitives_executed": [
+    "prim:place_discovery.careeronestop_training_provider_adapter",
+    "prim:place_discovery.ckan_package_resource_harvester",
+    "prim:place_discovery.college_scorecard_ipeds_program_adapter",
+    "prim:place_discovery.coverage_gap_ranker",
+    "prim:place_discovery.dataset_schema_fingerprint",
+    "prim:place_discovery.entity_normalize_and_dedupe",
+    "prim:place_discovery.evidence_bundle_wrapper",
+    "prim:place_discovery.geocode_policy_gate",
+    "prim:place_discovery.hrsa_health_center_ingester",
+    "prim:place_discovery.map_artifact_generation",
+    "prim:place_discovery.nearest_facility_isochrone_catchment_analysis",
+    "prim:place_discovery.nppes_provider_identity_resolver",
+    "prim:place_discovery.osm_overpass_bounded_poi_query",
+    "prim:place_discovery.point_to_boundary_spatial_join",
+    "prim:place_discovery.socrata_soql_dataset_ingester",
+    "prim:place_discovery.source_surface_registry"
+  ],
+  "runtime_llm_tokens_total": 0,
+  "gap_records": 0,
+  "families_not_run": [],
+  "honesty_notes": [
+    "fixture_offline run: synthetic fixtures, measures route machinery only",
+    "baseline arms A1/A2 not run; no baseline comparison is claimed",
+    "no token-savings claim can be made from this run alone"
+  ]
+}

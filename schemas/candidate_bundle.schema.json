@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/candidate_bundle.schema.json",
+  "title": "CandidateBundle",
+  "description": "What edge search returns for a query intent: never one answer, always a ranked bundle of exact matches, near matches, templates, mutators, negative-memory warnings, and fallback options with an explanation of the ranking. Bundles are candidate material only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "bundle_id",
+    "query_intent",
+    "exact_matches",
+    "near_matches",
+    "template_candidates",
+    "mutator_candidates",
+    "negative_memory_warnings",
+    "fallback_options",
+    "ranking_explanation",
+    "version",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "candidate_bundle" },
+    "bundle_id": { "type": "string", "pattern": "^bundle:[a-z0-9_.]+$" },
+    "query_intent": { "type": "string", "minLength": 3 },
+    "exact_matches": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^(prim|grp):[a-z0-9_.]+$" }
+    },
+    "near_matches": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^(prim|grp):[a-z0-9_.]+$" }
+    },
+    "template_candidates": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^tmpl:[a-z0-9_.]+$" }
+    },
+    "mutator_candidates": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^(overlay|mut):[a-z0-9_.]+$" }
+    },
+    "negative_memory_warnings": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^negmem:[a-z0-9_.]+$" }
+    },
+    "fallback_options": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 }
+    },
+    "ranking_explanation": { "type": "string", "minLength": 20 },
+    "version": { "type": "string" },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}

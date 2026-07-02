@@ -1,0 +1,15 @@
+{
+  "record_type": "negative_memory",
+  "memory_id": "negmem:place_discovery.zip_only_blocking_misses_unpostcoded_records",
+  "failure_class": "entity_resolution_blocking_gap",
+  "description": "Zip-only blocking in entity_normalize_and_dedupe keyed candidate pairs on (zip5, first name character), so OSM Overpass records that lack addr:postcode never joined any block and were never compared against HRSA records for the same facility. The first benchmark harness self-test on clinic_discovery merged 0 duplicates even though the synthetic fixtures contain cross-source duplicates of the same clinics.",
+  "affected_primitive_ids": ["prim:place_discovery.entity_normalize_and_dedupe"],
+  "affected_task_families": ["clinic_discovery"],
+  "evidence_refs": ["benchmarks/runs/run-20260702T174206Z", "commit:4ec148f"],
+  "suppression_rule": "never rely on zip-only blocking when any source lane can lack postal codes; require geo-grid or name fallback keys",
+  "resolution_status": "fixed",
+  "fixed_by": "geo grid union-of-keys blocking in primitives/entity.py",
+  "version": "0.1.0",
+  "candidate": true,
+  "serves_truth": false
+}

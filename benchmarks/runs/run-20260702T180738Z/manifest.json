@@ -1,0 +1,32 @@
+{
+  "run_id": "run-20260702T180738Z",
+  "generated_by": "scripts/run_place_discovery_benchmark.py",
+  "files": {
+    "scorecards.jsonl": {
+      "rows": 16,
+      "content_sha256": "d9f0deeeaab6b29507844a24c4cf21efdab29cc8c6fb9d949214dc4bfab894d6"
+    },
+    "receipts.jsonl": {
+      "rows": 80,
+      "content_sha256": "de7a068b789a0c774b1603583bc893d0cf12050ff8976191bb3719fefdf957ae"
+    },
+    "gap_records.jsonl": {
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "run_summary.json": {
+      "rows": 1,
+      "content_sha256": "ec6897c509404157db7f13ed10457b0ad22fbeff0a973d63a2b99c339c667ea8"
+    }
+  },
+  "artifact_files": [
+    "care_desert_glacier_county_mt.svg",
+    "care_desert_harris_county_tx.svg",
+    "dashboard_glacier_county_mt.svg",
+    "dashboard_harris_county_tx.svg",
+    "site_selection_glacier_county_mt.svg",
+    "site_selection_harris_county_tx.svg"
+  ],
+  "candidate": true,
+  "serves_truth": false
+}

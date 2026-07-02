@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/strategy_genome.schema.json",
+  "title": "StrategyGenome",
+  "description": "Every search/plan/compile/proof/cache choice for a task family made explicit and mutable: named component choices plus tunable parameters. Genomes are candidate configuration; no genome asserts measured performance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "genome_id",
+    "task_family",
+    "components",
+    "parameters",
+    "version",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "strategy_genome" },
+    "genome_id": { "type": "string", "pattern": "^genome:[a-z0-9_.]+$" },
+    "task_family": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decomposer",
+        "retriever",
+        "reranker",
+        "planner",
+        "compiler",
+        "proof_policy",
+        "cache_policy"
+      ],
+      "properties": {
+        "decomposer": { "type": "string", "minLength": 3 },
+        "retriever": { "type": "string", "minLength": 3 },
+        "reranker": { "type": "string", "minLength": 3 },
+        "planner": { "type": "string", "minLength": 3 },
+        "compiler": { "type": "string", "minLength": 3 },
+        "proof_policy": { "type": "string", "minLength": 3 },
+        "cache_policy": { "type": "string", "minLength": 3 }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": { "type": ["number", "string", "boolean"] },
+      "description": "Tunable knobs (thresholds, limits, flags); values are numbers, strings, or booleans."
+    },
+    "version": { "type": "string" },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "record_type": "plan_delta",
+  "delta_id": "delta:place_discovery.clinic_discovery_route",
+  "bundle_ref": "bundle:place_discovery.clinic_discovery_route_search",
+  "proposed_route": [
+    {
+      "step": 1,
+      "primitive_id": "prim:place_discovery.source_surface_registry",
+      "reason": "resolve which P0 health-facility source surfaces are registered before any ingestion"
+    },
+    {
+      "step": 2,
+      "primitive_id": "prim:place_discovery.hrsa_health_center_ingester",
+      "reason": "official HRSA site records are the anchor source for clinic discovery"
+    },
+    {
+      "step": 3,
+      "primitive_id": "prim:place_discovery.nppes_provider_identity_resolver",
+      "reason": "confirm provider identities for the top HRSA candidates against the NPPES registry"
+    },
+    {
+      "step": 4,
+      "primitive_id": "prim:place_discovery.osm_overpass_bounded_poi_query",
+      "reason": "community OSM clinics inside the bbox provide the cross-source comparison lane"
+    },
+    {
+      "step": 5,
+      "primitive_id": "prim:place_discovery.entity_normalize_and_dedupe",
+      "reason": "merge HRSA and OSM records into canonical entities; blocking must not be zip-only (see negmem warning in the bundle)"
+    },
+    {
+      "step": 6,
+      "primitive_id": "prim:place_discovery.point_to_boundary_spatial_join",
+      "reason": "keep only entities whose coordinates fall inside the area-of-interest boundary"
+    },
+    {
+      "step": 7,
+      "primitive_id": "prim:place_discovery.evidence_bundle_wrapper",
+      "reason": "wrap the answer with source snapshots, attributions, and uncertainty notes"
+    }
+  ],
+  "is_truth": false,
+  "proposed_by": "deterministic_route_definition (scripts/run_place_discovery_benchmark.py clinic_discovery runner)",
+  "version": "0.1.0",
+  "candidate": true,
+  "serves_truth": false
+}
