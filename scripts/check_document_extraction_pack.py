@@ -50,10 +50,16 @@ KNOWN_FAMILIES = {
 # Primitive kinds that emit field values must ground them in source spans.
 FIELD_EMITTING_KINDS = {"extract.worker", "verify.worker"}
 
+# "guarantee"/"guaranty" is core legal vocabulary in this lane (guaranty
+# agreements, guaranteed maximum price), so the gate targets the MARKETING
+# sense - guaranteeing an outcome or metric - not the legal noun.
 FORBIDDEN_CLAIM_PATTERNS = [
     re.compile(r"\b\d+(\.\d+)?x\s+(faster|cheaper|reduction)", re.IGNORECASE),
     re.compile(r"\bproven to\b", re.IGNORECASE),
-    re.compile(r"\bguarantee[sd]?\b", re.IGNORECASE),
+    re.compile(
+        r"\bguarantee[sd]?\s+(?:\w+\s+){0,3}"
+        r"(faster|cheaper|savings|results?|accuracy|performance|reduction|uptime|success)",
+        re.IGNORECASE),
     re.compile(r"\btokens? saved\b", re.IGNORECASE),
     re.compile(r"\b\d+% accura", re.IGNORECASE),
 ]

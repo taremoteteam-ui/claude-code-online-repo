@@ -1,0 +1,39 @@
+{
+  "pack_id": "document-extraction-seeds",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_document_extraction_pack.py",
+  "schema_refs": [
+    "schemas/document_type.schema.json",
+    "schemas/extraction_field.schema.json",
+    "schemas/extraction_target.schema.json",
+    "schemas/document_extraction_primitive.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "document_types.jsonl": {
+      "rows": 87,
+      "content_sha256": "8f7185996b1910bca4a2eb978e1e7ac1877faad031c180a8307cbdc959f77501"
+    },
+    "extraction_fields.jsonl": {
+      "rows": 336,
+      "content_sha256": "a6bb66a61d0cecc49f4526b688ab69c9cb3b5ecfb6b1c4694a4dc6bc3f2ab907"
+    },
+    "extraction_primitives.jsonl": {
+      "rows": 8,
+      "content_sha256": "893139444f04074b3ec5c9525c80b71ad28f87ac3d2fd26c796d6163a2281f84"
+    },
+    "extraction_targets.jsonl": {
+      "rows": 14168,
+      "content_sha256": "bb1b786b975c67ad9b7be8a3123fa7e708158612718387643d850d19b8b86872"
+    }
+  },
+  "row_counts": {
+    "document_types.jsonl": 87,
+    "extraction_fields.jsonl": 336,
+    "extraction_primitives.jsonl": 8,
+    "extraction_targets.jsonl": 14168
+  },
+  "total_rows": 14599,
+  "candidate": true,
+  "serves_truth": false
+}

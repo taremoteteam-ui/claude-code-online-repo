@@ -1,0 +1,20 @@
+{
+  "run_id": "docrun-20260702T220347Z",
+  "generated_by": "scripts/run_document_extraction_benchmark.py",
+  "files": {
+    "scorecards.jsonl": {
+      "rows": 5,
+      "content_sha256": "afac3af9a9d451ad3130c729aafe9c44e6d0ede22a59bae062f8c51e823f3fdd"
+    },
+    "receipts.jsonl": {
+      "rows": 25,
+      "content_sha256": "2ab02e94c0fa69d6757ca7a0c58ea4731935a9b810a59181ebefc078f77c25f4"
+    },
+    "run_summary.json": {
+      "rows": 1,
+      "content_sha256": "8d5d886a496d96579ec991926946dce53bbee77c584dc29a989621c46df1e93f"
+    }
+  },
+  "candidate": true,
+  "serves_truth": false
+}

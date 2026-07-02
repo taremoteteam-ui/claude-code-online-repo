@@ -1,0 +1,59 @@
+SYNTHETIC FIXTURE - fictional parties and terms, not legal advice, for offline extraction proofs only.
+
+MUTUAL NON-DISCLOSURE AGREEMENT
+
+This Mutual Non-Disclosure Agreement (this "Agreement") is entered into and effective as of May 5, 2025 (the "Effective Date"), by and between Halcyon Data Systems, LLC, a Washington limited liability company, and Vireo Labs, Inc., a Washington corporation. Each of the foregoing is referred to as a "Party" and together as the "Parties."
+
+The Parties wish to explore a potential business relationship and, in connection with that purpose, may disclose certain confidential information to one another.
+
+SECTION 1. CONFIDENTIAL INFORMATION
+
+As used herein, "Confidential Information" means all non-public business, technical, and financial information disclosed by one Party to the other, whether disclosed orally, in writing, or by inspection of tangible objects.
+
+Confidential Information does not include information that is or becomes publicly available through no fault of the Receiving Party, or that was rightfully known to the Receiving Party prior to disclosure.
+
+SECTION 2. OBLIGATIONS OF THE RECEIVING PARTY
+
+The Receiving Party shall use the Confidential Information solely for the purpose of evaluating the potential business relationship and shall protect it using the same degree of care it uses to protect its own confidential information, but in no event less than a reasonable degree of care.
+
+SECTION 3. PERMITTED DISCLOSURES
+
+The Receiving Party may disclose Confidential Information to its employees, officers, and professional advisors who have a need to know and are bound by confidentiality obligations no less protective than those set forth in this Agreement.
+
+SECTION 4. RETURN OF MATERIALS
+
+Upon the written request of the disclosing Party, the Receiving Party shall promptly return or destroy all Confidential Information in its possession and certify such return or destruction in writing.
+
+SECTION 5. TERM
+
+The confidentiality obligations set forth herein shall survive for a period of three (3) years from the Effective Date.
+
+SECTION 6. GOVERNING LAW
+
+This Agreement shall be governed by and construed in accordance with the laws of the State of New York.
+
+SECTION 7. WAIVER OF JURY TRIAL
+
+EACH PARTY HEREBY WAIVES ANY RIGHT TO A TRIAL BY JURY IN ANY ACTION ARISING OUT OF OR RELATING TO THIS AGREEMENT.
+
+SECTION 8. NO LICENSE
+
+Nothing in this Agreement shall be construed as granting any right or license under any patent, copyright, or other intellectual property right, except as expressly set forth herein.
+
+SECTION 9. ENTIRE AGREEMENT
+
+This Agreement constitutes the entire agreement between the Parties concerning the subject matter and supersedes all prior discussions and agreements, whether written or oral.
+
+IN WITNESS WHEREOF, the Parties have executed this Agreement as of the dates set forth below.
+
+HALCYON DATA SYSTEMS, LLC
+By: /s/ Simone Vasquez
+Name: Simone Vasquez
+Title: Vice President of Business Development
+Date: May 9, 2025
+
+VIREO LABS, INC.
+By: /s/ Idris Thornbury
+Name: Idris Thornbury
+Title: Chief Executive Officer
+Date: May 12, 2025

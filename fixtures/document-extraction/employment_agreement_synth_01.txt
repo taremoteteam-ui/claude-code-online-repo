@@ -1,0 +1,73 @@
+SYNTHETIC FIXTURE - fictional parties and terms, not legal advice, for offline extraction proofs only.
+
+EMPLOYMENT AGREEMENT
+
+This Employment Agreement (this "Agreement") is entered into and effective as of January 6, 2025 (the "Effective Date"), by and between Northwind Robotics, Inc., a Delaware corporation (the "Employer"), and Dana Ruiz, an individual (the "Employee").
+
+The Employer's Employer Identification Number is 84-1739265.
+
+RECITALS
+
+WHEREAS, the Employer desires to employ the Employee on the terms and conditions set forth herein; and
+
+WHEREAS, the Employee desires to accept such employment on such terms and conditions.
+
+NOW, THEREFORE, in consideration of the mutual covenants set forth herein, the parties agree as follows.
+
+ARTICLE 1. TERM OF EMPLOYMENT
+
+The Employee's employment under this Agreement shall begin on the Effective Date and shall continue until terminated in accordance with Article 5.
+
+ARTICLE 2. POSITION AND DUTIES
+
+The Employer shall employ the Employee in the position and title of Director of Robotics Engineering, reporting to the Chief Technology Officer. The Employee shall devote substantially all business time and attention to the affairs of the Employer.
+
+ARTICLE 3. COMPENSATION
+
+As compensation for services rendered, the Employer shall pay the Employee an annual base salary of $185,000.00 (the "Base Salary"), payable in accordance with the Employer's standard payroll practices. The Base Salary shall be reviewed annually by the Employer.
+
+The Employee shall be eligible to participate in the Employer's standard benefit plans, subject to the terms of those plans.
+
+ARTICLE 4. PAID TIME OFF
+
+The Employee shall accrue paid time off at a rate of twenty (20) days per calendar year, subject to the Employer's written policies.
+
+ARTICLE 5. AT-WILL EMPLOYMENT
+
+The Employee's employment with the Employer is at-will, meaning that either party may terminate the employment relationship at any time, with or without cause and with or without notice.
+
+ARTICLE 6. RESTRICTIVE COVENANTS
+
+For a period of twelve (12) months following the termination of employment for any reason, the Employee shall not, directly or indirectly, engage in any business that competes with the Employer within the markets in which the Employer operates.
+
+For a period of eighteen (18) months following termination, the Employee shall not solicit any employee of the Employer to leave the Employer's service.
+
+ARTICLE 7. CONFIDENTIALITY
+
+The Employee shall hold in strict confidence all proprietary and confidential information of the Employer and shall not disclose such information except as authorized in writing.
+
+ARTICLE 8. GOVERNING LAW
+
+This Agreement shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict-of-laws principles.
+
+ARTICLE 9. ENTIRE AGREEMENT
+
+This Agreement constitutes the entire agreement between the parties with respect to its subject matter and supersedes all prior understandings, whether written or oral.
+
+ARTICLE 10. COUNTERPARTS
+
+This Agreement may be executed in one or more counterparts, each of which shall be deemed an original.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the dates set forth below.
+
+EMPLOYER:
+NORTHWIND ROBOTICS, INC.
+By: /s/ Priya Nandakumar
+Name: Priya Nandakumar
+Title: Chief Executive Officer
+Date: March 3, 2025
+
+EMPLOYEE:
+/s/ Dana Ruiz
+Name: Dana Ruiz
+Date: March 4, 2025

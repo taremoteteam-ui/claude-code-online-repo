@@ -73,6 +73,14 @@ python3 scripts/build_cooccurrence_edges.py --write
 # Core-object schema + example validation
 python3 scripts/check_core_object_schemas.py --self-test
 
+# Document-extraction lane: build the (doc_type x field) target lattice,
+# validate it (source-span invariant), and run the span-grounded extraction
+# benchmark over synthetic contract fixtures
+python3 scripts/build_document_extraction_pack.py --write
+python3 scripts/check_document_extraction_pack.py --self-test
+python3 scripts/run_document_extraction_benchmark.py --self-test
+python3 scripts/repair_document_extraction_benchmark.py --check   # ground-truth is extractable
+
 # Everything at once (CI runs this on every push)
 python3 scripts/run_proofs.py
 ```
