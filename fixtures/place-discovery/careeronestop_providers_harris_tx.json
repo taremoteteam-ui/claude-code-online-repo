@@ -1,0 +1,20 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "CareerOneStop Training Provider API (api.careeronestop.org/v1/training)",
+  "request": {
+    "url_family": "https://api.careeronestop.org/v1/training",
+    "params": {"state": "TX", "keyword": "skilled trades"}
+  },
+  "response": {
+    "SchoolPrograms": [
+      {"SchoolName": "Gulf Coast Technical Institute", "ProgramName": "Welding Technology Certificate", "City": "Houston", "StateName": "TX", "Zip": "77023", "Latitude": 29.722, "Longitude": -95.318, "EtplFlag": true},
+      {"SchoolName": "GULF COAST TECHNICAL INST", "ProgramName": "Industrial Pipe Welding", "City": "Houston", "StateName": "TX", "Zip": "77023", "Latitude": 29.723, "Longitude": -95.317, "EtplFlag": true},
+      {"SchoolName": "Bayou City Trade School", "ProgramName": "HVAC Technician", "City": "Houston", "StateName": "TX", "Zip": "77009", "Latitude": 29.812, "Longitude": -95.362, "EtplFlag": false},
+      {"SchoolName": "Harris County Workforce Academy", "ProgramName": "Commercial Driving (CDL-A)", "City": "Pasadena", "StateName": "TX", "Zip": "77502", "Latitude": 29.692, "Longitude": -95.209, "EtplFlag": true},
+      {"SchoolName": "Northline Allied Health Training Center", "ProgramName": "Certified Nursing Assistant", "City": "Houston", "StateName": "TX", "Zip": "77022", "Latitude": 29.868, "Longitude": -95.381, "EtplFlag": true},
+      {"SchoolName": "Spring Branch Skills Institute", "ProgramName": "Medical Billing and Coding", "City": "Houston", "StateName": "TX", "Zip": "77055", "Latitude": 29.789, "Longitude": -95.517, "EtplFlag": false},
+      {"SchoolName": "Cypress Fabrication and Welding School", "ProgramName": "Structural Welding", "City": "Cypress", "StateName": "TX", "Zip": "77429", "Latitude": 29.968, "Longitude": -95.627, "EtplFlag": true}
+    ],
+    "RecordCount": 7
+  }
+}

@@ -51,6 +51,8 @@ AOI_FIXTURES = {
         "hrsa": "hrsa_sites_harris_tx.json",
         "nppes": "nppes_orgs_harris_tx.json",
         "overpass": "overpass_clinics_harris_tx.json",
+        "careeronestop": "careeronestop_providers_harris_tx.json",
+        "college_scorecard": "college_scorecard_harris_tx.json",
         "bbox": [29.5, -95.8, 30.2, -95.0],
         "max_km": 30.0,
     },
@@ -59,6 +61,8 @@ AOI_FIXTURES = {
         "hrsa": "hrsa_sites_glacier_mt.json",
         "nppes": "nppes_orgs_glacier_mt.json",
         "overpass": "overpass_clinics_glacier_mt.json",
+        "careeronestop": "careeronestop_providers_glacier_mt.json",
+        "college_scorecard": "college_scorecard_glacier_mt.json",
         "bbox": [48.4, -113.4, 49.0, -112.6],
         "max_km": 60.0,
     },
@@ -66,22 +70,19 @@ AOI_FIXTURES = {
 
 RUNNABLE_FAMILIES = [
     "clinic_discovery",
+    "training_provider_discovery",
     "care_desert_analysis",
-    "osm_poi_extraction",
     "portal_dataset_harvest",
+    "osm_poi_extraction",
     "schema_drift_detection",
+    "site_selection_ranking",
     "map_dashboard_generation",
 ]
-UNRUNNABLE_FAMILIES = {
-    "training_provider_discovery": [
-        "careeronestop_training_provider_adapter fixture",
-        "college_scorecard_ipeds_program_adapter fixture",
-    ],
-    "site_selection_ranking": [
-        "candidate site ranking primitive (RankedSiteList producer)",
-        "demand layer scoring weights primitive",
-    ],
-}
+# All 8 task families are now runnable offline; the gap records emitted by
+# earlier runs (training_provider_discovery, site_selection_ranking) are
+# closed by the careeronestop/college_scorecard adapters and the
+# coverage_gap_ranker primitive.
+UNRUNNABLE_FAMILIES: dict[str, list[str]] = {}
 
 
 class TaskContext:
@@ -485,12 +486,152 @@ def run_map_dashboard(ctx: TaskContext, aoi_id: str, prims: dict) -> tuple[bool,
     return ok, f"map rendered {map_out['artifact_stats']['points_rendered']} points"
 
 
+def run_training_provider_discovery(ctx: TaskContext, aoi_id: str, prims: dict) -> tuple[bool, str]:
+    cfg = AOI_FIXTURES[aoi_id]
+    transport = prims["FixtureTransport"](str(FIXTURE_ROOT))
+    gate_out, _ = ctx.exec(
+        "prim:place_discovery.geocode_policy_gate", prims["gate"],
+        {"provider": "census_geocoder", "planned_request_count": 50, "bulk_job": False,
+         "attribution_planned": True},
+        effects=["none"], mode="pure_local",
+    )
+    cos_out, _ = ctx.exec(
+        "prim:place_discovery.careeronestop_training_provider_adapter",
+        lambda p: prims["careeronestop"](p, transport),
+        {"aoi_id": aoi_id, "state": cfg["state"], "program_keyword": "nursing",
+         "fixture_name": cfg["careeronestop"]},
+        effects=["network_read"], mode="fixture_offline",
+    )
+    csc_out, _ = ctx.exec(
+        "prim:place_discovery.college_scorecard_ipeds_program_adapter",
+        lambda p: prims["college_scorecard"](p, transport),
+        {"aoi_id": aoi_id, "state": cfg["state"], "program_cip_prefix": "5138",
+         "fixture_name": cfg["college_scorecard"]},
+        effects=["network_read"], mode="fixture_offline",
+    )
+    all_records = list(cos_out["records"]) + list(csc_out["records"])
+    dedupe_out, _ = ctx.exec(
+        "prim:place_discovery.entity_normalize_and_dedupe", prims["dedupe"],
+        {"records": all_records,
+         "match_policy": {"name_similarity_threshold": 0.85, "max_distance_m": 500.0,
+                          "require_same_zip5": False}},
+        effects=["none"], mode="pure_local",
+    )
+    wioa_count = sum(1 for r in cos_out["records"] if r.get("wioa_eligible"))
+    answer = {
+        "question_family": "training_provider_discovery",
+        "aoi_id": aoi_id,
+        "providers_found": len(cos_out["records"]),
+        "institutions_found": len(csc_out["records"]),
+        "providers_resolved": len(dedupe_out["entities"]),
+        "duplicates_merged": dedupe_out["stats"]["duplicates_merged"],
+        "wioa_eligible_count": wioa_count,
+        "eligibility_note": cos_out.get("eligibility_note", ""),
+        "policy_gate_decision": gate_out["decision"],
+    }
+    ctx.exec(
+        "prim:place_discovery.evidence_bundle_wrapper", prims["evidence"],
+        {"answer": answer, "source_snapshots": ctx.snapshot_meta,
+         "uncertainty_notes": [
+             "ETPL/WIOA eligibility is state-maintained and time-sensitive; verify against the state list",
+             "program filtering uses CIP prefix matching only"],
+         "attributions": [m.get("attribution", "") for m in ctx.snapshot_meta]},
+        effects=["none"], mode="pure_local",
+    )
+    ok = (answer["providers_found"] >= 1 and answer["institutions_found"] >= 1
+          and answer["providers_resolved"] >= 1)
+    return ok, (f"{answer['providers_resolved']} providers resolved, "
+                f"{answer['wioa_eligible_count']} WIOA-flagged, "
+                f"{answer['duplicates_merged']} duplicates merged")
+
+
+def run_site_selection(ctx: TaskContext, aoi_id: str, prims: dict) -> tuple[bool, str]:
+    cfg = AOI_FIXTURES[aoi_id]
+    transport = prims["FixtureTransport"](str(FIXTURE_ROOT))
+    hrsa_out, _ = ctx.exec(
+        "prim:place_discovery.hrsa_health_center_ingester",
+        lambda p: prims["hrsa"](p, transport),
+        {"aoi_id": aoi_id, "state": cfg["state"], "fixture_name": cfg["hrsa"]},
+        effects=["network_read"], mode="fixture_offline",
+    )
+    dedupe_out, _ = ctx.exec(
+        "prim:place_discovery.entity_normalize_and_dedupe", prims["dedupe"],
+        {"records": hrsa_out["records"],
+         "match_policy": {"name_similarity_threshold": 0.85, "max_distance_m": 300.0,
+                          "require_same_zip5": False}},
+        effects=["none"], mode="pure_local",
+    )
+    facilities = [{"id": e["entity_id"], "lat": e["lat"], "lon": e["lon"]}
+                  for e in dedupe_out["entities"] if e.get("lat") is not None]
+    demand = load_demand_points(aoi_id)
+    # Site selection uses a deliberately tighter access threshold than the
+    # care-desert family so genuine gap candidates exist to rank; the policy
+    # choice is recorded in the payload and method receipts.
+    site_max_km = cfg["max_km"] / 3.0
+    catch_out, _ = ctx.exec(
+        "prim:place_discovery.nearest_facility_isochrone_catchment_analysis",
+        prims["catchment"],
+        {"facilities": facilities, "demand_points": demand,
+         "travel_policy": {"max_km": site_max_km, "method": "straight_line_haversine_proxy"}},
+        effects=["none"], mode="pure_local",
+    )
+    rank_out, _ = ctx.exec(
+        "prim:place_discovery.coverage_gap_ranker", prims["gap_ranker"],
+        {"coverage_report": catch_out["coverage_report"],
+         "assignments": catch_out["assignments"],
+         "demand_points": demand,
+         "facilities": facilities,
+         "ranking_policy": {"max_km": site_max_km, "top_n": 5,
+                            "weights": {"uncovered_population": 0.7,
+                                        "distance_beyond_threshold": 0.3}}},
+        effects=["none"], mode="pure_local",
+    )
+    ranked = rank_out["ranked_gap_areas"]
+    map_points = (
+        [{"id": f["id"], "lat": f["lat"], "lon": f["lon"], "label_class": "facility"}
+         for f in facilities]
+        + [{"id": g["demand_id"], "lat": g["lat"], "lon": g["lon"],
+            "label_class": "uncovered"} for g in ranked]
+    )
+    map_out, _ = ctx.exec(
+        "prim:place_discovery.map_artifact_generation", prims["map"],
+        {"title": f"Ranked site candidates - {aoi_id} (synthetic fixture data)",
+         "boundary": load_boundary(aoi_id), "points": map_points,
+         "attribution": "Synthetic fixture data; straight-line proxy distances; suitability factors not modeled"},
+        effects=["none"], mode="pure_local",
+    )
+    digest = ctx.save_artifact(f"site_selection_{aoi_id.split(':')[1]}.svg", map_out["svg"])
+    answer = {
+        "question_family": "site_selection_ranking",
+        "aoi_id": aoi_id,
+        "ranked_site_candidates": ranked,
+        "tradeoff_report": rank_out["tradeoff_report"],
+        "method": rank_out["method"],
+        "map_artifact_sha256": digest,
+    }
+    ctx.exec(
+        "prim:place_discovery.evidence_bundle_wrapper", prims["evidence"],
+        {"answer": answer, "source_snapshots": ctx.snapshot_meta,
+         "uncertainty_notes": [
+             "ranking inherits the straight-line distance proxy",
+             "site suitability factors (zoning, transit, cost) are not modeled",
+             "demand points are synthetic fixtures, not census population data"],
+         "attributions": [m.get("attribution", "") for m in ctx.snapshot_meta]},
+        effects=["none"], mode="pure_local",
+    )
+    cr = catch_out["coverage_report"]
+    ok = (len(ranked) >= 1 or cr["coverage_ratio"] == 1.0)
+    return ok, f"{len(ranked)} gap areas ranked (threshold {site_max_km:.1f} km)"
+
+
 FAMILY_RUNNERS = {
     "clinic_discovery": run_clinic_discovery,
+    "training_provider_discovery": run_training_provider_discovery,
     "care_desert_analysis": run_care_desert,
     "osm_poi_extraction": run_osm_poi,
     "portal_dataset_harvest": run_portal_harvest,
     "schema_drift_detection": run_schema_drift,
+    "site_selection_ranking": run_site_selection,
     "map_dashboard_generation": run_map_dashboard,
 }
 
@@ -502,10 +643,13 @@ def import_primitives() -> dict:
     from primitives.adapters.ckan import ckan_package_resource_harvester
     from primitives.adapters.socrata import socrata_soql_dataset_ingester
     from primitives.adapters.overpass import osm_overpass_bounded_poi_query
+    from primitives.adapters.careeronestop import careeronestop_training_provider_adapter
+    from primitives.adapters.college_scorecard import college_scorecard_ipeds_program_adapter
     from primitives.entity import entity_normalize_and_dedupe
     from primitives.fingerprint import dataset_schema_fingerprint
     from primitives.gates import geocode_policy_gate
     from primitives.evidence import evidence_bundle_wrapper
+    from primitives.ranking import coverage_gap_ranker
     from primitives.spatial import nearest_facility_catchment, point_to_boundary_spatial_join
     from primitives.maps import map_artifact_generation
 
@@ -516,10 +660,13 @@ def import_primitives() -> dict:
         "ckan": ckan_package_resource_harvester,
         "socrata": socrata_soql_dataset_ingester,
         "overpass": osm_overpass_bounded_poi_query,
+        "careeronestop": careeronestop_training_provider_adapter,
+        "college_scorecard": college_scorecard_ipeds_program_adapter,
         "dedupe": entity_normalize_and_dedupe,
         "fingerprint": dataset_schema_fingerprint,
         "gate": geocode_policy_gate,
         "evidence": evidence_bundle_wrapper,
+        "gap_ranker": coverage_gap_ranker,
         "spatial_join": point_to_boundary_spatial_join,
         "catchment": nearest_facility_catchment,
         "map": map_artifact_generation,

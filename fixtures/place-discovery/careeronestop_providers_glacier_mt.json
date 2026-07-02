@@ -1,0 +1,15 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "CareerOneStop Training Provider API (api.careeronestop.org/v1/training)",
+  "request": {
+    "url_family": "https://api.careeronestop.org/v1/training",
+    "params": {"state": "MT", "keyword": "skilled trades"}
+  },
+  "response": {
+    "SchoolPrograms": [
+      {"SchoolName": "Blackfeet Community College Workforce Program", "ProgramName": "Heavy Equipment Operation", "City": "Browning", "StateName": "MT", "Zip": "59417", "Latitude": 48.558, "Longitude": -113.014, "EtplFlag": true},
+      {"SchoolName": "Glacier Peaks Training Cooperative", "ProgramName": "Wildland Firefighting Basics", "City": "Cut Bank", "StateName": "MT", "Zip": "59427", "Latitude": 48.662, "Longitude": -112.792, "EtplFlag": false}
+    ],
+    "RecordCount": 2
+  }
+}

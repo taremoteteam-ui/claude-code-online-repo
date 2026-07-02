@@ -76,11 +76,12 @@ for the full promotion gates.
 
 ## Next build slices
 
-1. Implement the first P0 source adapters (`source_surface_registry`, CKAN /
-   Socrata / ArcGIS harvesters, HRSA ingester) with fixtures and receipts.
-2. Capture golden fixtures for the entity-resolution and spatial-join
-   primitives.
-3. Wire the benchmark task demands to a small offline harness (arms A1-A5,
-   depth ladder L1-L7) and record the first measured scorecards.
-4. Add the telemetry signal catalog and savings-formula spec as their own
-   generated pack (Build Slice 3 of the north star).
+1. Live source capture: run the adapters through `LiveTransport` in a
+   network-enabled environment to replace synthetic fixtures with real source
+   snapshots (receipts flip from `fixture_offline` to `live_network`).
+2. Baseline arms: wire A1/A2 model-in-the-loop runs so the first measured
+   `tokens_to_pass` comparison exists — until then no savings claim is made.
+3. Promotion pipeline: first held-out promotion gate run over the implemented
+   primitives (L9 -> L10 with receipts), per the compliance doc.
+4. PDU/packaging slice: runtime wrappers + package factories for the
+   highest-reuse groups (Operations Bible section 9).

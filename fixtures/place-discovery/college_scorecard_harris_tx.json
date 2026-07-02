@@ -1,0 +1,77 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "U.S. Department of Education College Scorecard API (api.data.gov/ed/collegescorecard/v1/schools)",
+  "request": {
+    "url_family": "https://api.data.gov/ed/collegescorecard/v1/schools",
+    "params": {"school.state": "TX", "fields": "school.name,school.city,school.state,school.zip,location.lat,location.lon,latest.programs.cip_4_digit"}
+  },
+  "response": {
+    "metadata": {"total": 5},
+    "results": [
+      {
+        "school.name": "Houston Gulf Coast College",
+        "school.city": "Houston",
+        "school.state": "TX",
+        "school.zip": "77004",
+        "location.lat": 29.731,
+        "location.lon": -95.358,
+        "latest.programs.cip_4_digit": [
+          {"code": "5138", "title": "Registered Nursing, Nursing Administration, Nursing Research and Clinical Nursing"},
+          {"code": "5108", "title": "Allied Health and Medical Assisting Services"},
+          {"code": "1104", "title": "Information Science/Studies"}
+        ]
+      },
+      {
+        "school.name": "San Jacinto Technical College",
+        "school.city": "Pasadena",
+        "school.state": "TX",
+        "school.zip": "77505",
+        "location.lat": 29.653,
+        "location.lon": -95.157,
+        "latest.programs.cip_4_digit": [
+          {"code": "4805", "title": "Precision Metal Working"},
+          {"code": "4703", "title": "Heavy/Industrial Equipment Maintenance Technologies"}
+        ]
+      },
+      {
+        "school.name": "Northline Community College",
+        "school.city": "Houston",
+        "school.state": "TX",
+        "school.zip": "77022",
+        "location.lat": 29.871,
+        "location.lon": -95.379,
+        "latest.programs.cip_4_digit": [
+          {"code": "5138", "title": "Registered Nursing"},
+          {"code": "5139", "title": "Practical Nursing, Vocational Nursing and Nursing Assistants"},
+          {"code": "1512", "title": "Computer Software and Media Applications"}
+        ]
+      },
+      {
+        "school.name": "Bayou Institute of Technology",
+        "school.city": "Houston",
+        "school.state": "TX",
+        "school.zip": "77002",
+        "location.lat": 29.758,
+        "location.lon": -95.366,
+        "latest.programs.cip_4_digit": [
+          {"code": "1101", "title": "Computer and Information Sciences, General"},
+          {"code": "1103", "title": "Information Technology"}
+        ]
+      },
+      {
+        "school.name": "Spring Branch College of Health Sciences",
+        "school.city": "Houston",
+        "school.state": "TX",
+        "school.zip": "77055",
+        "location.lat": 29.791,
+        "location.lon": -95.513,
+        "latest.programs.cip_4_digit": [
+          {"code": "5107", "title": "Health and Medical Administrative Services"},
+          {"code": "5138", "title": "Registered Nursing"},
+          {"code": "5100", "title": "Health Services/Allied Health/Health Sciences, General"},
+          {"code": "2401", "title": "Liberal Arts and Sciences, General Studies and Humanities"}
+        ]
+      }
+    ]
+  }
+}

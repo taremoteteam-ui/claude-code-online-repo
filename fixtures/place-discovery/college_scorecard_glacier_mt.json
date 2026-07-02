@@ -1,0 +1,25 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "U.S. Department of Education College Scorecard API (api.data.gov/ed/collegescorecard/v1/schools)",
+  "request": {
+    "url_family": "https://api.data.gov/ed/collegescorecard/v1/schools",
+    "params": {"school.state": "MT", "fields": "school.name,school.city,school.state,school.zip,location.lat,location.lon,latest.programs.cip_4_digit"}
+  },
+  "response": {
+    "metadata": {"total": 1},
+    "results": [
+      {
+        "school.name": "Blackfeet Community College",
+        "school.city": "Browning",
+        "school.state": "MT",
+        "school.zip": "59417",
+        "location.lat": 48.556,
+        "location.lon": -113.012,
+        "latest.programs.cip_4_digit": [
+          {"code": "5138", "title": "Registered Nursing"},
+          {"code": "0101", "title": "Agricultural Business and Management"}
+        ]
+      }
+    ]
+  }
+}
