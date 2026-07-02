@@ -34,6 +34,10 @@ STAGES = [
      [sys.executable, "scripts/eval/savings_formulas.py", "--self-test"]),
     ("unit_tests",
      [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-t", ".", "-v"]),
+    ("candidate_search_eval",
+     [sys.executable, "scripts/evaluate_candidate_search.py", "--self-test"]),
+    ("cooccurrence_self_test",
+     [sys.executable, "scripts/build_cooccurrence_edges.py", "--self-test"]),
     ("benchmark_harness_self_test",
      [sys.executable, "scripts/run_place_discovery_benchmark.py", "--self-test"]),
 ]

@@ -1,0 +1,42 @@
+{
+  "record_type": "promotion_evidence",
+  "evidence_id": "promev:place_discovery.entity_normalize_and_dedupe.l9_review_20260702",
+  "subject_id": "prim:place_discovery.entity_normalize_and_dedupe",
+  "target_level": "L9",
+  "gates": [
+    {
+      "gate": "proof_coverage",
+      "status": "passed",
+      "evidence_refs": ["benchmarks/runs/run-20260702T180738Z"]
+    },
+    {
+      "gate": "contract_tests",
+      "status": "passed",
+      "evidence_refs": ["tests/test_pure_primitives.py"]
+    },
+    {
+      "gate": "fixture_and_live_evidence",
+      "status": "failed",
+      "evidence_refs": ["benchmarks/runs/run-20260702T180738Z/receipts.jsonl"]
+    },
+    {
+      "gate": "license_review",
+      "status": "passed",
+      "evidence_refs": [
+        "docs/codex/place-discovery-compliance-and-policy.md",
+        "primitives/entity.py"
+      ]
+    },
+    {
+      "gate": "human_review",
+      "status": "pending",
+      "evidence_refs": []
+    }
+  ],
+  "overall_status": "blocked",
+  "blocking_gates": ["fixture_and_live_evidence", "human_review"],
+  "reviewed_by": null,
+  "version": "0.1.0",
+  "candidate": true,
+  "serves_truth": false
+}

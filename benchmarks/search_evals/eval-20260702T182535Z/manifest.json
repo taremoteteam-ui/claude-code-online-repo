@@ -1,0 +1,16 @@
+{
+  "eval_id": "eval-20260702T182535Z",
+  "generated_by": "scripts/evaluate_candidate_search.py",
+  "files": {
+    "report.json": {
+      "rows": 1,
+      "content_sha256": "43fafa84c4d4df374d9688b77e30ce820b5e55ebcb71f6f5314ab124f252186b"
+    },
+    "per_task_results.jsonl": {
+      "rows": 320,
+      "content_sha256": "c65b96f06b4da8affac5f9b823482e622f016b44ef77dbdbc5cd916bace196cb"
+    }
+  },
+  "candidate": true,
+  "serves_truth": false
+}

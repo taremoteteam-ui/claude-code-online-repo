@@ -57,10 +57,23 @@ python3 -m unittest discover -s tests -t . -v
 python3 scripts/run_place_discovery_benchmark.py --self-test   # in-memory
 python3 scripts/run_place_discovery_benchmark.py --write       # persist run
 
-# Validate a persisted benchmark run (schemas, hashes, honesty gates)
+# Validate a persisted benchmark run (schemas, hashes, honesty gates,
+# PlanLock hash recompute, replay-proof requirement on successful A4 tasks)
 python3 scripts/check_benchmark_run.py --self-test
 
-# Everything at once
+# Measured retrieval evaluation: CandidateBundle search vs all 320 task
+# demands (question text only; primitive_demands as ground truth)
+python3 scripts/evaluate_candidate_search.py --self-test   # print only
+python3 scripts/evaluate_candidate_search.py --write       # persist eval
+
+# Mine primitive co-occurrence edges from persisted run scorecards
+python3 scripts/build_cooccurrence_edges.py --self-test
+python3 scripts/build_cooccurrence_edges.py --write
+
+# Core-object schema + example validation
+python3 scripts/check_core_object_schemas.py --self-test
+
+# Everything at once (CI runs this on every push)
 python3 scripts/run_proofs.py
 ```
 

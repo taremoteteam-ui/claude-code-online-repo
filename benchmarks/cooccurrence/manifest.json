@@ -1,0 +1,21 @@
+{
+  "dataset_id": "place-discovery-cooccurrence-edges",
+  "generated_by": "scripts/build_cooccurrence_edges.py",
+  "source_run_ids": [
+    "run-20260702T174206Z",
+    "run-20260702T180738Z",
+    "run-20260702T182521Z"
+  ],
+  "files": {
+    "edges.jsonl": {
+      "rows": 50,
+      "content_sha256": "eb4e9e2114bcde75a0e246db4f416949f0ab0a884e3d6eb22d4747ee206e5030"
+    }
+  },
+  "row_counts": {
+    "edges.jsonl": 50
+  },
+  "total_rows": 50,
+  "candidate": true,
+  "serves_truth": false
+}

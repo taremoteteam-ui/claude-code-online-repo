@@ -23,6 +23,9 @@
     "proof_coverage",
     "receipt_ids",
     "artifacts_emitted",
+    "plan_lock_id",
+    "route_hash",
+    "replay_verified",
     "notes",
     "candidate",
     "serves_truth"
@@ -49,6 +52,9 @@
     "proof_coverage": { "type": "number", "minimum": 0, "maximum": 1 },
     "receipt_ids": { "type": "array", "items": { "type": "string" } },
     "artifacts_emitted": { "type": "array", "items": { "type": "string" } },
+    "plan_lock_id": { "type": "string", "pattern": "^lock:[a-z0-9_.]+$" },
+    "route_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "replay_verified": { "type": "boolean" },
     "notes": { "type": "string" },
     "candidate": { "const": true },
     "serves_truth": { "const": false }

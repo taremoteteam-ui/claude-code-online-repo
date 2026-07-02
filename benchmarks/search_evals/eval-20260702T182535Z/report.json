@@ -1,0 +1,55 @@
+{
+  "record_type": "candidate_search_eval_report",
+  "top_k": 10,
+  "query_input": "directed_question text only (no family label, no answer key)",
+  "overall": {
+    "tasks": 320,
+    "demand_recall_at_k": 1.0,
+    "full_route_hit_at_k": 1.0
+  },
+  "by_family": {
+    "care_desert_analysis": {
+      "tasks": 40,
+      "demand_recall_at_k": 1.0,
+      "full_route_hit_at_k": 1.0
+    },
+    "clinic_discovery": {
+      "tasks": 40,
+      "demand_recall_at_k": 1.0,
+      "full_route_hit_at_k": 1.0
+    },
+    "map_dashboard_generation": {
+      "tasks": 40,
+      "demand_recall_at_k": 1.0,
+      "full_route_hit_at_k": 1.0
+    },
+    "osm_poi_extraction": {
+      "tasks": 40,
+      "demand_recall_at_k": 1.0,
+      "full_route_hit_at_k": 1.0
+    },
+    "portal_dataset_harvest": {
+      "tasks": 40,
+      "demand_recall_at_k": 1.0,
+      "full_route_hit_at_k": 1.0
+    },
+    "schema_drift_detection": {
+      "tasks": 40,
+      "demand_recall_at_k": 1.0,
+      "full_route_hit_at_k": 1.0
+    },
+    "site_selection_ranking": {
+      "tasks": 40,
+      "demand_recall_at_k": 1.0,
+      "full_route_hit_at_k": 1.0
+    },
+    "training_provider_discovery": {
+      "tasks": 40,
+      "demand_recall_at_k": 1.0,
+      "full_route_hit_at_k": 1.0
+    }
+  },
+  "most_missed_primitives": [],
+  "candidate": true,
+  "serves_truth": false
+}

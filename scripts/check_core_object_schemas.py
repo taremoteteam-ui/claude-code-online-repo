@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Checker for the route-market core-object schema foundation slice.
 
-Covers the six core objects from the Operations Bible build slices:
+Covers the core objects from the Operations Bible build slices:
 PrimitiveTemplate, NegativeMemory, CandidateBundle, PlanDelta, PlanLock,
-StrategyGenome.
+StrategyGenome, PromotionEvidence.
 
 Enforces:
   - every schema file parses and its example instance under
@@ -13,9 +13,12 @@ Enforces:
     and contains no forbidden claim language
   - the plan_lock example route_hash equals
     primitives.core.canonical_hash(route) - recomputed, never trusted
-  - the negative_memory example evidence_refs point at things that exist:
-    path-shaped refs must exist on disk; commit:<sha> refs must resolve in
-    the local git object store when git is available
+  - the negative_memory and promotion_evidence example evidence_refs point
+    at things that exist: path-shaped refs must exist on disk; commit:<sha>
+    refs must resolve in the local git object store when git is available
+  - the promotion_evidence example is internally consistent: overall_status,
+    blocking_gates, and per-gate statuses agree (no eligible verdict while a
+    gate is failed or pending)
 
 Usage:
     python3 scripts/check_core_object_schemas.py --self-test
@@ -44,6 +47,7 @@ SCHEMA_TO_EXAMPLE = {
     "plan_delta.schema.json": "plan_delta.json",
     "plan_lock.schema.json": "plan_lock.json",
     "strategy_genome.schema.json": "strategy_genome.json",
+    "promotion_evidence.schema.json": "promotion_evidence.json",
 }
 
 
@@ -67,7 +71,8 @@ def commit_exists_locally(sha: str) -> bool | None:
     return proc.returncode == 0
 
 
-def check_evidence_refs(refs: list, problems: list, checked: list) -> None:
+def check_evidence_refs(refs: list, problems: list, checked: list,
+                        label: str = "negative_memory") -> None:
     for ref in refs:
         if ref.startswith("commit:"):
             sha = ref.split(":", 1)[1]
@@ -75,12 +80,12 @@ def check_evidence_refs(refs: list, problems: list, checked: list) -> None:
             if exists is None:
                 checked.append(f"evidence ref {ref}: git unavailable, commit check skipped")
             elif not exists:
-                problems.append(f"negative_memory evidence ref {ref}: commit not in local git store")
+                problems.append(f"{label} evidence ref {ref}: commit not in local git store")
             else:
                 checked.append(f"evidence ref {ref}: commit exists locally")
         elif "/" in ref:
             if not (REPO_ROOT / ref).exists():
-                problems.append(f"negative_memory evidence ref {ref}: path does not exist")
+                problems.append(f"{label} evidence ref {ref}: path does not exist")
             else:
                 checked.append(f"evidence ref {ref}: path exists")
         else:
@@ -142,13 +147,34 @@ def run_checks() -> dict:
     if negmem is not None:
         check_evidence_refs(list(negmem.get("evidence_refs", [])), problems, checked)
 
+    promev = examples.get("promotion_evidence.json")
+    if promev is not None:
+        gates = list(promev.get("gates", []))
+        for gate in gates:
+            check_evidence_refs(list(gate.get("evidence_refs", [])), problems, checked,
+                                label="promotion_evidence")
+        not_clean = sorted(g["gate"] for g in gates if g.get("status") in ("failed", "pending"))
+        blocking = sorted(promev.get("blocking_gates", []))
+        if promev.get("overall_status") == "eligible" and not_clean:
+            problems.append(
+                f"promotion_evidence.json: overall_status eligible but gates "
+                f"{not_clean} are failed/pending")
+        if blocking != not_clean:
+            problems.append(
+                f"promotion_evidence.json: blocking_gates {blocking} do not match "
+                f"failed/pending gates {not_clean}")
+        else:
+            checked.append("promotion_evidence.json: blocking_gates match failed/pending gates")
+        if promev.get("overall_status") == "blocked" and not blocking:
+            problems.append("promotion_evidence.json: blocked without any blocking gate listed")
+
     return {"ok": not problems, "problems": problems[:60], "checked": checked}
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--self-test", action="store_true",
-                        help="validate all six core-object schemas and examples")
+                        help="validate all core-object schemas and examples")
     args = parser.parse_args()
     if not args.self_test:
         parser.print_help()

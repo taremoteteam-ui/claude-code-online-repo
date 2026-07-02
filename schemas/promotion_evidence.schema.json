@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/promotion_evidence.schema.json",
+  "title": "PromotionEvidence",
+  "description": "A gate-by-gate promotion review record for a primitive or group: which promotion gates were checked, what evidence backs each verdict, and whether the subject is eligible for the target level. This object records evidence for a promotion decision; it never performs promotion itself and never serves truth. A subject with any failed or pending required gate stays blocked.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "evidence_id",
+    "subject_id",
+    "target_level",
+    "gates",
+    "overall_status",
+    "blocking_gates",
+    "reviewed_by",
+    "version",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "promotion_evidence" },
+    "evidence_id": { "type": "string", "pattern": "^promev:[a-z0-9_.]+$" },
+    "subject_id": {
+      "type": "string",
+      "pattern": "^(prim|grp):[a-z0-9_.]+$",
+      "description": "The primitive (prim:) or group (grp:) under promotion review."
+    },
+    "target_level": { "enum": ["L9", "L10"] },
+    "gates": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["gate", "status", "evidence_refs"],
+        "properties": {
+          "gate": { "type": "string", "pattern": "^[a-z0-9_]+$", "minLength": 3 },
+          "status": { "enum": ["passed", "failed", "not_applicable", "pending"] },
+          "evidence_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 3 },
+            "description": "Run directories, receipt ids, test modules, or docs proving the gate verdict was observed, not asserted."
+          }
+        }
+      }
+    },
+    "overall_status": { "enum": ["eligible", "blocked", "pending"] },
+    "blocking_gates": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+      "description": "Gate names currently preventing promotion; must be empty when overall_status is eligible."
+    },
+    "reviewed_by": { "type": ["string", "null"] },
+    "version": { "type": "string" },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}

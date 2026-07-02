@@ -290,24 +290,34 @@ single source; superseded scale docs (`million-object-goal.md`, `billion-compone
 > autonomous loops live there, not here). This appendix is the SAME number discipline applied to this repository —
 > a dated snapshot citing only locally computed sources. Recompute, never retype.
 
-Snapshot **2026-07-02** (supersedes the earlier same-day snapshot; sources:
+Snapshot **2026-07-02** (supersedes the earlier same-day snapshots; sources:
 `catalog/knowledge-packs/data/place-discovery-geospatial-seeds/manifest.json`,
-`benchmarks/runs/run-20260702T180738Z/{manifest.json,run_summary.json}`; recompute via
+`benchmarks/runs/run-20260702T182521Z/{manifest.json,run_summary.json}`,
+`benchmarks/search_evals/eval-20260702T182535Z/manifest.json`,
+`benchmarks/cooccurrence/manifest.json`; recompute via
 `python3 scripts/run_proofs.py` + `python3 scripts/check_benchmark_run.py --self-test`):
 
 ```text
 seed pack rows: 453 (49 source surfaces · 38 primitive cards · 12 groups · 34 overlays · 320 benchmark task demands)
 primitives implemented and receipt-emitting: see primitives/ (registry, fingerprint, entity, gates, evidence,
-  spatial join, catchment, map artifact, coverage_gap_ranker + adapters: HRSA, NPPES, CKAN, Socrata, ArcGIS,
-  Overpass, CareerOneStop, College Scorecard)
+  spatial join, catchment, map artifact, coverage_gap_ranker, CandidateBundle search + adapters: HRSA, NPPES,
+  CKAN, Socrata, ArcGIS, Overpass, CareerOneStop, College Scorecard)
 latest measured run (arm A4, fixture_offline): 16/16 tasks across ALL 8 task families, 80 receipts,
-  252/252 proofs, 0 runtime LLM tokens, 0 gap records (both prior gaps closed)
-core-object schema foundation: schemas/ carries PrimitiveTemplate/NegativeMemory/CandidateBundle/PlanDelta/
-  PlanLock/StrategyGenome with validated examples (scripts/check_core_object_schemas.py --self-test)
-savings single source: scripts/eval/savings_formulas.py (formulas only; MEASUREMENT_STATUS maps each formula
-  to which inputs exist - baseline-arm inputs marked NOT YET RUN)
-negative memory (recorded + fixed): examples/core_objects/negative_memory.json - zip-only blocking missed
-  unpostcoded OSM records (evidence: run-20260702T174206Z + commit 4ec148f); fixed by geo-grid union-of-keys
-  blocking in primitives/entity.py
+  252/252 proofs, 0 runtime LLM tokens, 0 gap records, 8 PlanLocks compiled, 16/16 tasks REPLAY-VERIFIED
+  (double execution reproduced identical output-hash sequences; run checker enforces replay proof on
+  successful A4 tasks)
+measured retrieval eval (question text only vs primitive_demands ground truth, top_k=10):
+  demand_recall 1.0, full_route_hit 1.0 over 320 task demands - AFTER a registry fix the eval itself
+  surfaced (care_access_gap_analysis group card was missing its two source-ingester members).
+  Scale caveat: 8 templated question shapes over a 50-card corpus - a small-scale receipt, not proof
+  of retrieval quality at large registry scale.
+co-occurrence edges mined from run scorecards: benchmarks/cooccurrence/ (counts in its manifest)
+core-object schema foundation: PrimitiveTemplate/NegativeMemory/CandidateBundle/PlanDelta/PlanLock/
+  StrategyGenome/PromotionEvidence with validated examples; the PromotionEvidence example is honestly
+  BLOCKED (fixture_and_live_evidence + human_review gates) - no primitive is promoted
+savings single source: scripts/eval/savings_formulas.py (formulas only; baseline-arm inputs marked NOT YET RUN)
+negative memory: recorded+fixed zip-blocking incident in examples/core_objects/; harness now auto-emits
+  schema-valid negmem records on task failure (0 this run) and search consults open records for warnings
+CI: .github/workflows/proofs.yml runs the full gate (currently 9 stages) on every push
 baselines A1/A2: NOT RUN - no savings claim exists for this lane yet
 ```

@@ -147,12 +147,13 @@ PRIMITIVE_GROUPS = [
         "group_id": "grp:place_discovery.care_access_gap_analysis",
         "title": "Care Access Gap Analysis",
         "lane": "health_facilities",
-        "input_edge": "FacilityRegistry+PopulationLayer+TravelCostPolicy",
+        "input_edge": "AreaOfInterest+FacilitySourcePolicy+PopulationLayer+TravelCostPolicy",
         "output_edge": "AccessGapReport+ServiceAreaArtifacts+UncertaintyReport",
         "blackbox": {
-            "does": "Turns a facility registry, a population layer, and a travel cost policy into an area-level access gap report by geocoding facilities under policy, computing isochrone service areas, intersecting them with population, and flagging boundaries whose covered share falls below the policy threshold; outputs are planning-level only and carry an uncertainty report."
+            "does": "Turns an area of interest, a facility source policy, a population layer, and a travel cost policy into an area-level access gap report by acquiring facility records from official and open sources, geocoding them under policy, computing isochrone service areas, intersecting them with population, and flagging boundaries whose covered share falls below the policy threshold; outputs are planning-level only and carry an uncertainty report."
         },
         "hidden_member_edges": [
+            "AreaOfInterest+FacilitySourcePolicy -> FacilityRegistry+SourceSnapshotReceipts",
             "FacilityRegistry+GeocodePolicy -> GeocodedFacilitySet+GeocodeConfidenceReceipt",
             "GeocodedFacilitySet+TravelCostPolicy -> IsochroneSet",
             "IsochroneSet+PopulationLayer -> CoveredPopulationTable",
@@ -162,6 +163,8 @@ PRIMITIVE_GROUPS = [
             "AccessDeficitTable+SourceSnapshotReceipts -> AccessGapReport+UncertaintyReport",
         ],
         "member_primitive_refs": [
+            "prim:place_discovery.hrsa_health_center_ingester",
+            "prim:place_discovery.osm_overpass_bounded_poi_query",
             "prim:place_discovery.geocode_policy_gate",
             "prim:place_discovery.nearest_facility_isochrone_catchment_analysis",
             "prim:place_discovery.point_to_boundary_spatial_join",

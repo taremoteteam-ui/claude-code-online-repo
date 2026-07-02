@@ -84,6 +84,91 @@ RUNNABLE_FAMILIES = [
 # coverage_gap_ranker primitive.
 UNRUNNABLE_FAMILIES: dict[str, list[str]] = {}
 
+# Canonical route per family: the primitive sequence each runner executes.
+# Compiled into PlanLocks; the executed receipt sequence is validated against
+# the lock, and every successful task is executed twice to prove replay
+# determinism (identical output-hash sequences).
+FAMILY_ROUTES = {
+    "clinic_discovery": [
+        "source_surface_registry", "hrsa_health_center_ingester",
+        "nppes_provider_identity_resolver", "osm_overpass_bounded_poi_query",
+        "entity_normalize_and_dedupe", "point_to_boundary_spatial_join",
+        "evidence_bundle_wrapper",
+    ],
+    "training_provider_discovery": [
+        "geocode_policy_gate", "careeronestop_training_provider_adapter",
+        "college_scorecard_ipeds_program_adapter", "entity_normalize_and_dedupe",
+        "evidence_bundle_wrapper",
+    ],
+    "care_desert_analysis": [
+        "hrsa_health_center_ingester", "entity_normalize_and_dedupe",
+        "nearest_facility_isochrone_catchment_analysis",
+        "map_artifact_generation", "evidence_bundle_wrapper",
+    ],
+    "osm_poi_extraction": [
+        "geocode_policy_gate", "osm_overpass_bounded_poi_query",
+        "entity_normalize_and_dedupe", "point_to_boundary_spatial_join",
+        "evidence_bundle_wrapper",
+    ],
+    "portal_dataset_harvest": [
+        "ckan_package_resource_harvester", "socrata_soql_dataset_ingester",
+        "dataset_schema_fingerprint", "evidence_bundle_wrapper",
+    ],
+    "schema_drift_detection": [
+        "socrata_soql_dataset_ingester", "dataset_schema_fingerprint",
+        "dataset_schema_fingerprint", "evidence_bundle_wrapper",
+    ],
+    "site_selection_ranking": [
+        "hrsa_health_center_ingester", "entity_normalize_and_dedupe",
+        "nearest_facility_isochrone_catchment_analysis", "coverage_gap_ranker",
+        "map_artifact_generation", "evidence_bundle_wrapper",
+    ],
+    "map_dashboard_generation": [
+        "hrsa_health_center_ingester",
+        "nearest_facility_isochrone_catchment_analysis",
+        "map_artifact_generation", "evidence_bundle_wrapper",
+    ],
+}
+
+
+def compile_plan_locks() -> dict[str, dict]:
+    """Compile each family route into a PlanLock (schemas/plan_lock.schema.json).
+
+    Edges come from the generated primitive cards - never retyped. The
+    route_hash makes the lock stable, hashable, and replayable."""
+    cards = {c["primitive_id"]: c for c in (
+        json.loads(line) for line in
+        (PACK_DIR / "primitive_cards.jsonl").read_text(encoding="utf-8").splitlines()
+        if line.strip())}
+    locks: dict[str, dict] = {}
+    for family, names in FAMILY_ROUTES.items():
+        route = []
+        for i, name in enumerate(names, start=1):
+            pid = f"prim:place_discovery.{name}"
+            card = cards[pid]
+            route.append({
+                "step": i,
+                "primitive_id": pid,
+                "input_edge": card["input_edge"],
+                "output_edge": card["output_edge"],
+            })
+        locks[family] = {
+            "record_type": "plan_lock",
+            "lock_id": f"lock:place_discovery.{family}",
+            "route": route,
+            "route_hash": canonical_hash(route),
+            "compiled_from": "deterministic_route_definition",
+            "proof_plan": [
+                "executed_sequence_matches_lock",
+                "replay_output_hash_stability",
+            ],
+            "replayable": True,
+            "version": "0.1.0",
+            "candidate": True,
+            "serves_truth": False,
+        }
+    return locks
+
 
 class TaskContext:
     """Collects receipts and artifacts for one task execution."""
@@ -696,18 +781,22 @@ def run_benchmark(write: bool) -> dict:
     artifacts_dir = run_dir / "artifacts" if write else None
     prims = import_primitives()
     tasks = select_tasks()
+    locks = compile_plan_locks()
 
     scorecards: list[dict] = []
     all_receipts: list[dict] = []
+    negative_memories: list[dict] = []
     primitives_seen: set[str] = set()
 
     for task in tasks:
         aoi_id = task["area_of_interest"]["aoi_id"]
+        family = task["task_family"]
+        lock = locks[family]
         ctx = TaskContext(run_id, artifacts_dir)
         t0 = time.perf_counter()
         error_note = ""
         try:
-            success, note = FAMILY_RUNNERS[task["task_family"]](ctx, aoi_id, prims)
+            success, note = FAMILY_RUNNERS[family](ctx, aoi_id, prims)
         except PrimitiveExecutionError as exc:
             ctx.receipts.append(exc.receipt)
             success, note = False, f"primitive failed: {exc}"
@@ -715,6 +804,52 @@ def run_benchmark(write: bool) -> dict:
         wall = time.perf_counter() - t0
 
         executed = [r["primitive_id"] for r in ctx.receipts]
+        expected = [s["primitive_id"] for s in lock["route"]]
+        sequence_ok = executed == expected
+        if success and not sequence_ok:
+            success = False
+            error_note = (error_note + " | executed sequence does not match PlanLock "
+                          f"{lock['lock_id']}").strip(" |")
+
+        # Replay proof: a second execution of the same lock against the same
+        # inputs must produce the identical output-hash sequence. Artifacts
+        # are not re-persisted for the replay pass.
+        replay_verified = False
+        if success:
+            replay_ctx = TaskContext(run_id, None)
+            try:
+                FAMILY_RUNNERS[family](replay_ctx, aoi_id, prims)
+                replay_verified = (
+                    [r["output_hash"] for r in ctx.receipts]
+                    == [r["output_hash"] for r in replay_ctx.receipts])
+            except PrimitiveExecutionError:
+                replay_verified = False
+            if not replay_verified:
+                success = False
+                error_note = (error_note + " | replay produced different output hashes"
+                              ).strip(" |")
+
+        if not success:
+            negative_memories.append({
+                "record_type": "negative_memory",
+                "memory_id": ("negmem:place_discovery.task_failure."
+                              f"{family}.{aoi_id.split(':')[1]}"),
+                "failure_class": "benchmark_task_failure",
+                "description": (f"Task {task['task_id']} failed under arm {ARM_ID}: "
+                                + (error_note or note)),
+                "affected_primitive_ids": sorted(set(executed)) or
+                    [f"prim:place_discovery.{FAMILY_ROUTES[family][0]}"],
+                "affected_task_families": [family],
+                "evidence_refs": [run_id],
+                "suppression_rule": (f"re-verify the {family} route against "
+                                     f"{lock['lock_id']} before reusing it for this area"),
+                "resolution_status": "open",
+                "fixed_by": None,
+                "version": "0.1.0",
+                "candidate": True,
+                "serves_truth": False,
+            })
+
         reuse = sum(1 for p in set(executed) if p in primitives_seen)
         primitives_seen.update(executed)
         passed, total = proof_stats(ctx.receipts)
@@ -724,7 +859,7 @@ def run_benchmark(write: bool) -> dict:
             "scorecard_id": "score:" + hashlib.sha256(
                 f"{task['task_id']}|{ARM_ID}|{run_id}".encode()).hexdigest()[:16],
             "task_id": task["task_id"],
-            "task_family": task["task_family"],
+            "task_family": family,
             "arm_id": ARM_ID,
             "run_id": run_id,
             "measured": True,
@@ -738,6 +873,9 @@ def run_benchmark(write: bool) -> dict:
             "proof_coverage": round(passed / total, 4) if total else 0.0,
             "receipt_ids": [r["receipt_id"] for r in ctx.receipts],
             "artifacts_emitted": ctx.artifact_files,
+            "plan_lock_id": lock["lock_id"],
+            "route_hash": lock["route_hash"],
+            "replay_verified": replay_verified,
             "notes": (note + (" | " + error_note if error_note else "")
                       + " | fixture_offline: synthetic fixtures measure route machinery, not real-world accuracy"
                       + " | arms A1/A2 not run (require model-in-loop harness)"),
@@ -767,17 +905,21 @@ def run_benchmark(write: bool) -> dict:
         "execution_mode": "fixture_offline",
         "tasks_executed": len(scorecards),
         "tasks_succeeded": sum(1 for s in scorecards if s["task_success"]),
+        "replay_verified_count": sum(1 for s in scorecards if s["replay_verified"]),
+        "plan_locks_compiled": len(locks),
         "total_receipts": len(all_receipts),
         "total_proofs_passed": sum(1 for r in all_receipts for p in r["proof_results"] if p["passed"]),
         "total_proofs": sum(len(r["proof_results"]) for r in all_receipts),
         "distinct_primitives_executed": sorted(primitives_seen),
         "runtime_llm_tokens_total": 0,
         "gap_records": len(gap_records),
+        "negative_memories_created": len(negative_memories),
         "families_not_run": sorted(UNRUNNABLE_FAMILIES),
         "honesty_notes": [
             "fixture_offline run: synthetic fixtures, measures route machinery only",
             "baseline arms A1/A2 not run; no baseline comparison is claimed",
             "no token-savings claim can be made from this run alone",
+            "replay_verified means a second execution reproduced identical output hashes",
         ],
     }
 
@@ -787,6 +929,10 @@ def run_benchmark(write: bool) -> dict:
             "scorecards.jsonl": "".join(json.dumps(s) + "\n" for s in scorecards),
             "receipts.jsonl": "".join(json.dumps(r) + "\n" for r in all_receipts),
             "gap_records.jsonl": "".join(json.dumps(g) + "\n" for g in gap_records),
+            "plan_locks.jsonl": "".join(
+                json.dumps(locks[fam]) + "\n" for fam in sorted(locks)),
+            "negative_memory.jsonl": "".join(
+                json.dumps(m) + "\n" for m in negative_memories),
             "run_summary.json": json.dumps(summary, indent=2) + "\n",
         }
         for name, content in files.items():

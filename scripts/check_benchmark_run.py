@@ -28,6 +28,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RUNS_ROOT = REPO_ROOT / "benchmarks" / "runs"
 SCHEMA_DIR = REPO_ROOT / "schemas"
+sys.path.insert(0, str(REPO_ROOT))
 
 
 def load_validator_class():
@@ -81,6 +82,32 @@ def run_checks(run_dir: Path) -> dict:
         if r.get("candidate") is not True or r.get("serves_truth") is not False:
             problems.append(f"receipts[{i}]: candidate/serves_truth boundary violated")
 
+    # PlanLocks: schema-valid, recomputable route hashes, referenced by
+    # scorecards. Locks are optional for runs persisted before the PlanLock
+    # layer existed; scorecards carrying plan_lock_id make them mandatory.
+    locks: dict[str, dict] = {}
+    locks_path = run_dir / "plan_locks.jsonl"
+    if locks_path.exists():
+        from primitives.core import canonical_hash
+        lock_validator = StructuralValidator(
+            json.loads((SCHEMA_DIR / "plan_lock.schema.json").read_text(encoding="utf-8")))
+        for i, lock in enumerate(load_jsonl(locks_path)):
+            for e in lock_validator.validate(lock)[:3]:
+                problems.append(f"plan_locks[{i}]: {e}")
+            recomputed = canonical_hash(lock["route"])
+            if lock["route_hash"] != recomputed:
+                problems.append(
+                    f"plan_locks[{i}]: route_hash does not recompute - lock was edited")
+            locks[lock["lock_id"]] = lock
+
+    negmem_path = run_dir / "negative_memory.jsonl"
+    if negmem_path.exists():
+        negmem_validator = StructuralValidator(
+            json.loads((SCHEMA_DIR / "negative_memory.schema.json").read_text(encoding="utf-8")))
+        for i, mem in enumerate(load_jsonl(negmem_path)):
+            for e in negmem_validator.validate(mem)[:3]:
+                problems.append(f"negative_memory[{i}]: {e}")
+
     for i, s in enumerate(scorecards):
         for e in scorecard_validator.validate(s)[:3]:
             problems.append(f"scorecards[{i}]: {e}")
@@ -91,6 +118,16 @@ def run_checks(run_dir: Path) -> dict:
         for rid in s["receipt_ids"]:
             if rid not in receipt_ids:
                 problems.append(f"scorecards[{i}]: references unknown receipt {rid}")
+        if "plan_lock_id" in s:
+            lock = locks.get(s["plan_lock_id"])
+            if lock is None:
+                problems.append(f"scorecards[{i}]: unknown plan lock {s['plan_lock_id']}")
+            elif s.get("route_hash") != lock["route_hash"]:
+                problems.append(f"scorecards[{i}]: route_hash does not match its plan lock")
+            if s["arm_id"] == "A4" and s["task_success"] and not s.get("replay_verified"):
+                problems.append(
+                    f"scorecards[{i}]: successful A4 task without verified replay - "
+                    "deterministic replay arm requires replay proof")
         notes = s.get("notes", "")
         if s["execution_mode"] == "fixture_offline" and "fixture" not in notes.lower():
             problems.append(f"scorecards[{i}]: fixture mode not disclosed in notes")
