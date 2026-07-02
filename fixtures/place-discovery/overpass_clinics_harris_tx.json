@@ -1,0 +1,20 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "Overpass API interpreter JSON output for a bounded node[amenity=clinic] query",
+  "request": {
+    "url_family": "https://overpass-api.example.org/api/interpreter",
+    "params": {"data": "[out:json];node[\"amenity\"=\"clinic\"](29.5,-95.8,30.2,-95.0);out;"}
+  },
+  "response": {
+    "version": 0.6,
+    "generator": "synthetic-fixture",
+    "elements": [
+      {"type": "node", "id": 9100000001, "lat": 29.7421, "lon": -95.3612, "tags": {"amenity": "clinic", "healthcare": "clinic", "name": "Gulf Coast Community Health Center"}},
+      {"type": "node", "id": 9100000002, "lat": 29.8012, "lon": -95.4448, "tags": {"amenity": "clinic", "healthcare": "clinic", "name": "Bayou City Family Clinic"}},
+      {"type": "node", "id": 9100000003, "lat": 29.9331, "lon": -95.3719, "tags": {"amenity": "clinic", "healthcare": "clinic", "name": "Northline Neighborhood Health Svcs"}},
+      {"type": "node", "id": 9100000004, "lat": 29.7352, "lon": -95.3049, "tags": {"amenity": "clinic", "healthcare": "clinic", "name": "East End Salud Clinic"}},
+      {"type": "node", "id": 9100000005, "lat": 29.729, "lon": -95.577, "tags": {"amenity": "clinic", "healthcare": "clinic", "name": "Westchase Urgent Care"}},
+      {"type": "node", "id": 9100000006, "lat": 29.9318, "lon": -95.3803, "tags": {"amenity": "clinic", "healthcare": "clinic", "name": "Aldine Family Health Clinic"}}
+    ]
+  }
+}

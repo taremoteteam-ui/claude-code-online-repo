@@ -1,0 +1,15 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "NPPES NPI Registry API v2.1 organization search (npiregistry.cms.hhs.gov)",
+  "request": {
+    "url_family": "https://npiregistry.cms.hhs.gov/api/",
+    "params": {"version": "2.1", "enumeration_type": "NPI-2", "state": "MT", "city": "Browning"}
+  },
+  "response": {
+    "result_count": 2,
+    "results": [
+      {"number": 1990001111, "basic": {"organization_name": "BROWNING COMMUNITY HEALTH STATION"}, "addresses": [{"address_1": "120 HOSPITAL CIR", "city": "BROWNING", "state": "MT", "postal_code": "59417"}]},
+      {"number": 1990001212, "basic": {"organization_name": "GLACIER COUNTY MEDICAL SVCS"}, "addresses": [{"address_1": "802 2ND AVE SE", "city": "CUT BANK", "state": "MT", "postal_code": "59427"}]}
+    ]
+  }
+}

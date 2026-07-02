@@ -1,0 +1,22 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "HRSA Health Center Service Delivery Sites export (data.hrsa.gov)",
+  "request": {
+    "url_family": "https://data.hrsa.gov/api/health-center-service-delivery-sites",
+    "params": {"state": "TX", "county": "Harris"}
+  },
+  "response": {
+    "rows": [
+      {"site_name": "Gulf Coast Community Health Center", "address": "1802 Navigation Blvd", "city": "Houston", "state": "TX", "zip": "77003", "latitude": 29.742, "longitude": -95.361, "site_type": "Community Health Center"},
+      {"site_name": "Bayou City Family Clinic", "address": "4410 Ella Blvd", "city": "Houston", "state": "TX", "zip": "77018", "latitude": 29.801, "longitude": -95.445, "site_type": "Community Health Center"},
+      {"site_name": "Northline Neighborhood Health Services", "address": "5610 Fulton St", "city": "Houston", "state": "TX", "zip": "77009", "latitude": 29.933, "longitude": -95.372, "site_type": "Community Health Center"},
+      {"site_name": "San Jacinto Primary Care Center", "address": "12905 Wallisville Rd", "city": "Houston", "state": "TX", "zip": "77049", "latitude": 29.921, "longitude": -95.265, "site_type": "FQHC Look-Alike"},
+      {"site_name": "Aldine Family Health Clinic", "address": "4820 Aldine Mail Route Rd", "city": "Houston", "state": "TX", "zip": "77039", "latitude": 29.932, "longitude": -95.38, "site_type": "Community Health Center"},
+      {"site_name": "Pasadena Community Care Clinic", "address": "2100 Shaver St", "city": "Pasadena", "state": "TX", "zip": "77502", "latitude": 29.691, "longitude": -95.209, "site_type": "Community Health Center"},
+      {"site_name": "Heights Wellness Center", "address": "710 W 20th St", "city": "Houston", "state": "TX", "zip": "77008", "latitude": 29.798, "longitude": -95.398, "site_type": "FQHC Look-Alike"},
+      {"site_name": "Cypress Station Health Site", "address": "220 Cypresswood Dr", "city": "Spring", "state": "TX", "zip": "77388", "latitude": 30.009, "longitude": -95.442, "site_type": "Community Health Center"},
+      {"site_name": "East End Salud Clinic", "address": "6902 Harrisburg Blvd", "city": "Houston", "state": "TX", "zip": "77011", "latitude": 29.735, "longitude": -95.305, "site_type": "Community Health Center"},
+      {"site_name": "Spring Branch Health Access Point", "address": "8300 Long Point Rd", "city": "Houston", "state": "TX", "zip": "77055", "latitude": 29.786, "longitude": -95.523, "site_type": "Mobile Van"}
+    ]
+  }
+}

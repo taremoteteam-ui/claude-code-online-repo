@@ -1,0 +1,61 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "CKAN 2.x package_search action API response (catalog.data.gov style)",
+  "request": {
+    "url_family": "https://catalog.example.gov/api/3/action/package_search",
+    "params": {"q": "health facilities", "rows": 5}
+  },
+  "response": {
+    "success": true,
+    "result": {
+      "count": 5,
+      "results": [
+        {
+          "name": "harris-county-health-facilities",
+          "title": "Harris County Health Facilities Directory (synthetic)",
+          "license_id": "cc-by",
+          "organization": {"title": "Harris County Public Health (synthetic)"},
+          "resources": [
+            {"format": "CSV", "url": "https://example.org/data/harris-health-facilities.csv", "name": "Facilities CSV"},
+            {"format": "GeoJSON", "url": "https://example.org/data/harris-health-facilities.geojson", "name": "Facilities GeoJSON"}
+          ]
+        },
+        {
+          "name": "texas-clinic-locations",
+          "title": "Texas Clinic Locations (synthetic)",
+          "license_id": "cc-zero",
+          "organization": {"title": "Texas Health Data Office (synthetic)"},
+          "resources": [
+            {"format": "CSV", "url": "https://example.org/data/tx-clinics.csv", "name": "Clinics CSV"}
+          ]
+        },
+        {
+          "name": "regional-health-inspections",
+          "title": "Regional Health Inspections (synthetic)",
+          "license_id": "odc-odbl",
+          "organization": {"title": "Regional Health Compact (synthetic)"},
+          "resources": [
+            {"format": "JSON", "url": "https://example.org/data/inspections.json", "name": "Inspections JSON"}
+          ]
+        },
+        {
+          "name": "community-care-sites",
+          "title": "Community Care Sites (synthetic)",
+          "organization": {"title": "Community Data Collaborative (synthetic)"},
+          "resources": [
+            {"format": "CSV", "url": "https://example.org/data/community-care-sites.csv", "name": "Sites CSV"}
+          ]
+        },
+        {
+          "name": "montana-frontier-health-access",
+          "title": "Montana Frontier Health Access Points (synthetic)",
+          "license_id": "other-open",
+          "organization": {"title": "Montana Rural Health Initiative (synthetic)"},
+          "resources": [
+            {"format": "XLSX", "url": "https://example.org/data/mt-frontier-access.xlsx", "name": "Access Points XLSX"}
+          ]
+        }
+      ]
+    }
+  }
+}

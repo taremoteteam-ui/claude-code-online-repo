@@ -1,0 +1,18 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "Socrata SODA resource endpoint JSON array of row objects (string-typed values)",
+  "request": {
+    "url_family": "https://data.example-city.gov/resource/hlth-insp.json",
+    "params": {"$query": "SELECT * WHERE result IS NOT NULL LIMIT 8"}
+  },
+  "response": [
+    {"facility_name": "Gulf Coast Community Health Center", "address": "1802 Navigation Blvd", "inspection_date": "2026-03-14T00:00:00.000", "score": "94", "latitude": "29.7420", "longitude": "-95.3610", "violation_count": "2", "result": "pass"},
+    {"facility_name": "Bayou City Family Clinic", "address": "4410 Ella Blvd", "inspection_date": "2026-02-27T00:00:00.000", "score": "88", "latitude": "29.8010", "longitude": "-95.4450", "violation_count": "4", "result": "pass"},
+    {"facility_name": "Northline Neighborhood Health Services", "address": "5610 Fulton St", "inspection_date": "2026-01-09T00:00:00.000", "score": "97", "latitude": "29.9330", "longitude": "-95.3720", "violation_count": "1", "result": "pass"},
+    {"facility_name": "Pasadena Community Care Clinic", "address": "2100 Shaver St", "inspection_date": "2026-04-02T00:00:00.000", "score": "76", "latitude": "29.6910", "longitude": "-95.2090", "violation_count": "7", "result": "conditional"},
+    {"facility_name": "Heights Wellness Center", "address": "710 W 20th St", "inspection_date": "2026-03-30T00:00:00.000", "score": "91", "latitude": "29.7980", "longitude": "-95.3980", "violation_count": "3", "result": "pass"},
+    {"facility_name": "Cypress Station Health Site", "address": "220 Cypresswood Dr", "inspection_date": "2026-02-11T00:00:00.000", "score": "84", "latitude": "30.0090", "longitude": "-95.4420", "violation_count": "5", "result": "pass"},
+    {"facility_name": "East End Salud Clinic", "address": "6902 Harrisburg Blvd", "inspection_date": "2026-05-06T00:00:00.000", "score": "99", "latitude": "29.7350", "longitude": "-95.3050", "violation_count": "0", "result": "pass"},
+    {"facility_name": "Spring Branch Health Access Point", "address": "8300 Long Point Rd", "inspection_date": "2026-04-21T00:00:00.000", "score": "69", "latitude": "29.7860", "longitude": "-95.5230", "violation_count": "9", "result": "fail"}
+  ]
+}

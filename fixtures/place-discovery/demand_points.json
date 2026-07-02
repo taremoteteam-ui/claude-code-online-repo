@@ -1,0 +1,236 @@
+{
+  "fixture_synthetic": true,
+  "description": "Synthetic demand points for offline contract proofs. NOT census data.",
+  "by_aoi": {
+    "aoi:harris_county_tx": [
+      {
+        "id": "dp:harris_01",
+        "lat": 29.874619,
+        "lon": -95.342185,
+        "population": 4622
+      },
+      {
+        "id": "dp:harris_02",
+        "lat": 29.969703,
+        "lon": -95.2877,
+        "population": 4565
+      },
+      {
+        "id": "dp:harris_03",
+        "lat": 30.103593,
+        "lon": -95.333762,
+        "population": 3669
+      },
+      {
+        "id": "dp:harris_04",
+        "lat": 29.965194,
+        "lon": -95.422161,
+        "population": 10012
+      },
+      {
+        "id": "dp:harris_05",
+        "lat": 30.00322,
+        "lon": -95.543584,
+        "population": 7283
+      },
+      {
+        "id": "dp:harris_06",
+        "lat": 29.875747,
+        "lon": -95.458206,
+        "population": 4516
+      },
+      {
+        "id": "dp:harris_07",
+        "lat": 29.810297,
+        "lon": -95.552572,
+        "population": 10514
+      },
+      {
+        "id": "dp:harris_08",
+        "lat": 29.662535,
+        "lon": -95.57414,
+        "population": 10992
+      },
+      {
+        "id": "dp:harris_09",
+        "lat": 29.733332,
+        "lon": -95.419244,
+        "population": 6691
+      },
+      {
+        "id": "dp:harris_10",
+        "lat": 29.64005,
+        "lon": -95.322755,
+        "population": 10444
+      },
+      {
+        "id": "dp:harris_11",
+        "lat": 29.79862,
+        "lon": -95.324178,
+        "population": 6358
+      },
+      {
+        "id": "dp:harris_12",
+        "lat": 29.817259,
+        "lon": -95.20487,
+        "population": 18702
+      }
+    ],
+    "aoi:glacier_county_mt": [
+      {
+        "id": "dp:glacier_01",
+        "lat": 48.714619,
+        "lon": -112.942185,
+        "population": 6037
+      },
+      {
+        "id": "dp:glacier_02",
+        "lat": 48.882896,
+        "lon": -112.892752,
+        "population": 18952
+      },
+      {
+        "id": "dp:glacier_03",
+        "lat": 48.807926,
+        "lon": -113.022996,
+        "population": 17017
+      },
+      {
+        "id": "dp:glacier_04",
+        "lat": 48.826757,
+        "lon": -113.228396,
+        "population": 7699
+      },
+      {
+        "id": "dp:glacier_05",
+        "lat": 48.648626,
+        "lon": -113.158036,
+        "population": 2809
+      },
+      {
+        "id": "dp:glacier_06",
+        "lat": 48.628103,
+        "lon": -113.028228,
+        "population": 9153
+      },
+      {
+        "id": "dp:glacier_07",
+        "lat": 48.471853,
+        "lon": -112.920248,
+        "population": 2023
+      },
+      {
+        "id": "dp:glacier_08",
+        "lat": 48.632262,
+        "lon": -112.862603,
+        "population": 7209
+      }
+    ],
+    "aoi:fresno_county_ca": [
+      {
+        "id": "dp:fresno_01",
+        "lat": 36.774619,
+        "lon": -119.602185,
+        "population": 13434
+      },
+      {
+        "id": "dp:fresno_02",
+        "lat": 36.897543,
+        "lon": -119.546354,
+        "population": 19243
+      },
+      {
+        "id": "dp:fresno_03",
+        "lat": 36.809992,
+        "lon": -119.649127,
+        "population": 10170
+      },
+      {
+        "id": "dp:fresno_04",
+        "lat": 36.901076,
+        "lon": -119.748783,
+        "population": 18725
+      },
+      {
+        "id": "dp:fresno_05",
+        "lat": 36.776278,
+        "lon": -119.697276,
+        "population": 12450
+      },
+      {
+        "id": "dp:fresno_06",
+        "lat": 36.709647,
+        "lon": -119.814697,
+        "population": 18612
+      },
+      {
+        "id": "dp:fresno_07",
+        "lat": 36.720068,
+        "lon": -119.680091,
+        "population": 11396
+      },
+      {
+        "id": "dp:fresno_08",
+        "lat": 36.587804,
+        "lon": -119.653006,
+        "population": 2064
+      },
+      {
+        "id": "dp:fresno_09",
+        "lat": 36.719042,
+        "lon": -119.621321,
+        "population": 11316
+      },
+      {
+        "id": "dp:fresno_10",
+        "lat": 36.70393,
+        "lon": -119.487161,
+        "population": 19459
+      }
+    ],
+    "aoi:mcdowell_county_wv": [
+      {
+        "id": "dp:mcdowell_01",
+        "lat": 37.394619,
+        "lon": -81.602185,
+        "population": 17369
+      },
+      {
+        "id": "dp:mcdowell_02",
+        "lat": 37.596991,
+        "lon": -81.564212,
+        "population": 1609
+      },
+      {
+        "id": "dp:mcdowell_03",
+        "lat": 37.518763,
+        "lon": -81.729654,
+        "population": 11811
+      },
+      {
+        "id": "dp:mcdowell_04",
+        "lat": 37.393131,
+        "lon": -81.735666,
+        "population": 18939
+      },
+      {
+        "id": "dp:mcdowell_05",
+        "lat": 37.196847,
+        "lon": -81.848381,
+        "population": 14047
+      },
+      {
+        "id": "dp:mcdowell_06",
+        "lat": 37.183847,
+        "lon": -81.635792,
+        "population": 19716
+      },
+      {
+        "id": "dp:mcdowell_07",
+        "lat": 37.31027,
+        "lon": -81.548271,
+        "population": 19218
+      }
+    ]
+  }
+}

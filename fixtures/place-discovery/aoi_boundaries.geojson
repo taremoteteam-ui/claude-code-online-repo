@@ -1,0 +1,181 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.04,
+              29.86
+            ],
+            [
+              -95.215,
+              30.163109
+            ],
+            [
+              -95.565,
+              30.163109
+            ],
+            [
+              -95.74,
+              29.86
+            ],
+            [
+              -95.565,
+              29.556891
+            ],
+            [
+              -95.215,
+              29.556891
+            ],
+            [
+              -95.04,
+              29.86
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "boundary_id": "aoi:harris_county_tx",
+        "name": "Harris County, TX (synthetic hexagon)",
+        "boundary_vintage": "synthetic-fixture-2026",
+        "fixture_synthetic": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -112.64,
+              48.7
+            ],
+            [
+              -112.815,
+              49.003109
+            ],
+            [
+              -113.165,
+              49.003109
+            ],
+            [
+              -113.34,
+              48.7
+            ],
+            [
+              -113.165,
+              48.396891
+            ],
+            [
+              -112.815,
+              48.396891
+            ],
+            [
+              -112.64,
+              48.7
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "boundary_id": "aoi:glacier_county_mt",
+        "name": "Glacier County, MT (synthetic hexagon)",
+        "boundary_vintage": "synthetic-fixture-2026",
+        "fixture_synthetic": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -119.3,
+              36.76
+            ],
+            [
+              -119.475,
+              37.063109
+            ],
+            [
+              -119.825,
+              37.063109
+            ],
+            [
+              -120.0,
+              36.76
+            ],
+            [
+              -119.825,
+              36.456891
+            ],
+            [
+              -119.475,
+              36.456891
+            ],
+            [
+              -119.3,
+              36.76
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "boundary_id": "aoi:fresno_county_ca",
+        "name": "Fresno County, CA (synthetic hexagon)",
+        "boundary_vintage": "synthetic-fixture-2026",
+        "fixture_synthetic": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -81.3,
+              37.38
+            ],
+            [
+              -81.475,
+              37.683109
+            ],
+            [
+              -81.825,
+              37.683109
+            ],
+            [
+              -82.0,
+              37.38
+            ],
+            [
+              -81.825,
+              37.076891
+            ],
+            [
+              -81.475,
+              37.076891
+            ],
+            [
+              -81.3,
+              37.38
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "boundary_id": "aoi:mcdowell_county_wv",
+        "name": "McDowell County, WV (synthetic hexagon)",
+        "boundary_vintage": "synthetic-fixture-2026",
+        "fixture_synthetic": true
+      }
+    }
+  ]
+}

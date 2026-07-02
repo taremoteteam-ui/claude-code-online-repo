@@ -1,0 +1,15 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "HRSA Health Center Service Delivery Sites export (data.hrsa.gov)",
+  "request": {
+    "url_family": "https://data.hrsa.gov/api/health-center-service-delivery-sites",
+    "params": {"state": "MT", "county": "Glacier"}
+  },
+  "response": {
+    "rows": [
+      {"site_name": "Browning Community Health Station", "address": "120 Hospital Circle", "city": "Browning", "state": "MT", "zip": "59417", "latitude": 48.557, "longitude": -113.013, "site_type": "Community Health Center"},
+      {"site_name": "Cut Bank Rural Health Site", "address": "640 Main St", "city": "Cut Bank", "state": "MT", "zip": "59427", "latitude": 48.635, "longitude": -112.771, "site_type": "FQHC Look-Alike"},
+      {"site_name": "Two Medicine Family Clinic", "address": "15 Two Medicine Rd", "city": "East Glacier Park", "state": "MT", "zip": "59434", "latitude": 48.487, "longitude": -113.221, "site_type": "Community Health Center"}
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/execution_receipt.schema.json",
+  "title": "ExecutionReceipt",
+  "description": "A record of what actually ran: one primitive execution through primitives.core.run_primitive. Receipts are measured artifacts - every field is computed at runtime, never typed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "receipt_id",
+    "primitive_id",
+    "run_id",
+    "input_hash",
+    "output_hash",
+    "runtime_target",
+    "execution_mode",
+    "effects_declared",
+    "effects_observed",
+    "proof_results",
+    "source_snapshot_ids",
+    "artifacts",
+    "started_at_utc",
+    "wall_clock_ms",
+    "error",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "place_discovery_execution_receipt" },
+    "receipt_id": { "type": "string", "pattern": "^rcpt:[0-9a-f]{16}$" },
+    "primitive_id": { "type": "string", "pattern": "^prim:place_discovery\\.[a-z0-9_]+$" },
+    "run_id": { "type": "string", "minLength": 4 },
+    "input_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "output_hash": { "type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$" },
+    "runtime_target": { "type": "string" },
+    "execution_mode": { "enum": ["fixture_offline", "live_network", "pure_local"] },
+    "effects_declared": { "type": "array", "items": { "type": "string" } },
+    "effects_observed": { "type": "array", "items": { "type": "string" } },
+    "proof_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["proof", "passed"],
+        "properties": {
+          "proof": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "source_snapshot_ids": { "type": "array", "items": { "type": "string" } },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_type", "content_sha256"],
+        "properties": {
+          "artifact_type": { "type": "string" },
+          "path": { "type": "string" },
+          "content_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "started_at_utc": { "type": "string" },
+    "wall_clock_ms": { "type": "number", "minimum": 0 },
+    "error": { "type": ["string", "null"] },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}

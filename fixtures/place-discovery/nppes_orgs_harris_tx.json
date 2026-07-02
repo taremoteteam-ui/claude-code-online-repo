@@ -1,0 +1,21 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "NPPES NPI Registry API v2.1 organization search (npiregistry.cms.hhs.gov)",
+  "request": {
+    "url_family": "https://npiregistry.cms.hhs.gov/api/",
+    "params": {"version": "2.1", "enumeration_type": "NPI-2", "state": "TX", "city": "Houston"}
+  },
+  "response": {
+    "result_count": 8,
+    "results": [
+      {"number": 1990000101, "basic": {"organization_name": "GULF COAST COMM HEALTH CTR"}, "addresses": [{"address_1": "1802 NAVIGATION BLVD", "city": "HOUSTON", "state": "TX", "postal_code": "77003"}]},
+      {"number": 1990000202, "basic": {"organization_name": "BAYOU CITY FAMILY CLINIC INC"}, "addresses": [{"address_1": "4410 ELLA BLVD", "city": "HOUSTON", "state": "TX", "postal_code": "77018"}]},
+      {"number": 1990000303, "basic": {"organization_name": "NORTHLINE NEIGHBORHOOD HEALTH SVCS"}, "addresses": [{"address_1": "5610 FULTON ST", "city": "HOUSTON", "state": "TX", "postal_code": "77009"}]},
+      {"number": 1990000404, "basic": {"organization_name": "SAN JACINTO PRIMARY CARE CTR"}, "addresses": [{"address_1": "12905 WALLISVILLE RD", "city": "HOUSTON", "state": "TX", "postal_code": "77049"}]},
+      {"number": 1990000505, "basic": {"organization_name": "MEMORIAL VILLAGES PEDIATRICS PLLC"}, "addresses": [{"address_1": "9055 KATY FWY", "city": "HOUSTON", "state": "TX", "postal_code": "77024"}]},
+      {"number": 1990000606, "basic": {"organization_name": "HOUSTON METRO DIALYSIS CENTER LLC"}, "addresses": [{"address_1": "3707 ALMEDA RD", "city": "HOUSTON", "state": "TX", "postal_code": "77004"}]},
+      {"number": 1990000707, "basic": {"organization_name": "WESTCHASE URGENT CARE PA"}, "addresses": [{"address_1": "10905 WESTHEIMER RD", "city": "HOUSTON", "state": "TX", "postal_code": "77042"}]},
+      {"number": 1990000808, "basic": {"organization_name": "GREENSPOINT BEHAVIORAL HEALTH GROUP"}, "addresses": [{"address_1": "12300 NORTH FWY", "city": "HOUSTON", "state": "TX", "postal_code": "77060"}]}
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "ArcGIS FeatureServer /query response with f=json point geometries (x=lon, y=lat)",
+  "request": {
+    "url_family": "https://services.example.org/arcgis/rest/services/health_facilities/FeatureServer/0/query",
+    "params": {"where": "FACILITY_TYPE='clinic'", "outFields": "*", "f": "json"}
+  },
+  "response": {
+    "objectIdFieldName": "OBJECTID",
+    "geometryType": "esriGeometryPoint",
+    "spatialReference": {"wkid": 4326},
+    "fields": [
+      {"name": "OBJECTID", "type": "esriFieldTypeOID", "alias": "OBJECTID"},
+      {"name": "NAME", "type": "esriFieldTypeString", "alias": "Facility Name"},
+      {"name": "ADDRESS", "type": "esriFieldTypeString", "alias": "Address"},
+      {"name": "CITY", "type": "esriFieldTypeString", "alias": "City"},
+      {"name": "STATE", "type": "esriFieldTypeString", "alias": "State"},
+      {"name": "ZIP", "type": "esriFieldTypeString", "alias": "ZIP"},
+      {"name": "FACILITY_TYPE", "type": "esriFieldTypeString", "alias": "Facility Type"}
+    ],
+    "features": [
+      {"attributes": {"OBJECTID": 1, "NAME": "Heights Wellness Center", "ADDRESS": "710 W 20th St", "CITY": "Houston", "STATE": "TX", "ZIP": "77008", "FACILITY_TYPE": "clinic"}, "geometry": {"x": -95.3979, "y": 29.7981}},
+      {"attributes": {"OBJECTID": 2, "NAME": "Aldine Family Health Clinic", "ADDRESS": "4820 Aldine Mail Route Rd", "CITY": "Houston", "STATE": "TX", "ZIP": "77039", "FACILITY_TYPE": "clinic"}, "geometry": {"x": -95.3799, "y": 29.9321}},
+      {"attributes": {"OBJECTID": 3, "NAME": "Pasadena Community Care Clinic", "ADDRESS": "2100 Shaver St", "CITY": "Pasadena", "STATE": "TX", "ZIP": "77502", "FACILITY_TYPE": "clinic"}, "geometry": {"x": -95.2088, "y": 29.6912}},
+      {"attributes": {"OBJECTID": 4, "NAME": "Spring Branch Health Access Point", "ADDRESS": "8300 Long Point Rd", "CITY": "Houston", "STATE": "TX", "ZIP": "77055", "FACILITY_TYPE": "clinic"}, "geometry": {"x": -95.5228, "y": 29.7858}},
+      {"attributes": {"OBJECTID": 5, "NAME": "Cypress Station Health Site", "ADDRESS": "220 Cypresswood Dr", "CITY": "Spring", "STATE": "TX", "ZIP": "77388", "FACILITY_TYPE": "clinic"}, "geometry": {"x": -95.4418, "y": 30.0088}},
+      {"attributes": {"OBJECTID": 6, "NAME": "San Jacinto Primary Care Center", "ADDRESS": "12905 Wallisville Rd", "CITY": "Houston", "STATE": "TX", "ZIP": "77049", "FACILITY_TYPE": "clinic"}, "geometry": {"x": -95.2652, "y": 29.9208}}
+    ]
+  }
+}

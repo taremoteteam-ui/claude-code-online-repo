@@ -1,0 +1,16 @@
+{
+  "fixture_synthetic": true,
+  "recorded_shape": "Overpass API interpreter JSON output for a bounded node[amenity=clinic] query",
+  "request": {
+    "url_family": "https://overpass-api.example.org/api/interpreter",
+    "params": {"data": "[out:json];node[\"amenity\"=\"clinic\"](48.4,-113.4,49.0,-112.6);out;"}
+  },
+  "response": {
+    "version": 0.6,
+    "generator": "synthetic-fixture",
+    "elements": [
+      {"type": "node", "id": 9200000001, "lat": 48.5572, "lon": -113.0128, "tags": {"amenity": "clinic", "healthcare": "clinic", "name": "Browning Community Health Station"}},
+      {"type": "node", "id": 9200000002, "lat": 48.4872, "lon": -113.2208, "tags": {"amenity": "clinic", "healthcare": "clinic", "name": "Two Medicine Family Clinic"}}
+    ]
+  }
+}
