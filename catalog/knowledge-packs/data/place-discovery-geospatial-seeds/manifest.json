@@ -1,0 +1,45 @@
+{
+  "pack_id": "place-discovery-geospatial-seeds",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_place_discovery_geospatial_pack.py",
+  "schema_refs": [
+    "schemas/source_surface.schema.json",
+    "schemas/primitive_card.schema.json",
+    "schemas/primitive_group.schema.json",
+    "schemas/variation_overlay.schema.json",
+    "schemas/benchmark_task_demand.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "benchmark_task_demands.jsonl": {
+      "rows": 320,
+      "content_sha256": "df7e28eba726a39dbfb53e09003a927b80cdc6ae9cabf7d175d45012c9c5509a"
+    },
+    "primitive_cards.jsonl": {
+      "rows": 38,
+      "content_sha256": "b56abab27c78b730bd222cf79edc15378fc16e68517c37dc52f790c0c4290aa7"
+    },
+    "primitive_groups.jsonl": {
+      "rows": 12,
+      "content_sha256": "23f43d10c938dcfbf7badc3b97627ac8a12879c6b8490fbbbeec451111bc44cc"
+    },
+    "source_surfaces.jsonl": {
+      "rows": 49,
+      "content_sha256": "c9cda86733270109c89eca00fc486683fab8a00219c20667c3ce78ffa8f8ddcb"
+    },
+    "variation_overlays.jsonl": {
+      "rows": 34,
+      "content_sha256": "cfe323c6a116ebc5051fcce4d0eea99c4d7954aa015542ee0f69ce801bdbd19e"
+    }
+  },
+  "row_counts": {
+    "benchmark_task_demands.jsonl": 320,
+    "primitive_cards.jsonl": 38,
+    "primitive_groups.jsonl": 12,
+    "source_surfaces.jsonl": 49,
+    "variation_overlays.jsonl": 34
+  },
+  "total_rows": 453,
+  "candidate": true,
+  "serves_truth": false
+}
