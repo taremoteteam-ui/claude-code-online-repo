@@ -1,0 +1,38 @@
+{
+  "run_id": "banditbench",
+  "rounds": 400,
+  "epsilon": 0.1,
+  "shift_at": 200,
+  "adaptive_decay_0_9": {
+    "decay": 0.9,
+    "cumulative_regret": 26.95,
+    "regret_before_shift": 12.3,
+    "regret_after_shift": 14.65,
+    "final_choice": "path:bandit.arm0",
+    "final_is_new_best": true,
+    "correct_choice_fraction_late": 0.993
+  },
+  "sticky_decay_1_0": {
+    "decay": 1.0,
+    "cumulative_regret": 74.7,
+    "regret_before_shift": 7.85,
+    "regret_after_shift": 66.85,
+    "final_choice": "path:bandit.arm0",
+    "final_is_new_best": true,
+    "correct_choice_fraction_late": 0.54
+  },
+  "random_baseline_regret": 114.9,
+  "verdict": {
+    "engine_learns_pre_shift": true,
+    "decay_recovers_faster": true,
+    "adaptive_final_is_new_best": true
+  },
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "true success rates are hidden from the engine; it sees only receipts",
+    "regret is measured against an oracle that always plays the true best arm",
+    "the world shifts at the midpoint; decay=0.9 forgets stale receipts, decay=1.0 does not",
+    "seeded PRNG - the run is deterministic and replayable"
+  ]
+}
