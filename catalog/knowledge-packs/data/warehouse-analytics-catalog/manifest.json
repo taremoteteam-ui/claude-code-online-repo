@@ -1,0 +1,40 @@
+{
+  "pack_id": "warehouse-analytics-catalog",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_warehouse_analytics_pack.py",
+  "schema_refs": [
+    "schemas/reusable_primitive_family.schema.json",
+    "schemas/runtime_wrapper.schema.json",
+    "schemas/resolved_primitive.schema.json",
+    "schemas/primitive_template.schema.json",
+    "schemas/pipeline_wave_template.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "pipeline_wave_templates.jsonl": {
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "primitive_families.jsonl": {
+      "rows": 206,
+      "content_sha256": "fb2dfc5a96e99b2e07a4f75ab051ac49ecce601b8b6077e4f798db96dc5e50e6"
+    },
+    "primitive_templates.jsonl": {
+      "rows": 0,
+      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "resolved_primitives.jsonl": {
+      "rows": 912,
+      "content_sha256": "0dbb02f3d5f60a9f011aff3e2f4c4981d72782058caac82e316cb233287e3d39"
+    }
+  },
+  "row_counts": {
+    "pipeline_wave_templates.jsonl": 0,
+    "primitive_families.jsonl": 206,
+    "primitive_templates.jsonl": 0,
+    "resolved_primitives.jsonl": 912
+  },
+  "total_rows": 1118,
+  "candidate": true,
+  "serves_truth": false
+}

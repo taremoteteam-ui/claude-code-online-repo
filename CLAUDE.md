@@ -88,6 +88,18 @@ python3 scripts/check_document_extraction_pack.py --self-test
 python3 scripts/run_document_extraction_benchmark.py --self-test
 python3 scripts/repair_document_extraction_benchmark.py --check   # ground-truth is extractable
 
+# Universal reusable-primitive catalog: base families x runtime wrappers ->
+# resolved primitives (auth/security, crud/trackers, data, integration, devops,
+# intelligence, media/vision). Never hand-edit pack files; edit scripts/seeds/.
+python3 scripts/build_universal_primitive_pack.py --write
+python3 scripts/check_universal_primitive_pack.py --self-test
+
+# Warehouse / analytics lane: dbt, dimensional-modeling, data-engineering,
+# analytics-pattern, semantic-layer, and multiset (set-algebra) families ->
+# resolved primitives; checker enforces the multi-wave topological contract.
+python3 scripts/build_warehouse_analytics_pack.py --write
+python3 scripts/check_warehouse_analytics_pack.py --self-test
+
 # Edge compiler: build the typed capability graph across all lanes, then
 # compile primitive chains by edge/type compatibility (zero model calls) and
 # measure the compose rate + port-normalization/connector gap queue
