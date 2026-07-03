@@ -92,6 +92,8 @@ STAGES = [
      [sys.executable, "scripts/run_route_compiler_demo.py", "--self-test"]),
     ("foundry_pipeline_demo",
      [sys.executable, "scripts/run_foundry_pipeline.py", "--self-test"]),
+    ("coding_harness",
+     [sys.executable, "scripts/run_coding_harness.py", "--self-test"]),
     ("solution_frameworks_builder",
      [sys.executable, "scripts/build_solution_frameworks_pack.py", "--self-test"]),
     ("solution_frameworks_checker",

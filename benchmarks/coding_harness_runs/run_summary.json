@@ -1,0 +1,105 @@
+{
+  "run_id": "codingharness",
+  "harness": "compile a primitive route (the program) + run it against I/O tests, zero model calls",
+  "runnable_primitives": [
+    "mined:geoutils_fixture.features_to_records",
+    "mined:geoutils_fixture.parse_geojson",
+    "mined:geoutils_fixture.records_to_rows"
+  ],
+  "tasks": [
+    {
+      "task": "geojson_to_table",
+      "description": "Turn a GeoJSON point document into a columns/rows table.",
+      "compiled": true,
+      "program": [
+        "geoutils_fixture.parse_geojson",
+        "geoutils_fixture.features_to_records",
+        "geoutils_fixture.records_to_rows"
+      ],
+      "route_hash": "sha256:b1bc4f3539322592c1a824b4b9ce01b6f41f5d1d4b49e18e32b74cfdf3624188",
+      "step_count": 3,
+      "tests_passed": 2,
+      "tests_total": 2,
+      "solved": true,
+      "cases": [
+        {
+          "case": 0,
+          "ok": true,
+          "steps_executed": 3,
+          "receipts": 3
+        },
+        {
+          "case": 1,
+          "ok": true,
+          "steps_executed": 3,
+          "receipts": 3
+        }
+      ]
+    },
+    {
+      "task": "geojson_to_records",
+      "description": "Flatten a GeoJSON point document into entity records.",
+      "compiled": true,
+      "program": [
+        "geoutils_fixture.parse_geojson",
+        "geoutils_fixture.features_to_records"
+      ],
+      "route_hash": "sha256:c76c94555c775b0168752b0cf5aae64fb9191c0b2df77e3530554838e96ad0e7",
+      "step_count": 2,
+      "tests_passed": 1,
+      "tests_total": 1,
+      "solved": true,
+      "cases": [
+        {
+          "case": 0,
+          "ok": true,
+          "steps_executed": 2,
+          "receipts": 2
+        }
+      ]
+    },
+    {
+      "task": "features_to_table",
+      "description": "Convert a point feature collection directly into a table.",
+      "compiled": true,
+      "program": [
+        "geoutils_fixture.features_to_records",
+        "geoutils_fixture.records_to_rows"
+      ],
+      "route_hash": "sha256:bb0fa5b5864e8906ba6ddcfd4160c27d29f0ba66c29470072c3a629bafa7edf6",
+      "step_count": 2,
+      "tests_passed": 1,
+      "tests_total": 1,
+      "solved": true,
+      "cases": [
+        {
+          "case": 0,
+          "ok": true,
+          "steps_executed": 2,
+          "receipts": 2
+        }
+      ]
+    },
+    {
+      "task": "unsolvable_by_runnable_set",
+      "description": "A target with no runnable route - the harness must say so.",
+      "compiled": false,
+      "program": [],
+      "route_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "step_count": 0,
+      "solved": false,
+      "reason": "no route over the runnable primitive set"
+    }
+  ],
+  "solved": 3,
+  "solvable_tasks": 3,
+  "unsolvable_correctly_reported": true,
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "the compiled route IS the generated program - a hashable, replayable PlanLock",
+    "execution is real: each step emits an ExecutionReceipt; outputs are checked against expected",
+    "zero model calls - the route is composed and run deterministically",
+    "an unsolvable task is reported as 'no route', never faked; extending the runnable set solves more"
+  ]
+}
