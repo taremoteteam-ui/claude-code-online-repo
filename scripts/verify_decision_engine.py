@@ -293,7 +293,10 @@ def run(trials: int) -> dict:
     for name, fn in CHECKS.items():
         passed = 0
         for t in range(trials):
-            rng = random.Random(hash((name, t)) & 0xFFFFFFFF)
+            # str-seeded Random is deterministic ACROSS processes; hash() is not
+            # (PYTHONHASHSEED salts it), which would make this verifier's inputs
+            # vary run to run and hide seed-dependent failures.
+            rng = random.Random(f"{name}:{t}")
             try:
                 ok = fn(rng)
             except Exception as exc:  # noqa: BLE001

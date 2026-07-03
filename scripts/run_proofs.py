@@ -110,6 +110,10 @@ STAGES = [
      [sys.executable, "scripts/build_cooccurrence_edges.py", "--self-test"]),
     ("benchmark_harness_self_test",
      [sys.executable, "scripts/run_place_discovery_benchmark.py", "--self-test"]),
+    ("determinism_gate",
+     [sys.executable, "scripts/check_determinism.py", "--self-test"]),
+    ("mutation_test",
+     [sys.executable, "scripts/mutation_test.py", "--self-test"]),
 ]
 
 OPTIONAL_STAGES = [

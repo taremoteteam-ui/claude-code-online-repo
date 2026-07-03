@@ -1,0 +1,136 @@
+"""Mutation testing: verify the proof suite actually CATCHES bugs.
+
+A green test suite proves nothing if the tests are toothless. This harness
+injects a real defect into a core module (flips a comparison, a sign, a
+predicate), runs the specific gate that SHOULD catch it, and confirms that gate
+goes RED. A mutation that SURVIVES (the gate stays green) is a hole in the
+verification - reported, not hidden. Every mutation restores the source in a
+finally block, so the tree is always left clean even on error.
+
+This is meta-verification: it tests the tests. Deterministic; stdlib only.
+
+Usage: python3 scripts/mutation_test.py --self-test
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+PY = sys.executable
+
+
+def _purge_pycache() -> None:
+    """Remove all bytecode caches. Critical: a catcher imports the MUTATED
+    module; if it wrote a .pyc, restoring the .py within the same second leaves
+    Python using the stale mutated bytecode (matching mtimes). We run catchers
+    with PYTHONDONTWRITEBYTECODE and purge caches to be doubly safe."""
+    for d in REPO_ROOT.rglob("__pycache__"):
+        shutil.rmtree(d, ignore_errors=True)
+
+# Each mutation: a real defect in a core module + the fast gate that must catch
+# it. `find` must occur exactly once. `catcher` should EXIT NON-ZERO on the
+# mutated code (the bug is detected).
+MUTATIONS = [
+    {"name": "route_compiler_all_to_any",
+     "file": "primitives/route_compiler.py",
+     "find": "if all(ct in available for ct in reqs):",
+     "replace": "if any(ct in available for ct in reqs):",
+     "catcher": [PY, "scripts/verify_decision_engine.py", "--self-test", "--trials", "40"],
+     "why": "an unsound compiler (fires nodes with unmet inputs) must fail P8 soundness"},
+    {"name": "route_validator_never_missing",
+     "file": "primitives/route_validator.py",
+     "find": "missing = [r for r in reqs if r not in available]",
+     "replace": "missing = []",
+     "catcher": [PY, "-m", "unittest", "tests.test_orderers"],
+     "why": "a validator that never reports missing inputs must fail the reversed-order test"},
+    {"name": "planner_gate_order_sign_flip",
+     "file": "primitives/decision_planner.py",
+     "find": 'ordered = sorted(resolved, key=lambda g: (-g["ratio"], g["gate_id"]))',
+     "replace": 'ordered = sorted(resolved, key=lambda g: (g["ratio"], g["gate_id"]))',
+     "catcher": [PY, "scripts/verify_decision_engine.py", "--self-test", "--trials", "40"],
+     "why": "reversing the fail-fast gate order must fail P2 optimality"},
+    {"name": "planner_expected_cost_inverted",
+     "file": "primitives/decision_planner.py",
+     "find": "exp_cost = normalize_cost(path[\"cost_model\"]) / success   # amortised retry cost",
+     "replace": "exp_cost = normalize_cost(path[\"cost_model\"]) * success   # amortised retry cost",
+     "catcher": [PY, "scripts/verify_decision_engine.py", "--self-test", "--trials", "40"],
+     "why": "inverting expected-cost must fail P1/P7 vs brute force"},
+    {"name": "decision_graph_fire_any_fork",
+     "file": "primitives/decision_graph.py",
+     "find": "if consumes <= available:",
+     "replace": "if True:",
+     "catcher": [PY, "-m", "unittest", "tests.test_decision_graph"],
+     "why": "firing forks whose contracts are unmet must break the ordering test"},
+    {"name": "foundry_sanitize_disabled",
+     "file": "primitives/foundry.py",
+     "find": "    return \"\".join(p[:1].upper() + p[1:] for p in parts)",
+     "replace": "    return raw",
+     "catcher": [PY, "-m", "unittest", "tests.test_foundry"],
+     "why": "disabling type sanitization must fail the messy-type robustness test"},
+]
+
+
+def _run(catcher) -> int:
+    # PYTHONDONTWRITEBYTECODE: the catcher imports the MUTATED module; without
+    # this it would write a .pyc compiled from mutated source, and restoring the
+    # .py within the same filesystem-mtime tick would leave Python loading the
+    # stale mutated bytecode on the next run (poisoning every later stage).
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+    proc = subprocess.run(catcher, cwd=REPO_ROOT, capture_output=True, text=True,
+                          timeout=300, env=env)
+    return proc.returncode
+
+
+def run() -> dict:
+    _purge_pycache()   # start from a clean cache so no stale .pyc leaks in
+    results = []
+    for m in MUTATIONS:
+        path = REPO_ROOT / m["file"]
+        original = path.read_text(encoding="utf-8")
+        status = {"name": m["name"], "file": m["file"], "why": m["why"]}
+        if original.count(m["find"]) != 1:
+            status.update(caught=False, error=f"find-string appears {original.count(m['find'])} times (expected 1)")
+            results.append(status)
+            continue
+        try:
+            path.write_text(original.replace(m["find"], m["replace"], 1), encoding="utf-8")
+            rc = _run(m["catcher"])
+            status["caught"] = rc != 0   # gate went red => bug detected
+            status["catcher_exit"] = rc
+        except Exception as exc:  # noqa: BLE001
+            status.update(caught=False, error=repr(exc))
+        finally:
+            path.write_text(original, encoding="utf-8")   # ALWAYS restore
+            _purge_pycache()   # and drop any bytecode the catcher compiled
+        results.append(status)
+
+    survived = [r["name"] for r in results if not r.get("caught")]
+    return {"record_type": "mutation_test", "mutations": len(MUTATIONS),
+            "caught": sum(1 for r in results if r.get("caught")),
+            "survived": survived, "results": results,
+            "all_caught": not survived,
+            "candidate": True, "serves_truth": False,
+            "note": "a surviving mutation is a hole in the verification suite; source is always restored"}
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--self-test", action="store_true")
+    args = parser.parse_args()
+    if not args.self_test:
+        parser.print_help()
+        return 2
+    result = run()
+    print(json.dumps(result, indent=2))
+    return 0 if result["all_caught"] else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
