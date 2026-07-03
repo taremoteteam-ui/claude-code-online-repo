@@ -112,6 +112,8 @@ STAGES = [
      [sys.executable, "scripts/run_place_discovery_benchmark.py", "--self-test"]),
     ("determinism_gate",
      [sys.executable, "scripts/check_determinism.py", "--self-test"]),
+    ("quality_ratchet",
+     [sys.executable, "scripts/check_quality_ratchet.py", "--self-test"]),
     ("mutation_test",
      [sys.executable, "scripts/mutation_test.py", "--self-test"]),
 ]

@@ -1,0 +1,48 @@
+{
+  "record_type": "quality_baseline",
+  "note": "candidate floors/ceilings for this repo's own machinery, measured in fixture mode; NOT a real-world accuracy claim",
+  "candidate": true,
+  "serves_truth": false,
+  "metrics": {
+    "route_compose_rate": {
+      "baseline": 0.8947,
+      "direction": "up",
+      "note": "fraction of target contracts the edge compiler resolves with zero model calls"
+    },
+    "route_optimal_fraction": {
+      "baseline": 0.961,
+      "direction": "up",
+      "note": "fraction of compiled routes that match the BFS shortest-path oracle"
+    },
+    "route_valid_fraction": {
+      "baseline": 1.0,
+      "direction": "up",
+      "note": "fraction of compiled routes whose every step has its inputs satisfied"
+    },
+    "route_irredundant_fraction": {
+      "baseline": 1.0,
+      "direction": "up",
+      "note": "fraction of compiled routes with no removable step"
+    },
+    "route_mean_excess_steps": {
+      "baseline": 0.039,
+      "direction": "down",
+      "note": "mean steps over the oracle's shortest route (0.0 = always shortest)"
+    },
+    "graph_search_hit_at_k": {
+      "baseline": 0.6667,
+      "direction": "up",
+      "note": "cross-lane retrieval hit@k over the whole capability graph (lexical + typed edge)"
+    },
+    "graph_search_mrr": {
+      "baseline": 0.6333,
+      "direction": "up",
+      "note": "cross-lane retrieval mean reciprocal rank (lexical + typed edge)"
+    },
+    "foundry_fixture_executable": {
+      "baseline": 3,
+      "direction": "up",
+      "note": "count of mined primitives proven to actually run their edge transform"
+    }
+  }
+}
