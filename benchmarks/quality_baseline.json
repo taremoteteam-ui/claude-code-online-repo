@@ -43,6 +43,11 @@
       "baseline": 3,
       "direction": "up",
       "note": "count of mined primitives proven to actually run their edge transform"
+    },
+    "policy_contextual_regret": {
+      "baseline": 3.05,
+      "direction": "down",
+      "note": "holdout regret of the context-conditioned policy in the contextual regime (the data-selected winner; lower is better)"
     }
   }
 }

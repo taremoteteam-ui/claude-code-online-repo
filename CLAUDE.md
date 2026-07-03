@@ -166,6 +166,20 @@ python3 scripts/build_decision_frameworks_pack.py --write
 python3 scripts/check_decision_frameworks_pack.py --self-test
 python3 scripts/run_decision_dag_demo.py --self-test
 
+# Off-policy policy selection: replay a logged full-feedback history through
+# every selection policy (via the real engine), let the data pick the lowest-
+# regret one, and verify the pick on a held-out log. The non-commitment law
+# applied to the policy itself. See docs/codex/policy-selection-off-policy.md.
+python3 scripts/run_policy_selection_benchmark.py --self-test
+
+# Verify-the-verifier gates: build twice byte-identically (determinism), inject
+# real defects and confirm the catching gate goes red (mutation), and fail on
+# silent regression of measured headline metrics (quality ratchet). Re-record the
+# ratchet floor with --update after an intended improvement.
+python3 scripts/check_determinism.py --self-test
+python3 scripts/mutation_test.py --self-test
+python3 scripts/check_quality_ratchet.py --self-test
+
 # Everything at once (CI runs this on every push)
 python3 scripts/run_proofs.py
 ```

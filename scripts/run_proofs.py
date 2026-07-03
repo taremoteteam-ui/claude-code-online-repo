@@ -72,6 +72,8 @@ STAGES = [
      [sys.executable, "scripts/verify_decision_engine.py", "--self-test", "--trials", "200"]),
     ("decision_bandit_benchmark",
      [sys.executable, "scripts/run_decision_bandit_benchmark.py", "--self-test"]),
+    ("policy_selection_benchmark",
+     [sys.executable, "scripts/run_policy_selection_benchmark.py", "--self-test"]),
     ("dev_decision_sims",
      [sys.executable, "scripts/run_dev_decision_sims.py", "--self-test"]),
     ("contextual_bandit_benchmark",

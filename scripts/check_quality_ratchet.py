@@ -84,6 +84,11 @@ PROBES = [
      "cmd": [PY, "scripts/run_foundry_pipeline.py", "--self-test"],
      "path": "store.fixture_executable",
      "note": "count of mined primitives proven to actually run their edge transform"},
+    {"metric": "policy_contextual_regret", "direction": "down",
+     "cmd": [PY, "scripts/run_policy_selection_benchmark.py", "--self-test"],
+     "path": "regimes.contextual.holdout_regret.argmax_contextual",
+     "note": "holdout regret of the context-conditioned policy in the contextual regime "
+             "(the data-selected winner; lower is better)"},
 ]
 
 

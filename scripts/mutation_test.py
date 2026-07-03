@@ -92,6 +92,12 @@ MUTATIONS = [
      "replace": "    ran = True",
      "catcher": [PY, "-m", "unittest", "tests.test_route_runtime"],
      "why": "claiming a route ran when a step is unimplemented must fail the honest-stop test"},
+    {"name": "policy_eval_regret_sign_flip",
+     "file": "primitives/policy_evaluation.py",
+     "find": "        regret += best - rnd[\"true_means\"][chosen]",
+     "replace": "        regret += rnd[\"true_means\"][chosen] - best",
+     "catcher": [PY, "-m", "unittest", "tests.test_policy_evaluation"],
+     "why": "inverting the counterfactual regret sign must fail the learner-beats-baseline test"},
 ]
 
 
