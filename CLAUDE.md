@@ -21,6 +21,9 @@ the proof-aware primitive route market).
   license/attribution/privacy boundaries for this lane.
 - `docs/codex/document-extraction-lane-handoff.md` — the contract/document
   schema-extraction lane (source-span grounding).
+- `docs/codex/coding-agent-lane-handoff.md` — the coding-agent (SWE-bench /
+  Terminal-Bench style) and competitive-programming lane: two solve loops that
+  compile from typed edges, plus the SLM-uplift benchmark spec.
 - `docs/codex/primitive-foundry-operating-manual.md` — the operating manual
   (search/remix/compile/proof/telemetry paths); Appendix A maps each section
   to what already exists in this repo.
@@ -90,7 +93,8 @@ python3 scripts/repair_document_extraction_benchmark.py --check   # ground-truth
 
 # Universal reusable-primitive catalog: base families x runtime wrappers ->
 # resolved primitives (auth/security, crud/trackers, data, integration, devops,
-# intelligence, media/vision). Never hand-edit pack files; edit scripts/seeds/.
+# intelligence, media/vision, coding-agent + competitive-programming + algorithms).
+# Never hand-edit pack files; edit scripts/seeds/.
 python3 scripts/build_universal_primitive_pack.py --write
 python3 scripts/check_universal_primitive_pack.py --self-test
 

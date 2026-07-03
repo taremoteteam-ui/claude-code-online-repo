@@ -40,7 +40,8 @@
         "dbt_transform", "data_warehouse", "data_engineering_wh",
         "analytics_patterns", "semantic_layer", "multiset_ops",
         "media_processing", "image_processing", "computer_vision",
-        "api_integration", "data_enrichment"
+        "api_integration", "data_enrichment",
+        "coding_agent", "competitive_programming", "algorithms"
       ]
     },
     "title": { "type": "string", "minLength": 3 },

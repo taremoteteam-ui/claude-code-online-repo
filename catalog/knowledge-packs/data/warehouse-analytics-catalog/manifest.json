@@ -16,25 +16,25 @@
       "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "primitive_families.jsonl": {
-      "rows": 206,
-      "content_sha256": "fb2dfc5a96e99b2e07a4f75ab051ac49ecce601b8b6077e4f798db96dc5e50e6"
+      "rows": 221,
+      "content_sha256": "08f4f4f7ca7632bf34a2ea087d13ac0b8bbbca9f040091c5ba9916b8cc6e9e2b"
     },
     "primitive_templates.jsonl": {
       "rows": 0,
       "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "resolved_primitives.jsonl": {
-      "rows": 912,
-      "content_sha256": "0dbb02f3d5f60a9f011aff3e2f4c4981d72782058caac82e316cb233287e3d39"
+      "rows": 976,
+      "content_sha256": "1e71bf914e43b824c60df11660fda5f54127fe6e5c67a9aaad5c84fd0c3e30cf"
     }
   },
   "row_counts": {
     "pipeline_wave_templates.jsonl": 0,
-    "primitive_families.jsonl": 206,
+    "primitive_families.jsonl": 221,
     "primitive_templates.jsonl": 0,
-    "resolved_primitives.jsonl": 912
+    "resolved_primitives.jsonl": 976
   },
-  "total_rows": 1118,
+  "total_rows": 1197,
   "candidate": true,
   "serves_truth": false
 }

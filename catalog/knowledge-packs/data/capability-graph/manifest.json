@@ -8,19 +8,19 @@
   ],
   "files": {
     "capability_graph.jsonl": {
-      "rows": 2597,
-      "content_sha256": "4057285eeb1d6e522acaed12581feaaf62c22049eb9cd9db2d496f8c14d47c4b"
+      "rows": 2842,
+      "content_sha256": "32613b84441cb659443a10d56dbba9d0223412938dd719e1e00fe705534aa024"
     },
     "port_type_index.jsonl": {
-      "rows": 856,
-      "content_sha256": "a1a453982bf1c69ed5daa4d6d91a4981c285a9be68dd6c3f12cc686744fe8ba8"
+      "rows": 904,
+      "content_sha256": "c4938c01058a683f35f90be9bd4714e16aff85cc0b1f9c7cd77d1c16bc5d1f8e"
     }
   },
   "row_counts": {
-    "capability_graph.jsonl": 2597,
-    "port_type_index.jsonl": 856
+    "capability_graph.jsonl": 2842,
+    "port_type_index.jsonl": 904
   },
-  "total_rows": 3453,
+  "total_rows": 3746,
   "candidate": true,
   "serves_truth": false
 }

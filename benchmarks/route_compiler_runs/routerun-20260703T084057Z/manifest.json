@@ -1,0 +1,24 @@
+{
+  "run_id": "routerun-20260703T084057Z",
+  "generated_by": "scripts/run_route_compiler_demo.py",
+  "files": {
+    "compiled_routes.jsonl": {
+      "rows": 22,
+      "content_sha256": "9d4fd9a53f4838b528b0989c95c75e7bee0c4cb1858056b7d725e92a829bab26"
+    },
+    "gap_records.jsonl": {
+      "rows": 11,
+      "content_sha256": "6cdf59cf2f8b83531a8ed874f018515b051e5d8d8077b5218ba4234169161150"
+    },
+    "normalization_candidates.jsonl": {
+      "rows": 10,
+      "content_sha256": "5e267603f5c4787bfa1ea3e470b737089c86f46b44e7c65a8a21ddb23f311a07"
+    },
+    "run_summary.json": {
+      "rows": 1,
+      "content_sha256": "f8595fa8f4b325baeaf032411ee752766ca2610bfdf7cfcab8512bf1fd61ffa5"
+    }
+  },
+  "candidate": true,
+  "serves_truth": false
+}

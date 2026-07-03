@@ -48,6 +48,7 @@ FAMILY_SEED_MODULES = [
     "universal_families_devops_seed.py",
     "universal_families_intelligence_seed.py",
     "universal_families_media_vision_seed.py",
+    "universal_families_coding_agent_seed.py",
 ]
 
 # Short tags used in resolved ids, keyed by wrapper_id.

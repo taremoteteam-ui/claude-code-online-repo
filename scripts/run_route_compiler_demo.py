@@ -69,6 +69,14 @@ TARGETS = [
     {"have": ["ImageFile"], "want": "ImageBatch", "note": "detect->nms->crop per object (3 steps, multi-input)"},
     {"have": ["FetchPolicy"], "want": "EnrichedRecordSet", "note": "api fetch->flatten->enrich (3 steps)"},
     {"have": ["VideoFile"], "want": "Thumbnail", "note": "video thumbnail (1 step)"},
+    {"have": ["IssueText", "RepoSnapshot"], "want": "ValidatedPatch",
+     "note": "SWE loop: parse->index->localize->reproduce->slice->patch->apply->test->validate (9 steps)"},
+    {"have": ["IssueText", "RepoSnapshot"], "want": "PatchDraft",
+     "note": "SWE loop to a candidate patch (multi-input join on issue+slice+failing-test)"},
+    {"have": ["ProblemStatement"], "want": "JudgeResult",
+     "note": "CP loop: parse->constraints->budget->classify->select->fill->tests->run (8 steps)"},
+    {"have": ["ProblemStatement"], "want": "ComplexityBudget",
+     "note": "CP budgeting prefix: parse->constraints->budget (3 steps)"},
 ]
 
 
