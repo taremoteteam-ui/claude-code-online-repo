@@ -63,6 +63,12 @@ TARGETS = [
     {"have": ["PointRecordSet", "BoundaryLayer"], "want": "BoundaryTaggedRecordSet", "note": "spatial join"},
     {"have": ["WebhookHttpRequest"], "want": "DomainEvent", "note": "webhook to event"},
     {"have": ["RawCustomerRecordBatch"], "want": "CrmImportReceipt", "note": "customer import"},
+    {"have": ["MediaUrl"], "want": "TranscriptText", "note": "youtube: download->audio->transcribe (3 steps)"},
+    {"have": ["PlaylistUrl"], "want": "VideoFileSet", "note": "playlist enumerate->download fan-out (2 steps)"},
+    {"have": ["ImageFile"], "want": "BoundingBoxSet", "note": "object detection: detect->nms (2 steps)"},
+    {"have": ["ImageFile"], "want": "ImageBatch", "note": "detect->nms->crop per object (3 steps, multi-input)"},
+    {"have": ["FetchPolicy"], "want": "EnrichedRecordSet", "note": "api fetch->flatten->enrich (3 steps)"},
+    {"have": ["VideoFile"], "want": "Thumbnail", "note": "video thumbnail (1 step)"},
 ]
 
 

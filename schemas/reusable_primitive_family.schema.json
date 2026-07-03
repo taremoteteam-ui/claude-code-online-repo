@@ -38,7 +38,9 @@
         "enrichment_verification", "document_intelligence", "rag_retrieval",
         "geospatial", "similarity_indexing",
         "dbt_transform", "data_warehouse", "data_engineering_wh",
-        "analytics_patterns", "semantic_layer", "multiset_ops"
+        "analytics_patterns", "semantic_layer", "multiset_ops",
+        "media_processing", "image_processing", "computer_vision",
+        "api_integration", "data_enrichment"
       ]
     },
     "title": { "type": "string", "minLength": 3 },

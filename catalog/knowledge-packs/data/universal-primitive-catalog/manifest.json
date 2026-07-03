@@ -10,12 +10,12 @@
   ],
   "files": {
     "primitive_families.jsonl": {
-      "rows": 264,
-      "content_sha256": "34acca14b00502b19a15c87c561fb8aa4dec9eeb2ea09a55013679dcb7f530fd"
+      "rows": 291,
+      "content_sha256": "b35646a46e97116b1e2e835937c208e0d7391eb30e32da892cbb5dccfc3f4e77"
     },
     "resolved_primitives.jsonl": {
-      "rows": 1030,
-      "content_sha256": "5474518d1669bbcad1ed1693541b2a5fcc1f7e3eff4f8d5e6816d0616d969279"
+      "rows": 1130,
+      "content_sha256": "5a90dea6101d26d0e0304ee7a5ca8da82af7028190fb464df38e523b499fe65e"
     },
     "runtime_wrappers.jsonl": {
       "rows": 10,
@@ -23,11 +23,11 @@
     }
   },
   "row_counts": {
-    "primitive_families.jsonl": 264,
-    "resolved_primitives.jsonl": 1030,
+    "primitive_families.jsonl": 291,
+    "resolved_primitives.jsonl": 1130,
     "runtime_wrappers.jsonl": 10
   },
-  "total_rows": 1304,
+  "total_rows": 1431,
   "candidate": true,
   "serves_truth": false
 }
