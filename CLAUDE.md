@@ -39,6 +39,9 @@ rewrite.
   receipt ledger, selection policies, self-tuning supervisor) + its generality
   proof. See also `docs/codex/retrieval-architecture-red-team.md` and
   `docs/codex/multi-path-flexible-primitive-architecture.md`.
+- `docs/codex/project-transfer-context.md` — the drop-in `CONTEXT.md` template
+  and phased playbook for MIGRATING another large project onto this architecture
+  (invariants, concept-mapping table, strangler-fig phases, status ledger, traps).
 
 ## Non-negotiable conventions
 
