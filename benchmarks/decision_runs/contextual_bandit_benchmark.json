@@ -1,0 +1,41 @@
+{
+  "record_type": "contextual_bandit_benchmark",
+  "run_id": "ctxbanditbench",
+  "rounds": 600,
+  "epsilon": 0.1,
+  "seed": 7,
+  "arms": 3,
+  "contexts": [
+    "A",
+    "B"
+  ],
+  "true_best_arm_per_context": {
+    "A": "path:cb.arm0",
+    "B": "path:cb.arm2"
+  },
+  "contextual_regret_A": 17.05,
+  "contextual_regret_B": 40.5,
+  "contextual_total_regret": 57.55,
+  "global_total_regret": 174.95,
+  "contextual_final_choice": {
+    "A": "path:cb.arm0",
+    "B": "path:cb.arm2"
+  },
+  "global_final_choice_context_conditioned_view": {
+    "A": "path:cb.arm0",
+    "B": "path:cb.arm2"
+  },
+  "verdict": {
+    "contextual_learns_both": true,
+    "contextual_beats_global": true
+  },
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "true per-context success rates are hidden from the engine; it sees only receipts",
+    "regret is measured against a per-context oracle (the true best arm in the mode presented)",
+    "the global control uses the same stream and epsilon but a context-blind aggregate",
+    "arms are equal-cost so the argmax is driven purely by learned win-rate",
+    "seeded PRNG (random.Random) only - no global random; the run is deterministic and replayable"
+  ]
+}

@@ -36,6 +36,8 @@ from primitives.decision_engine import (LedgerStats, choose, is_applicable,  # n
 from primitives.decision_planner import (_expected_cost_to_failure, optimal_gate_order,  # noqa: E402
                                          plan_combination, _MIN_SUCCESS, _PRIOR_SUCCESS)
 from primitives.decision_graph import compile_decision_order, validate_decision_dag  # noqa: E402
+from primitives.route_compiler import compile_route  # noqa: E402
+from primitives.route_validator import validate_order  # noqa: E402
 
 TOL = 1e-6
 
@@ -188,9 +190,101 @@ def check_P6(rng) -> bool:
     return r2["decayed_win_rate"] >= r1["decayed_win_rate"] - TOL
 
 
+def check_P7(rng) -> bool:
+    """Coupled planner (compatibility constraint + budget) still matches brute force."""
+    dids = [f"decision:f{i}" for i in range(2)]
+    decisions, paths_by, all_recs, succ = [], {}, [], {}
+    for did in dids:
+        paths = _rand_paths(rng, did, rng.randint(2, 3))
+        paths_by[did] = paths
+        decisions.append({"decision_id": did, "context_signature": ["s"],
+                          "contract": {"input": "x", "output": "y", "win_definition": "wins",
+                                       "consumes": [], "produces": ["k"]},
+                          "selection_policy": "argmax_receipts", "default_path": paths[0]["path_id"]})
+        recs, s = _receipts(rng, did, paths)
+        all_recs += recs
+        succ.update({(did, k): v for k, v in s.items()})
+    stats = LedgerStats.from_receipts(all_recs)
+    # random compatibility: forbid one specific (d0 path, d1 path) pairing
+    fp = rng.choice(paths_by[dids[0]])["path_id"]
+    gp = rng.choice(paths_by[dids[1]])["path_id"]
+
+    def compatible(combo):
+        return not (combo.get(dids[0]) == fp and combo.get(dids[1]) == gp)
+
+    budget = rng.choice([None, round(rng.uniform(2, 40), 2)])
+    min_r = rng.choice([0.0, 0.3])
+    plan = plan_combination(decisions, paths_by, {"s": 1}, stats,
+                            min_reliability=min_r, budget=budget, compatible=compatible)
+    best = None
+    for combo in product(*[paths_by[d] for d in dids]):
+        pick = {d: p["path_id"] for d, p in zip(dids, combo)}
+        rel, cost = 1.0, 0.0
+        for did, p in zip(dids, combo):
+            s = succ[(did, p["path_id"])]
+            rel *= s
+            cost += normalize_cost(p["cost_model"]) / s
+        if rel >= min_r and (budget is None or cost <= budget) and compatible(pick):
+            if best is None or cost < best[0] - TOL:
+                best = (cost, pick)
+    if best is None:
+        return plan["feasible"] is False
+    return plan["feasible"] and abs(plan["expected_cost"] - best[0]) < 1e-3
+
+
+def _rand_graph(rng):
+    """A small random typed graph (compile_route-compatible). Types T0..T5,
+    all canonical to themselves (not in the synonym map)."""
+    types = [f"T{i}" for i in range(rng.randint(3, 6))]
+    nodes = []
+    for i in range(rng.randint(3, 8)):
+        ins = rng.sample(types, rng.randint(0, 2))
+        out = rng.choice(types)
+        nodes.append({"node_id": f"n{i}", "lane": "fuzz", "kind": "primitive", "title": f"n{i}",
+                      "input_edge": "+".join(ins) or "NoInput", "output_edge": out,
+                      "required_input_ports": [{"name": t, "canonical_type": t} for t in ins],
+                      "config_ports": [],
+                      "output_ports": [{"name": out, "role": "data", "canonical_type": out}]})
+    return types, nodes
+
+
+def _reachable(have, nodes):
+    avail = set(have)
+    changed = True
+    while changed:
+        changed = False
+        for n in nodes:
+            reqs = {p["canonical_type"] for p in n["required_input_ports"]}
+            if reqs <= avail:
+                for op in n["output_ports"]:
+                    if op["canonical_type"] not in avail:
+                        avail.add(op["canonical_type"])
+                        changed = True
+    return avail
+
+
+def check_P8(rng) -> bool:
+    """Route compiler soundness + completeness over random graphs:
+      - compiled iff the want type is reachable (completeness + no false compile);
+      - whenever compiled, the reconstructed order VALIDATES and produces want."""
+    types, nodes = _rand_graph(rng)
+    have = rng.sample(types, rng.randint(1, 2))
+    want = rng.choice(types)
+    reachable = want in _reachable(set(have), nodes)
+    route = compile_route(have, want, nodes)
+    if route["compiled"] != reachable:
+        return False
+    if route["compiled"]:
+        order = [s["node_id"] for s in route["route_steps"]]
+        v = validate_order(order, have, want, nodes)
+        return v["valid"] and v["produces_want"]
+    return True
+
+
 CHECKS = {"P1_planner_vs_bruteforce": check_P1, "P2_gate_order_optimal": check_P2,
           "P3_applicability_respected": check_P3, "P4_compiled_dag_valid": check_P4,
-          "P5_winrate_bounded": check_P5, "P6_argmax_monotone": check_P6}
+          "P5_winrate_bounded": check_P5, "P6_argmax_monotone": check_P6,
+          "P7_coupled_planner_vs_bruteforce": check_P7, "P8_route_compiler_sound_complete": check_P8}
 
 
 def run(trials: int) -> dict:

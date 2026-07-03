@@ -163,11 +163,28 @@ measured:
 
 - **Adversarial verifier** (`scripts/verify_decision_engine.py`): a seeded
   property-based harness that tries to FALSIFY the implementation over hundreds
-  of random inputs per invariant, comparing against brute force. Six invariants —
-  P1 planner == brute-force optimum, P2 gate order == min over all permutations,
-  P3 no inapplicable path is ever chosen, P4 a compiled decision DAG always
-  validates and reaches its goal, P5 win-rates stay in [0,1], P6 argmax is
-  monotone in receipts. **6,000 random trials (1,000 × 6), zero failures.**
+  of random inputs per invariant, comparing against brute force. **Eight**
+  invariants — P1 planner == brute-force optimum, P2 gate order == min over all
+  permutations, P3 no inapplicable path is ever chosen, P4 a compiled decision
+  DAG always validates and reaches its goal, P5 win-rates stay in [0,1], P6
+  argmax is monotone in receipts, **P7 the coupled planner (compatibility +
+  budget) still matches brute force**, **P8 the route compiler is sound AND
+  complete (compiles iff the want is reachable; every compiled route validates
+  and produces the want) over random graphs.** Zero failures across thousands of
+  trials.
+- **Route-compiler optimality benchmark**
+  (`scripts/run_route_compiler_benchmark.py`): over random typed graphs, compares
+  the compiler's route length to the TRUE minimum (BFS over the type-set state
+  space) and checks every route is valid + irredundant (no removable step).
+  Measured: **98.0% of routes are shortest-optimal, 100% valid, 100%
+  irredundant**, mean excess ≈ 0.02 steps. The compiler doesn't claim optimality,
+  so the optimal fraction is reported; the gate is validity + irredundancy.
+- **Contextual bandit benchmark**
+  (`scripts/run_contextual_bandit_benchmark.py`): validates that
+  context-conditioned receipts let the engine learn a DIFFERENT best arm per
+  context. Two contexts with flipped hidden rates: context-conditioned total
+  regret **57.6** vs context-blind global **175.0**, and the final greedy choice
+  is correct in both contexts — the context-conditioning earns its keep.
 - **Learning + non-stationarity benchmark**
   (`scripts/run_decision_bandit_benchmark.py`): simulates a decision whose paths
   have TRUE hidden success rates, runs the engine's argmax-over-decayed-receipts

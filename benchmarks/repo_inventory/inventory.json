@@ -1,0 +1,101 @@
+{
+  "builders": 11,
+  "candidate": true,
+  "checkers": 11,
+  "orphan_count": 6,
+  "orphans": {
+    "builders_without_checker": [
+      "build_capability_graph.py",
+      "build_cooccurrence_edges.py"
+    ],
+    "pack_dirs_without_manifest": [],
+    "schemas_without_checker": [
+      "capability_graph_node.schema.json",
+      "compiled_route.schema.json",
+      "decision_receipt.schema.json",
+      "document_extraction_scorecard.schema.json"
+    ]
+  },
+  "packs": {
+    "capability-graph": {
+      "files": [
+        "capability_graph.jsonl",
+        "port_type_index.jsonl"
+      ],
+      "total_rows": 3790
+    },
+    "decision-frameworks": {
+      "files": [
+        "decision_frameworks.jsonl"
+      ],
+      "total_rows": 1
+    },
+    "decision-portfolios": {
+      "files": [
+        "decision_points.jsonl",
+        "execution_paths.jsonl"
+      ],
+      "total_rows": 24
+    },
+    "document-extraction-seeds": {
+      "files": [
+        "document_types.jsonl",
+        "extraction_fields.jsonl",
+        "extraction_primitives.jsonl",
+        "extraction_targets.jsonl"
+      ],
+      "total_rows": 14599
+    },
+    "foundry-mined-primitives": {
+      "files": [
+        "mined_primitives.jsonl"
+      ],
+      "total_rows": 5
+    },
+    "place-discovery-geospatial-seeds": {
+      "files": [
+        "benchmark_task_demands.jsonl",
+        "primitive_cards.jsonl",
+        "primitive_groups.jsonl",
+        "source_surfaces.jsonl",
+        "variation_overlays.jsonl"
+      ],
+      "total_rows": 453
+    },
+    "solution-frameworks": {
+      "files": [
+        "solution_frameworks.jsonl"
+      ],
+      "total_rows": 3
+    },
+    "type-adapters": {
+      "files": [
+        "type_adapters.jsonl"
+      ],
+      "total_rows": 6
+    },
+    "universal-primitive-catalog": {
+      "files": [
+        "primitive_families.jsonl",
+        "resolved_primitives.jsonl",
+        "runtime_wrappers.jsonl"
+      ],
+      "total_rows": 1616
+    },
+    "warehouse-analytics-catalog": {
+      "files": [
+        "pipeline_wave_templates.jsonl",
+        "primitive_families.jsonl",
+        "primitive_templates.jsonl",
+        "resolved_primitives.jsonl"
+      ],
+      "total_rows": 1279
+    }
+  },
+  "proof_stages": 41,
+  "record_type": "repo_inventory",
+  "schemas": 33,
+  "serves_truth": false,
+  "tests": 18,
+  "total_pack_rows": 21776
+}

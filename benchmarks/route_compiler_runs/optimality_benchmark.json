@@ -1,0 +1,19 @@
+{
+  "run_id": "routebench",
+  "trials": 400,
+  "compiled": 282,
+  "valid_fraction": 1.0,
+  "irredundant_fraction": 1.0,
+  "optimal_fraction": 0.9823,
+  "mean_excess_steps": 0.0177,
+  "max_excess_steps": 1,
+  "problems": [],
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "optimal length = min node applications to produce want, via BFS over the type-set state space (exact for small graphs)",
+    "the compiler does not claim shortest-route optimality; optimal_fraction is reported, not gated",
+    "the gate is validity + irredundancy: every compiled route must type-check and contain no removable step",
+    "seeded PRNG - replayable"
+  ]
+}

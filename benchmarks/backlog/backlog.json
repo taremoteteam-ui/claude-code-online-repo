@@ -1,0 +1,110 @@
+{
+  "candidate": true,
+  "doc_next_slices": [
+    {
+      "doc": "coding-agent-lane-handoff.md",
+      "items": [
+        "Implement one loop end-to-end against a real fixture repo / problem: the deterministic families first (`build_repo_index`, `apply_patch`, `run_tests`) with FixtureTransport-style sandboxing, so they earn execution receipts and move from candidate to source-backed.",
+        "Stand up the benchmark harness (arms above) with the run-checker honesty gates -- PlanLock per attempt, ExecutionReceipt per step, no simulated baselines.",
+        "Add `primitive_template` skeletons for the CP `SolutionTemplate` catalog and wire `select_solution_template` to the `prim:algo.*` kernels by `AlgorithmPattern`.",
+        "Mine real coding-agent and CP-template repos through the repo-mining factory (`docs/codex/repo-mining-factory-spec.md`) to attach source refs to these candidate families."
+      ]
+    },
+    {
+      "doc": "document-extraction-lane-handoff.md",
+      "items": [
+        "`table_line_item_extract` real implementation (invoice / rent schedule / division-order tables) with cell-span grounding - the DocILE LIR track.",
+        "Format ingest adapters: real PDF (native + OCR), DOCX, HTML - each an injectable transport like the place-discovery adapters, so the same extraction route runs on real formats with `retrieved_mode` disclosed.",
+        "Jurisdiction and format overlays over the target lattice (materialize hot combinations only).",
+        "Baseline arms A1/A2 for the extraction benchmark - the first measured source-span-grounded-vs-free-form comparison.",
+        "Promotion gate run over the highest-reuse targets (party names, effective dates, monetary terms recur across nearly every document type)."
+      ]
+    },
+    {
+      "doc": "edge-compiler-handoff.md",
+      "items": [
+        "Grow the reviewed `_SYNONYM_MAP` from the normalization-candidate queue - each accepted equivalence unlocks more multi-step chains. This is the highest-leverage way to raise the compose rate.",
+        "Connector/adapter primitives for the highest-demand gaps (the demo's nearest-producer hints name them) - e.g. an `entity_records_to_point_set` adapter to bridge resolution and spatial lanes.",
+        "Wire `primitives/mutators.py` in as ADAPTER EDGES: a deterministic mutator (field_rename, json_to_rows) can bridge two near-miss ports, so the compiler inserts a mutator step instead of declaring a gap.",
+        "Execute a compiled PlanLock end to end for a lane where working primitives exist (place-discovery), proving the compiled route runs, not just composes.",
+        "An LLM-in-the-loop arm: give the model only the compact edge cards + the compiler, and measure task success vs a baseline that reads source - the first direct test of \"compile by edges beats rereading code\"."
+      ]
+    },
+    {
+      "doc": "frameworks-ordering-and-solve.md",
+      "items": [
+        "Plug a real bounded model into `orderers.llm_propose`'s `propose` slot in a model-enabled environment; keep the validator/repair gate \u2014 measure how often the model's proposal validates first-try vs needs repair.",
+        "Grow the framework catalog per lane (SWE repair, RAG cite, detect-and-crop, dbt medallion) and let `framework_fill` compete with `deterministic_compile` on receipts.",
+        "Wire the ordering-strategy decision into the solve loop's execution path so the chosen strategy is recorded and the supervisor can promote the winner."
+      ]
+    },
+    {
+      "doc": "primitive-foundry-pipeline.md",
+      "items": [
+        "A real AST miner (`ast`/tree-sitter) behind the `ast_parse` acquisition path, runnable in a network-enabled environment, feeding real signatures into `form()`.",
+        "Import-smoke + fixture-behavior verification that earns real receipts (moving a mined primitive from `fixture_verified` to source-backed).",
+        "A per-source compose-rate lift metric (how many new routes a mined source unlocks) \u2014 the signal that says a source was worth mining."
+      ]
+    },
+    {
+      "doc": "repo-mining-factory-spec.md",
+      "items": [
+        "Implement the deterministic AST miner (`scripts/mine_repo_primitives.py`) with the license/secret gate and the edge-typing step, runnable in a network-enabled environment; output candidate cards into a new lane pack.",
+        "Import-smoke + fixture verification harness so mined implemented-code primitives earn receipts (L4 -> L7).",
+        "Feed mined edges through `primitives/route_compiler.py` and log the compose rate lift per repo - the metric that says a repo was worth mining.",
+        "A private/tenant variant that mines internal repos into tenant-scoped primitives (never storing raw code; only edges + source-ref hashes), per the operating manual's private-repo factory."
+      ]
+    },
+    {
+      "doc": "universal-primitive-catalog-handoff.md",
+      "items": [
+        "`primitives/search.py` already indexes place-discovery cards; extend the index to this catalog so a CandidateBundle can span lanes (operating manual section 10).",
+        "Deterministic mutators (`primitives/mutators.py`) are the remix layer for resolved primitives - wire a `contract_diff_remix` that adapts a near-match resolved primitive to a requested edge.",
+        "Promote a first family from candidate to implemented: pick a high-reuse, low-risk family (e.g. a format-conversion primitive), implement it under `primitives/`, attach fixtures, and run it through the promotion gate (L0->L10). The catalog is the demand map; implementation is the wedge.",
+        "Source-adapter extraction (operating manual section 21): mine OpenAPI / MCP / package registries to turn real contracts into families automatically, instead of hand-authoring."
+      ]
+    }
+  ],
+  "normalization_candidates": {
+    "count": 4,
+    "samples": [
+      "MapOrDashboardArtifact",
+      "EvidenceBackedAnswer",
+      "ExtractedFieldValue",
+      "CitedAnswer"
+    ],
+    "source_run": "routerun-20260703T100435Z"
+  },
+  "open_recommendations": [
+    {
+      "from": "path:retrieval.lexical_only",
+      "kind": "promote_default",
+      "to": "path:retrieval.typed_edge"
+    },
+    {
+      "from": "path:retrieval.lexical_plus_typed",
+      "kind": "retire_dominated",
+      "to": "path:retrieval.typed_edge"
+    }
+  ],
+  "record_type": "improvement_backlog",
+  "route_gaps": {
+    "compose_rate": 0.8889,
+    "gaps": 4,
+    "source_run": "routerun-20260703T100435Z",
+    "wants": [
+      "MapOrDashboardArtifact",
+      "EvidenceBackedAnswer",
+      "ExtractedFieldValue",
+      "CitedAnswer"
+    ]
+  },
+  "serves_truth": false,
+  "totals": {
+    "doc_next_slice_docs": 7,
+    "doc_next_slice_items": 28,
+    "normalization_candidates": 4,
+    "open_recommendations": 2,
+    "route_gaps": 4
+  }
+}
