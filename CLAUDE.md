@@ -1,7 +1,12 @@
 # CLAUDE.md
 
-Repo: Primitive Atlas — place-discovery-geospatial lane (first build slice of
-the proof-aware primitive route market).
+Repo: Primitive Atlas — a universal catalog of every type of programming
+primitive, plus the fully flexible, unlimited-possibility path & runtime
+engine(s) (route compiler, decision-portfolio engine, universal search,
+deterministic remix/adapters, receipt-driven execution) that search, compose,
+choose, and run them under the non-commitment law. Place-discovery/geospatial
+was the first lane; any primitive type or decision joins as data, never a
+rewrite.
 
 ## Read first
 

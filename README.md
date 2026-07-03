@@ -1,15 +1,30 @@
-# Primitive Atlas — the proof-aware primitive route market
+# Primitive Atlas
 
-A universal, lane-agnostic substrate for **every type of programming primitive**:
-a searchable, edge-typed catalog of reusable capabilities that an LLM (or plain
-search) composes into large programs by ordering primitives on their input/output
-contracts — reading edges, not implementations. Place-discovery/geospatial was
-the first lane; the architecture is not specific to it. **Any primitive type
-joins as data (a new seed lane), never a rewrite** — auth, security, CRUD, data
-engineering, warehouse/dbt/analytics, integration, devops, guardrails, entity
-resolution, enrichment, document extraction, RAG, media/vision, coding-agent
-(SWE-bench-style), competitive programming, classic algorithms, set algebra,
-semantic layers, and more, all crossing the same typed capability graph.
+### A universal catalog of every type of programming primitive — and the fully flexible, unlimited-possibility path & runtime engine(s) that search, compose, choose, and run them.
+
+Two co-equal pillars:
+
+1. **Primitive Atlas** — a searchable, edge-typed catalog of reusable
+   capabilities across **every domain** (auth, security, CRUD, data engineering,
+   warehouse/dbt/analytics, integration, devops, guardrails, entity resolution,
+   enrichment, document extraction, RAG, media/vision, coding-agent
+   (SWE-bench-style), competitive programming, classic algorithms, set algebra,
+   semantic layers, geospatial, …). Every capability is a black box with a
+   compact typed contract, so an LLM (or plain search) composes large programs by
+   **ordering primitives on their input/output edges — reading contracts, not
+   implementations.**
+2. **The flexible path & runtime engine(s)** — route compiler, decision-portfolio
+   engine, universal graph search, deterministic remix/adapters, and
+   receipt-driven execution — that turn the catalog into composed, proven
+   programs. The governing law is **non-commitment**: never hardcode one method;
+   store the space of paths as data and let receipts choose the best path (or
+   paths) per situation. Nothing commits to a single pipeline, model, prompt,
+   search method, or storage engine.
+
+Place-discovery/geospatial was the first lane; the architecture is not specific
+to it. **Any primitive type — and any decision — joins as data (a row / a new
+seed lane), never a rewrite**, all crossing the same typed capability graph and
+the same domain-agnostic engines.
 
 Core sentence:
 
@@ -50,7 +65,10 @@ Every row is `candidate=true / serves_truth=false`. The domain enum already span
 30+ primitive domains; adding another is a seed module, not an architecture
 change.
 
-## The composition & retrieval layer (what makes it a market, not a list)
+## The flexible path & runtime engine(s) (what makes it a market, not a list)
+
+Domain-agnostic engines that search, compose, choose, remix, and run primitives —
+no engine is specific to a lane, and none commits to a single method:
 
 - **Edge compiler** (`primitives/route_compiler.py`, `scripts/run_route_compiler_demo.py`):
   forward-chaining route assembly over the typed capability graph with **zero
