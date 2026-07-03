@@ -1,0 +1,26 @@
+{
+  "pack_id": "capability-graph",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_capability_graph.py",
+  "schema_refs": [
+    "schemas/capability_graph_node.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "capability_graph.jsonl": {
+      "rows": 1352,
+      "content_sha256": "eb6d1989dfa75118910af61ac7de1961c3531f21542857d8332bb2fa6be49e4e"
+    },
+    "port_type_index.jsonl": {
+      "rows": 779,
+      "content_sha256": "601a7cefb6537decc0d999980e7a7a935e066fb03f19e7da983020530cbe3005"
+    }
+  },
+  "row_counts": {
+    "capability_graph.jsonl": 1352,
+    "port_type_index.jsonl": 779
+  },
+  "total_rows": 2131,
+  "candidate": true,
+  "serves_truth": false
+}

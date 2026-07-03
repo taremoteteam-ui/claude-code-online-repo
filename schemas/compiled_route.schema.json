@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/compiled_route.schema.json",
+  "title": "CompiledRoute",
+  "description": "A route the edge compiler assembled by traversing the capability graph: an ordered chain of primitives whose typed ports connect, from the request's available ports to the wanted output - a PlanLock produced with zero model calls. When a target is unreachable the record is a gap (compiled=false) carrying the unmet type and nearest producers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "route_id",
+    "compiled",
+    "have",
+    "want",
+    "want_canonical_type",
+    "route_steps",
+    "route_hash",
+    "step_count",
+    "unmet_types",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "compiled_route" },
+    "route_id": { "type": "string", "pattern": "^route:[0-9a-f]{16}$" },
+    "compiled": { "type": "boolean" },
+    "have": { "type": "array", "items": { "type": "string" } },
+    "want": { "type": "string" },
+    "want_canonical_type": { "type": "string" },
+    "route_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step", "node_id", "satisfied_by", "produces"],
+        "properties": {
+          "step": { "type": "integer", "minimum": 1 },
+          "node_id": { "type": "string" },
+          "satisfied_by": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["input_port", "canonical_type", "source", "tier"],
+              "properties": {
+                "input_port": { "type": "string" },
+                "canonical_type": { "type": "string" },
+                "source": { "type": "string" },
+                "tier": { "enum": ["exact", "typed", "request"] }
+              }
+            }
+          },
+          "produces": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "route_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "step_count": { "type": "integer", "minimum": 0 },
+    "unmet_types": { "type": "array", "items": { "type": "string" } },
+    "nearest_producers": { "type": "array", "items": { "type": "string" } },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}

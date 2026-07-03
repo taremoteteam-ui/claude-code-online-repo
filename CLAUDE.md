@@ -88,6 +88,13 @@ python3 scripts/check_document_extraction_pack.py --self-test
 python3 scripts/run_document_extraction_benchmark.py --self-test
 python3 scripts/repair_document_extraction_benchmark.py --check   # ground-truth is extractable
 
+# Edge compiler: build the typed capability graph across all lanes, then
+# compile primitive chains by edge/type compatibility (zero model calls) and
+# measure the compose rate + port-normalization/connector gap queue
+python3 scripts/build_capability_graph.py --write
+python3 scripts/run_route_compiler_demo.py --self-test   # print compose rate
+python3 scripts/run_route_compiler_demo.py --write       # persist PlanLocks + gaps
+
 # Everything at once (CI runs this on every push)
 python3 scripts/run_proofs.py
 ```

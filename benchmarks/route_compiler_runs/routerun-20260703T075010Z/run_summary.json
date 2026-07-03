@@ -1,0 +1,20 @@
+{
+  "run_id": "routerun-20260703T075010Z",
+  "targets": 23,
+  "compiled": 12,
+  "gaps": 11,
+  "compose_rate": 0.5217,
+  "runtime_llm_tokens": 0,
+  "mean_step_count": 1.25,
+  "connection_tiers": {
+    "exact": 10,
+    "typed": 6
+  },
+  "normalization_candidates": 10,
+  "schema_problems": [],
+  "honesty_notes": [
+    "zero model calls: routes assembled purely from typed edges",
+    "not every target composes; the gap + normalization queue is the deliverable",
+    "typed-tier hops rely on reviewed synonyms and are labeled, never silent"
+  ]
+}
