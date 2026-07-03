@@ -300,7 +300,7 @@ class TestModuleContracts(unittest.TestCase):
     def test_registry_entries_are_the_module_functions(self):
         self.assertEqual(FORMULAS["token_savings_pct"], token_savings_pct)
         self.assertEqual(FORMULAS["promotion_value"], promotion_value)
-        self.assertEqual(len(FORMULAS), 13)
+        self.assertEqual(len(FORMULAS), 16)
 
     def test_docstring_declares_formulas_only(self):
         import scripts.eval.savings_formulas as mod

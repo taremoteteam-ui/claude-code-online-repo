@@ -32,6 +32,8 @@ STAGES = [
      [sys.executable, "scripts/check_core_object_schemas.py", "--self-test"]),
     ("savings_formulas_self_test",
      [sys.executable, "scripts/eval/savings_formulas.py", "--self-test"]),
+    ("amortization_model",
+     [sys.executable, "scripts/run_amortization_model.py", "--self-test"]),
     ("document_builder_self_test",
      [sys.executable, "scripts/build_document_extraction_pack.py", "--self-test"]),
     ("document_pack_checker",

@@ -1,0 +1,111 @@
+{
+  "run_id": "amortization",
+  "model": "compiled-AI token amortization (formulas exact; inputs illustrative)",
+  "scenarios": [
+    {
+      "label": "cheap_compile_pure_replay",
+      "compile_phase_tokens": 2000,
+      "baseline_runtime_tokens_per_transaction": 1200,
+      "compiled_runtime_tokens_per_transaction": 0,
+      "inputs": "illustrative_not_measured",
+      "break_even_transactions": 1.667,
+      "curve": [
+        {
+          "transactions": 10,
+          "amortized_tokens_per_txn": 200.0,
+          "reduction_factor": 6.0
+        },
+        {
+          "transactions": 100,
+          "amortized_tokens_per_txn": 20.0,
+          "reduction_factor": 60.0
+        },
+        {
+          "transactions": 1000,
+          "amortized_tokens_per_txn": 2.0,
+          "reduction_factor": 600.0
+        },
+        {
+          "transactions": 10000,
+          "amortized_tokens_per_txn": 0.2,
+          "reduction_factor": 6000.0
+        }
+      ]
+    },
+    {
+      "label": "heavy_compile_pure_replay",
+      "compile_phase_tokens": 20000,
+      "baseline_runtime_tokens_per_transaction": 1200,
+      "compiled_runtime_tokens_per_transaction": 0,
+      "inputs": "illustrative_not_measured",
+      "break_even_transactions": 16.667,
+      "curve": [
+        {
+          "transactions": 10,
+          "amortized_tokens_per_txn": 2000.0,
+          "reduction_factor": 0.6
+        },
+        {
+          "transactions": 100,
+          "amortized_tokens_per_txn": 200.0,
+          "reduction_factor": 6.0
+        },
+        {
+          "transactions": 1000,
+          "amortized_tokens_per_txn": 20.0,
+          "reduction_factor": 60.0
+        },
+        {
+          "transactions": 10000,
+          "amortized_tokens_per_txn": 2.0,
+          "reduction_factor": 600.0
+        }
+      ]
+    },
+    {
+      "label": "small_residual_runtime",
+      "compile_phase_tokens": 8000,
+      "baseline_runtime_tokens_per_transaction": 1200,
+      "compiled_runtime_tokens_per_transaction": 40,
+      "inputs": "illustrative_not_measured",
+      "break_even_transactions": 6.897,
+      "curve": [
+        {
+          "transactions": 10,
+          "amortized_tokens_per_txn": 840.0,
+          "reduction_factor": 1.429
+        },
+        {
+          "transactions": 100,
+          "amortized_tokens_per_txn": 120.0,
+          "reduction_factor": 10.0
+        },
+        {
+          "transactions": 1000,
+          "amortized_tokens_per_txn": 48.0,
+          "reduction_factor": 25.0
+        },
+        {
+          "transactions": 10000,
+          "amortized_tokens_per_txn": 40.8,
+          "reduction_factor": 29.412
+        }
+      ]
+    }
+  ],
+  "external_reference": {
+    "source": "arXiv:2604.05150 (Compiled AI)",
+    "reported_break_even_transactions": "~17 (their function-calling eval)",
+    "reported_reduction_at_1000": "57x (their measurement, not this repo's)",
+    "note": "cited for context; this repo asserts no measured reduction until baseline arms A1/A2 run"
+  },
+  "algebra_sane": true,
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "parameter values are illustrative_not_measured - they show the SHAPE of the economics",
+    "this system's compile cost + baseline runtime require baseline arms that have NOT run",
+    "only compiled_runtime_tokens_per_transaction=0 is measured (A4 fixture replay)",
+    "external Nx/break-even numbers are attributed to the paper, never to this repo"
+  ]
+}

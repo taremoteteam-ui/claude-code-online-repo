@@ -233,6 +233,77 @@ def promotion_value(
 
 
 # ---------------------------------------------------------------------------
+# Compiled-AI token amortization (compile once, then execute deterministically)
+#
+# The "compiled AI" economics: a one-time COMPILE phase spends compile_phase_tokens
+# to produce a deterministic artifact (a PlanLock), after which each transaction
+# replays it at compiled_runtime_tokens_per_transaction (0 for a pure replay)
+# instead of re-invoking a model at baseline_runtime_tokens_per_transaction. These
+# are the break-even and Nx-reduction metrics from the compiled-AI literature -
+# EXACT given inputs. For THIS system the inputs (compile cost, baseline runtime)
+# require measured baseline arms that have not run; see MEASUREMENT_STATUS. Do not
+# present a computed reduction as a measured result until those arms run.
+# ---------------------------------------------------------------------------
+
+def compiled_break_even_transactions(
+    compile_phase_tokens,
+    baseline_runtime_tokens_per_transaction,
+    compiled_runtime_tokens_per_transaction,
+) -> float:
+    """compile_phase_tokens / (baseline_runtime - compiled_runtime).
+
+    The transaction count at which the one-time compile pays back its tokens
+    versus re-running model inference every transaction. Raises if the compiled
+    runtime is not strictly cheaper per transaction (no break-even exists)."""
+    compile_c = _non_negative("compile_phase_tokens", compile_phase_tokens)
+    base = _non_negative(
+        "baseline_runtime_tokens_per_transaction", baseline_runtime_tokens_per_transaction)
+    comp = _non_negative(
+        "compiled_runtime_tokens_per_transaction", compiled_runtime_tokens_per_transaction)
+    delta = base - comp
+    if delta <= 0:
+        raise ValueError(
+            "baseline runtime must exceed compiled runtime per transaction for a break-even")
+    return compile_c / delta
+
+
+def amortized_tokens_per_transaction(
+    compile_phase_tokens, compiled_runtime_tokens_per_transaction, transaction_count
+) -> float:
+    """(compile_phase_tokens + transaction_count * compiled_runtime) / transaction_count."""
+    compile_c = _non_negative("compile_phase_tokens", compile_phase_tokens)
+    comp = _non_negative(
+        "compiled_runtime_tokens_per_transaction", compiled_runtime_tokens_per_transaction)
+    n = _count("transaction_count", transaction_count)
+    if n == 0:
+        raise ValueError("transaction_count must be > 0 (amortization over zero is undefined)")
+    return (compile_c + n * comp) / n
+
+
+def token_reduction_factor_at(
+    compile_phase_tokens,
+    baseline_runtime_tokens_per_transaction,
+    compiled_runtime_tokens_per_transaction,
+    transaction_count,
+) -> float:
+    """(transaction_count * baseline) / (compile_phase_tokens + transaction_count * compiled_runtime).
+
+    The 'Nx reduction at N transactions' versus re-running inference every time."""
+    compile_c = _non_negative("compile_phase_tokens", compile_phase_tokens)
+    base = _non_negative(
+        "baseline_runtime_tokens_per_transaction", baseline_runtime_tokens_per_transaction)
+    comp = _non_negative(
+        "compiled_runtime_tokens_per_transaction", compiled_runtime_tokens_per_transaction)
+    n = _count("transaction_count", transaction_count)
+    if n == 0:
+        raise ValueError("transaction_count must be > 0")
+    denom = compile_c + n * comp
+    if denom <= 0:
+        raise ValueError("total compiled tokens must be > 0 (reduction over zero is undefined)")
+    return (n * base) / denom
+
+
+# ---------------------------------------------------------------------------
 # Registry and measurement status
 # ---------------------------------------------------------------------------
 
@@ -250,6 +321,9 @@ FORMULAS = {
     "break_even_tasks": break_even_tasks,
     "route_reuse_value": route_reuse_value,
     "promotion_value": promotion_value,
+    "compiled_break_even_transactions": compiled_break_even_transactions,
+    "amortized_tokens_per_transaction": amortized_tokens_per_transaction,
+    "token_reduction_factor_at": token_reduction_factor_at,
 }
 
 # Which real inputs exist today, and which do not. "NOT YET RUN" /
@@ -324,6 +398,26 @@ MEASUREMENT_STATUS = {
         "proof_success_rate: benchmarks/runs/*/receipts.jsonl (proof_results, measured)",
         "reuse_probability: NOT YET MEASURED (no reuse telemetry exists)",
     ],
+    "compiled_break_even_transactions": [
+        "compile_phase_tokens: NOT YET MEASURED (no compile-phase model run has occurred;"
+        " A4 replay compiles from edges with zero model calls)",
+        "baseline_runtime_tokens_per_transaction: NOT YET MEASURED (baseline arms A1/A2 NOT YET RUN)",
+        "compiled_runtime_tokens_per_transaction: benchmarks/runs/*/scorecards.jsonl"
+        " (runtime_llm_tokens; measured 0 in fixture_offline A4 replay)",
+    ],
+    "amortized_tokens_per_transaction": [
+        "compile_phase_tokens: NOT YET MEASURED (no compile-phase model run has occurred)",
+        "compiled_runtime_tokens_per_transaction: benchmarks/runs/*/scorecards.jsonl"
+        " (runtime_llm_tokens; measured 0 in fixture_offline A4 replay)",
+        "transaction_count: a chosen horizon, not a measurement",
+    ],
+    "token_reduction_factor_at": [
+        "compile_phase_tokens: NOT YET MEASURED (no compile-phase model run has occurred)",
+        "baseline_runtime_tokens_per_transaction: NOT YET MEASURED (baseline arms A1/A2 NOT YET RUN)",
+        "compiled_runtime_tokens_per_transaction: benchmarks/runs/*/scorecards.jsonl"
+        " (runtime_llm_tokens; measured 0 in fixture_offline A4 replay)",
+        "transaction_count: a chosen horizon, not a measurement",
+    ],
 }
 
 
@@ -375,6 +469,24 @@ def _self_test() -> dict:
        "route_reuse_value(10,500,0.9)")
     eq("promotion_value", promotion_value(10000, 0.9, 0.5), 4500.0,
        "promotion_value(10000,0.9,0.5)")
+    eq("compiled_break_even_transactions",
+       compiled_break_even_transactions(100.0, 10.0, 0.0), 10.0,
+       "compiled_break_even_transactions(100,10,0)")
+    eq("compiled_break_even_transactions",
+       compiled_break_even_transactions(100.0, 10.0, 5.0), 20.0,
+       "compiled_break_even_transactions(100,10,5)")
+    eq("amortized_tokens_per_transaction",
+       amortized_tokens_per_transaction(100.0, 0.0, 10), 10.0,
+       "amortized_tokens_per_transaction(100,0,10)")
+    eq("amortized_tokens_per_transaction",
+       amortized_tokens_per_transaction(100.0, 2.0, 10), 12.0,
+       "amortized_tokens_per_transaction(100,2,10)")
+    eq("token_reduction_factor_at",
+       token_reduction_factor_at(100.0, 10.0, 0.0, 10), 1.0,
+       "token_reduction_factor_at(100,10,0,10) break-even")
+    eq("token_reduction_factor_at",
+       token_reduction_factor_at(100.0, 10.0, 0.0, 1000), 100.0,
+       "token_reduction_factor_at(100,10,0,1000) at horizon")
 
     # Error paths (synthetic inputs).
     raises("token_savings_pct", token_savings_pct, (50, 0), "token_savings_pct zero baseline")
@@ -410,6 +522,20 @@ def _self_test() -> dict:
            "promotion_value probability < 0")
     raises("promotion_value", promotion_value, (-1, 0.9, 0.5),
            "promotion_value negative estimate")
+    raises("compiled_break_even_transactions", compiled_break_even_transactions,
+           (100.0, 10.0, 10.0), "compiled_break_even no cheaper runtime (delta 0)")
+    raises("compiled_break_even_transactions", compiled_break_even_transactions,
+           (100.0, 5.0, 10.0), "compiled_break_even compiled dearer than baseline")
+    raises("compiled_break_even_transactions", compiled_break_even_transactions,
+           (-1.0, 10.0, 0.0), "compiled_break_even negative compile cost")
+    raises("amortized_tokens_per_transaction", amortized_tokens_per_transaction,
+           (100.0, 0.0, 0), "amortized zero transactions")
+    raises("amortized_tokens_per_transaction", amortized_tokens_per_transaction,
+           (100.0, 0.0, 1.5), "amortized non-integer count")
+    raises("token_reduction_factor_at", token_reduction_factor_at,
+           (100.0, 10.0, 0.0, 0), "reduction zero transactions")
+    raises("token_reduction_factor_at", token_reduction_factor_at,
+           (-1.0, 10.0, 0.0, 10), "reduction negative compile cost")
 
     # Registry invariants.
     if exercised != set(FORMULAS):
