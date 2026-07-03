@@ -1,0 +1,62 @@
+{
+  "run_id": "decrun",
+  "engine": "one decision_engine drives all three decisions",
+  "retrieval": {
+    "plane_win_rate": {
+      "path:retrieval.lexical_only": 0.62,
+      "path:retrieval.lexical_plus_typed": 0.7,
+      "path:retrieval.typed_edge": 0.9
+    },
+    "data_preferred_plane": "path:retrieval.typed_edge",
+    "reason": "argmax(decayed_win_rate - cost) over applicable paths",
+    "when_no_type_known": "path:retrieval.lexical_only",
+    "n_applicable_no_type": 1
+  },
+  "remix_escalation": {
+    "rename": {
+      "chosen": "path:remix.deterministic_mutator",
+      "reason": "lowest-tier applicable path (receipts ignored by policy)"
+    },
+    "envelope": {
+      "chosen": "path:remix.type_adapter",
+      "reason": "lowest-tier applicable path (receipts ignored by policy)"
+    },
+    "novel_semantic": {
+      "chosen": "path:remix.bounded_model",
+      "reason": "lowest-tier applicable path (receipts ignored by policy)"
+    }
+  },
+  "dev_proof_order": {
+    "chosen": "path:dev.fail_fast_cheap",
+    "reason": "cheapest applicable path that has not been disproven"
+  },
+  "supervisor": {
+    "decisions_trusted": 1,
+    "decisions_cold": 2,
+    "warm_path_fraction": 0.3333,
+    "open_recommendations": 2
+  },
+  "recommendations": [
+    {
+      "kind": "promote_default",
+      "from": "path:retrieval.lexical_only",
+      "to": "path:retrieval.typed_edge"
+    },
+    {
+      "kind": "retire_dominated",
+      "from": "path:retrieval.lexical_plus_typed",
+      "to": "path:retrieval.typed_edge"
+    }
+  ],
+  "receipts": 35,
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "zero model calls; retrieval win = reciprocal rank of the target over the full cross-lane graph",
+    "the data-preferred plane is the argmax of MEASURED win-rates, not a hardcoded choice",
+    "win-rates are context-conditioned (want-known bucket) so planes with different applicability compare fairly",
+    "typed-edge leads because a specific wanted type has few producers; on this small probe set that dominates fused - a floor signal, not a tuned verdict (fused likely wins on ambiguous queries not probed)",
+    "remix/dev choices are cold (no receipts) - they show policy behavior, not a learned winner",
+    "recommendations are candidate; a human applies them by editing the seed (a data change)"
+  ]
+}

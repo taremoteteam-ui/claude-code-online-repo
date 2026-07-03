@@ -1,0 +1,27 @@
+{
+  "pack_id": "decision-portfolios",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_decision_portfolio_pack.py",
+  "schema_refs": [
+    "schemas/decision_point.schema.json",
+    "schemas/execution_path.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "decision_points.jsonl": {
+      "rows": 3,
+      "content_sha256": "663c2fa01a1473d5daa16881b970a7d6fd9133ca2298e32d11da009e7d7a60ca"
+    },
+    "execution_paths.jsonl": {
+      "rows": 9,
+      "content_sha256": "62c35dfb4b27ccd2bf0e39ded39aee393d0346ef69c621360cb520f6c8037424"
+    }
+  },
+  "row_counts": {
+    "decision_points.jsonl": 3,
+    "execution_paths.jsonl": 9
+  },
+  "total_rows": 12,
+  "candidate": true,
+  "serves_truth": false
+}

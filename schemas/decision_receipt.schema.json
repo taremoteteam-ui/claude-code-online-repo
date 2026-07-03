@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/decision_receipt.schema.json",
+  "title": "DecisionReceipt",
+  "description": "One append-only ledger entry: a path was evaluated/run for a decision under a context, with an observed outcome (proved? win_score?) and cost. The ledger is the memory the selection policy and the supervisor learn from. Ordering is by monotonic sequence (not wall-clock) so runs are reproducible. candidate=true / serves_truth=false.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_type",
+    "decision_id",
+    "path_id",
+    "context_signature",
+    "sequence",
+    "applicable",
+    "chosen",
+    "proved",
+    "win_score",
+    "cost_observed",
+    "candidate",
+    "serves_truth"
+  ],
+  "properties": {
+    "record_type": { "const": "decision_receipt" },
+    "decision_id": { "type": "string", "pattern": "^decision:[a-z0-9_.]+$" },
+    "path_id": { "type": "string", "pattern": "^path:[a-z0-9_.]+$" },
+    "context_signature": { "type": "string" },
+    "sequence": { "type": "integer", "minimum": 0 },
+    "applicable": { "type": "boolean" },
+    "chosen": { "type": "boolean" },
+    "proved": { "type": "boolean" },
+    "win_score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "cost_observed": { "type": "number", "minimum": 0 },
+    "note": { "type": "string" },
+    "candidate": { "const": true },
+    "serves_truth": { "const": false }
+  }
+}

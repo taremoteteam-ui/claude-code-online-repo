@@ -29,6 +29,11 @@ the proof-aware primitive route market).
   to what already exists in this repo.
 - `docs/codex/compiled-primitive-ai-99pct-handoff.md` — the Compiled Primitive
   AI framing and the 99%-programmatic-development coverage claim language.
+- `docs/codex/decision-portfolio-substrate.md` — the domain-agnostic
+  "store all paths, let data choose" engine (decision points, execution paths,
+  receipt ledger, selection policies, self-tuning supervisor) + its generality
+  proof. See also `docs/codex/retrieval-architecture-red-team.md` and
+  `docs/codex/multi-path-flexible-primitive-architecture.md`.
 
 ## Non-negotiable conventions
 
@@ -124,6 +129,13 @@ python3 scripts/check_type_adapters_pack.py --self-test
 python3 scripts/build_capability_graph.py --write
 python3 scripts/run_route_compiler_demo.py --self-test   # print compose rate
 python3 scripts/run_route_compiler_demo.py --write       # persist PlanLocks + gaps
+
+# Decision-portfolio substrate: the domain-agnostic "store all paths, let data
+# choose" engine. Build/check the portfolio pack, then the measured generality
+# demo (one engine drives retrieval-plane, remix-ladder, and a CI decision).
+python3 scripts/build_decision_portfolio_pack.py --write
+python3 scripts/check_decision_portfolio_pack.py --self-test
+python3 scripts/run_decision_engine_demo.py --self-test   # measured, zero model calls
 
 # Everything at once (CI runs this on every push)
 python3 scripts/run_proofs.py

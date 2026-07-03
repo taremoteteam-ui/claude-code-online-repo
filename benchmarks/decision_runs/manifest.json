@@ -1,0 +1,12 @@
+{
+  "run_id": "decrun",
+  "generated_by": "scripts/run_decision_engine_demo.py",
+  "files": {
+    "ledger.jsonl": {
+      "rows": 35,
+      "content_sha256": "6849e28659d742f74cf5cba456fe5398c70104d68ac54782baafdbe6cc53f944"
+    }
+  },
+  "candidate": true,
+  "serves_truth": false
+}

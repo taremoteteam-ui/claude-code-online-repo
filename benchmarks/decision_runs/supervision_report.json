@@ -1,0 +1,141 @@
+{
+  "record_type": "decision_supervision_report",
+  "decisions": 3,
+  "self_awareness": {
+    "decisions_trusted": 1,
+    "decisions_cold": 2,
+    "warm_path_fraction": 0.3333,
+    "open_recommendations": 2
+  },
+  "per_decision": [
+    {
+      "decision_id": "decision:dev.proof_stage_order",
+      "regime": "development",
+      "policy": "cheapest_that_proves",
+      "total_receipts": 0,
+      "warm_paths": 0,
+      "cold_paths": 3,
+      "trusted": false,
+      "path_health": [
+        {
+          "path_id": "path:dev.dependency_topo",
+          "count": 0,
+          "cold": true,
+          "win_rate": 0.0,
+          "decayed_win_rate": 0.5,
+          "norm_cost": 0.4
+        },
+        {
+          "path_id": "path:dev.fail_fast_cheap",
+          "count": 0,
+          "cold": true,
+          "win_rate": 0.0,
+          "decayed_win_rate": 0.5,
+          "norm_cost": 0.2
+        },
+        {
+          "path_id": "path:dev.full_parallel",
+          "count": 0,
+          "cold": true,
+          "win_rate": 0.0,
+          "decayed_win_rate": 0.5,
+          "norm_cost": 1.2
+        }
+      ]
+    },
+    {
+      "decision_id": "decision:remix.escalation",
+      "regime": "runtime",
+      "policy": "deterministic_tier",
+      "total_receipts": 0,
+      "warm_paths": 0,
+      "cold_paths": 3,
+      "trusted": false,
+      "path_health": [
+        {
+          "path_id": "path:remix.bounded_model",
+          "count": 0,
+          "cold": true,
+          "win_rate": 0.0,
+          "decayed_win_rate": 0.5,
+          "norm_cost": 3.5
+        },
+        {
+          "path_id": "path:remix.deterministic_mutator",
+          "count": 0,
+          "cold": true,
+          "win_rate": 0.0,
+          "decayed_win_rate": 0.5,
+          "norm_cost": 0.003
+        },
+        {
+          "path_id": "path:remix.type_adapter",
+          "count": 0,
+          "cold": true,
+          "win_rate": 0.0,
+          "decayed_win_rate": 0.5,
+          "norm_cost": 1.004
+        }
+      ]
+    },
+    {
+      "decision_id": "decision:retrieval.plane_selection",
+      "regime": "runtime",
+      "policy": "argmax_receipts",
+      "total_receipts": 35,
+      "warm_paths": 3,
+      "cold_paths": 0,
+      "trusted": true,
+      "path_health": [
+        {
+          "path_id": "path:retrieval.lexical_only",
+          "count": 15,
+          "cold": false,
+          "win_rate": 0.58,
+          "decayed_win_rate": 0.5954,
+          "norm_cost": 0.005
+        },
+        {
+          "path_id": "path:retrieval.lexical_plus_typed",
+          "count": 10,
+          "cold": false,
+          "win_rate": 0.7,
+          "decayed_win_rate": 0.8209,
+          "norm_cost": 0.008
+        },
+        {
+          "path_id": "path:retrieval.typed_edge",
+          "count": 10,
+          "cold": false,
+          "win_rate": 0.9,
+          "decayed_win_rate": 0.9378,
+          "norm_cost": 0.006
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "record_type": "decision_tuning_recommendation",
+      "kind": "promote_default",
+      "decision_id": "decision:retrieval.plane_selection",
+      "from_path": "path:retrieval.lexical_only",
+      "to_path": "path:retrieval.typed_edge",
+      "evidence": "decayed_win_rate 0.9378 beats default by >= 0.1",
+      "candidate": true,
+      "serves_truth": false
+    },
+    {
+      "record_type": "decision_tuning_recommendation",
+      "kind": "retire_dominated",
+      "decision_id": "decision:retrieval.plane_selection",
+      "from_path": "path:retrieval.lexical_plus_typed",
+      "to_path": "path:retrieval.typed_edge",
+      "evidence": "dominated on win-rate and cost; kept as data for revival",
+      "candidate": true,
+      "serves_truth": false
+    }
+  ],
+  "candidate": true,
+  "serves_truth": false
+}
