@@ -12,16 +12,16 @@
   ],
   "files": {
     "pipeline_wave_templates.jsonl": {
-      "rows": 0,
-      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "rows": 28,
+      "content_sha256": "f8baa82bd3d5cd1b68cb61a41db263d176f04f77d889dc4f627ff39f22366dd9"
     },
     "primitive_families.jsonl": {
       "rows": 221,
       "content_sha256": "08f4f4f7ca7632bf34a2ea087d13ac0b8bbbca9f040091c5ba9916b8cc6e9e2b"
     },
     "primitive_templates.jsonl": {
-      "rows": 0,
-      "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "rows": 54,
+      "content_sha256": "a961a93f3f6536d2330443b13367eb2e7650ab36c7bd48328d10b7043e810e9c"
     },
     "resolved_primitives.jsonl": {
       "rows": 976,
@@ -29,12 +29,12 @@
     }
   },
   "row_counts": {
-    "pipeline_wave_templates.jsonl": 0,
+    "pipeline_wave_templates.jsonl": 28,
     "primitive_families.jsonl": 221,
-    "primitive_templates.jsonl": 0,
+    "primitive_templates.jsonl": 54,
     "resolved_primitives.jsonl": 976
   },
-  "total_rows": 1197,
+  "total_rows": 1279,
   "candidate": true,
   "serves_truth": false
 }
