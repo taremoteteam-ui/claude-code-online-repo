@@ -1,10 +1,15 @@
-# Primitive Atlas — Place Discovery / Geospatial Lane
+# Primitive Atlas — the proof-aware primitive route market
 
-First build slice of the **proof-aware primitive route market** described in
-[`docs/codex/primitive-atlas-northstar.md`](docs/codex/primitive-atlas-northstar.md):
-a generated, schema-validated seed pack for the place / facility / open-data /
-geospatial primitive lane — clinic and training-provider discovery, open-map
-enrichment, open-government portal harvesting, and spatial analysis.
+A universal, lane-agnostic substrate for **every type of programming primitive**:
+a searchable, edge-typed catalog of reusable capabilities that an LLM (or plain
+search) composes into large programs by ordering primitives on their input/output
+contracts — reading edges, not implementations. Place-discovery/geospatial was
+the first lane; the architecture is not specific to it. **Any primitive type
+joins as data (a new seed lane), never a rewrite** — auth, security, CRUD, data
+engineering, warehouse/dbt/analytics, integration, devops, guardrails, entity
+resolution, enrichment, document extraction, RAG, media/vision, coding-agent
+(SWE-bench-style), competitive programming, classic algorithms, set algebra,
+semantic layers, and more, all crossing the same typed capability graph.
 
 Core sentence:
 
@@ -14,60 +19,97 @@ edge. Prove every route. Promote only after receipts. Remember failures as
 negative memory.
 ```
 
-## Status
-
-Everything in this repo is **candidate seed material**:
+## Status — everything here is candidate seed material
 
 ```json
 { "candidate": true, "serves_truth": false }
 ```
 
-No primitive here is implemented, promoted, or benchmarked yet. No metric in
-this repo is measured. Benchmark task demands are generated candidate tasks —
-no arm has been run and no scorecard value exists.
+No primitive here is promoted to truth. Nothing is source-backed until a real
+implementation runs through `primitives/core.py`, emits an ExecutionReceipt, and
+clears its proof obligations. **No real-world accuracy, speed, cost, or
+token-savings metric is claimed anywhere** — the only measured numbers are
+machinery metrics (compose rate, retrieval hit rate, proof-suite pass) computed
+by the scripts below, and fixture-mode runs disclose that they measure route
+machinery, not real data. Counts come from each pack's `manifest.json` —
+recompute, never hand-type them.
 
-## What is here
+## What is built now (recompute counts from each pack manifest)
 
-| Area | Contents |
-| --- | --- |
-| `docs/codex/` | North-star mission brief, compiled-primitive-routes handoff, lane playbook, compliance/policy pack |
-| `schemas/` | JSON schemas for source surfaces, primitive cards, primitive groups, variation overlays, benchmark task demands, and the pack manifest |
-| `scripts/seeds/` | Pure-data seed modules — the only place lane content is edited |
-| `scripts/` | Builder and checker for the generated pack |
-| `catalog/knowledge-packs/data/place-discovery-geospatial-seeds/` | The generated pack (JSONL + `manifest.json`) |
+| Lane / layer | Pack | Shape |
+| --- | --- | --- |
+| **Universal catalog** | `universal-primitive-catalog/` | base families × runtime wrappers → resolved primitives across auth/identity, security, crud, data, integration, devops, observability, guardrails, entity-resolution, enrichment, document-intelligence, RAG, similarity, media/image/vision, API-integration, **coding-agent (`prim:swe.*`)**, **competitive-programming (`prim:cp.*`)**, **algorithms (`prim:algo.*`)** |
+| **Warehouse / analytics** | `warehouse-analytics-catalog/` | dbt, dimensional modeling (incl. SCD), data engineering, analytics patterns, semantic layer, multiset/set-algebra families + slot templates + multi-wave pipelines (topological wave contract enforced) |
+| **Document extraction** | `document-extraction-seeds/` | (doc_type × field) target lattice for contract/PDF/word extraction with the source-span grounding invariant |
+| **Place discovery / geospatial** | `place-discovery-geospatial-seeds/` | the reference lane: primitive cards, groups, variation overlays, source surfaces, benchmark task demands (see boundaries below) |
+| **Type adapters** | `type-adapters/` | reviewed deterministic `FromPort→ToPort` connectors, backed by real code + proofs, registered as graph nodes so the compiler bridges near-matches |
+| **Decision portfolios** | `decision-portfolios/` | the domain-agnostic "store all paths, let data choose" substrate (decision points, execution paths, receipt ledger, self-tuning supervisor) |
+| **Capability graph** | `capability-graph/` | one typed node per primitive across every lane + the port-type producer/consumer index — the substrate the route compiler and universal search traverse |
 
-The lane's canonical visible edge:
+Every row is `candidate=true / serves_truth=false`. The domain enum already spans
+30+ primitive domains; adding another is a seed module, not an architecture
+change.
 
-```text
-AreaOfInterest+DirectedQuestion+SourcePolicy+ExtractionSchema
-  -> EvidenceBackedAnswer+SourceBundle+SpatialArtifacts+UncertaintyReport
-```
+## The composition & retrieval layer (what makes it a market, not a list)
 
-The pack covers five source lanes (health facilities, workforce/training, open
-maps, open-data portals, geospatial analysis tooling), the 18-primitive P0
-build order, primitive groups, variation overlays, and generated benchmark
-task demands (8 task families x 40 areas of interest). Row counts and hashes
-live in the pack `manifest.json` — recompute from it, never type them.
+- **Edge compiler** (`primitives/route_compiler.py`, `scripts/run_route_compiler_demo.py`):
+  forward-chaining route assembly over the typed capability graph with **zero
+  model calls** — connects primitives by canonical-type compatibility, labels
+  every hop `exact` / `typed` / adapter, and emits a hashable, replayable
+  PlanLock or an honest gap. Compose rate + gap queue are measured, recompute
+  with the demo.
+- **Type-adapter connectors** (`primitives/type_adapters.py`): deterministic
+  reshapes that let the compiler bridge a near-match instead of leaving a gap,
+  each disclosed as an explicit adapter step.
+- **Universal graph search** (`primitives/graph_search.py`,
+  `scripts/evaluate_graph_search.py`): lane-agnostic retrieval over the whole
+  graph with two planes — lexical + typed-edge blocking keys — measured by an
+  honest cross-lane eval (paraphrased intents, every other lane a distractor).
+- **Decision-portfolio engine** (`primitives/decision_engine.py` +
+  `decision_supervisor.py`): generalizes the non-commitment law — store the
+  space of paths as data, keep selection as a policy over an append-only receipt
+  ledger; a self-tuning supervisor emits promote/retire/reopen recommendations.
+
+## Read first
+
+- [`docs/BIBLE.md`](docs/BIBLE.md) — the north-star reference.
+- [`docs/codex/primitive-atlas-northstar.md`](docs/codex/primitive-atlas-northstar.md) — mission brief + operating loop.
+- [`docs/codex/compiled-primitive-routes-handoff.md`](docs/codex/compiled-primitive-routes-handoff.md) — compiled-route architecture + the non-commitment principle.
+- Lane handoffs: coding-agent, document-extraction, warehouse, place-discovery, type-adapters, and the [decision-portfolio substrate](docs/codex/decision-portfolio-substrate.md).
+- [`docs/codex/multi-path-flexible-primitive-architecture.md`](docs/codex/multi-path-flexible-primitive-architecture.md) and [`docs/codex/retrieval-architecture-red-team.md`](docs/codex/retrieval-architecture-red-team.md) — the multi-path vision and its honest, evidence-based critique.
+
+## Non-negotiable conventions
+
+1. Generated packs come from builder scripts — never hand-edit files under
+   `catalog/knowledge-packs/data/`. Edit the seed modules in `scripts/seeds/` or
+   the builder, then regenerate. The checker's content-hash gate fails on
+   hand-edited pack files.
+2. Every generated row is `candidate=true / serves_truth=false`.
+3. Counts come from `manifest.json` only.
+4. Schemas before data: update `schemas/*.schema.json` before changing row shapes.
+5. No unmeasured performance, savings, or benchmark claims anywhere.
+6. IDs are stable and version-free; versions live in the `version` metadata field.
 
 ## Commands
 
 ```bash
-python3 scripts/build_place_discovery_geospatial_pack.py --self-test
-python3 scripts/build_place_discovery_geospatial_pack.py --write
-python3 scripts/check_place_discovery_geospatial_pack.py --self-test
+# Everything at once (CI runs this on every push): builders, checkers, unit
+# tests, capability graph, route compiler, retrieval evals, decision engine.
+python3 scripts/run_proofs.py
 ```
 
-The builder is the single source for every pack file. Never hand-edit files
-under `catalog/knowledge-packs/data/` — the checker's content-hash gate fails
-on hand-edited generated files.
+Per-lane build/check commands and the full command list live in
+[`CLAUDE.md`](CLAUDE.md). The builder is the single source for every pack file.
 
-## Hard boundaries for this lane
+## Reference lane boundaries (place-discovery / geospatial)
+
+The first lane carries domain compliance boundaries that any similarly-regulated
+lane must mirror:
 
 - Directory / access / planning outputs only — never patient-level data, never
   diagnosis or treatment advice, never final legal or compliance conclusions.
-- Respect source usage policies (e.g. public Nominatim/Overpass endpoints) and
-  attribution requirements (e.g. OSM ODbL). Scaled use must self-host or use
-  bulk extracts.
+- Respect source usage policies and attribution (e.g. OSM ODbL); scaled use must
+  self-host or use bulk extracts.
 - Every ingest records license status, attribution, and a source snapshot
   receipt; every spatial analysis records a method receipt.
 
@@ -76,12 +118,15 @@ for the full promotion gates.
 
 ## Next build slices
 
-1. Live source capture: run the adapters through `LiveTransport` in a
-   network-enabled environment to replace synthetic fixtures with real source
-   snapshots (receipts flip from `fixture_offline` to `live_network`).
-2. Baseline arms: wire A1/A2 model-in-the-loop runs so the first measured
-   `tokens_to_pass` comparison exists — until then no savings claim is made.
-3. Promotion pipeline: first held-out promotion gate run over the implemented
-   primitives (L9 -> L10 with receipts), per the compliance doc.
-4. PDU/packaging slice: runtime wrappers + package factories for the
-   highest-reuse groups (Operations Bible section 9).
+1. **Live source capture** for lanes with real sources: run adapters through
+   `LiveTransport` so receipts flip from `fixture_offline` to `live_network`.
+2. **Baseline arms**: wire model-in-the-loop runs (incl. the SLM-uplift
+   benchmark in the coding-agent lane) so the first measured token/accuracy
+   comparisons exist — until then no savings claim is made.
+3. **Retrieval upgrades**: the prompt→(have,want) bridge and a semantic
+   embedding plane against the measured cross-lane floor (see the red-team doc).
+4. **Storage tiers**: extract a `StoragePort` so the in-memory/JSONL substrate
+   scales to embedded (DuckDB) → server (Postgres+OLAP) → graph-native without
+   changing the engines.
+5. **Promotion pipeline**: first held-out promotion gate over implemented
+   primitives (candidate → source-backed with receipts).
