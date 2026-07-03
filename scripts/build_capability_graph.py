@@ -45,6 +45,10 @@ SOURCES = [
      "family_id", "universal", None),
     ("universal-primitive-catalog/resolved_primitives.jsonl",
      "resolved_id", "universal", None),
+    ("warehouse-analytics-catalog/primitive_families.jsonl",
+     "family_id", "warehouse_analytics", None),
+    ("warehouse-analytics-catalog/resolved_primitives.jsonl",
+     "resolved_id", "warehouse_analytics", None),
     ("document-extraction-seeds/extraction_primitives.jsonl",
      "primitive_id", "document_extraction", "kind"),
 ]

@@ -36,7 +36,9 @@
         "integration_async", "api_surface", "messaging", "devops_deploy",
         "observability", "guardrails_safety", "entity_resolution",
         "enrichment_verification", "document_intelligence", "rag_retrieval",
-        "geospatial", "similarity_indexing"
+        "geospatial", "similarity_indexing",
+        "dbt_transform", "data_warehouse", "data_engineering_wh",
+        "analytics_patterns", "semantic_layer", "multiset_ops"
       ]
     },
     "title": { "type": "string", "minLength": 3 },
