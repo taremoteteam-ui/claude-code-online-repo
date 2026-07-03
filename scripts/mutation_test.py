@@ -126,6 +126,13 @@ MUTATIONS = [
      "catcher": [PY, "-m", "unittest", "tests.test_guvn"],
      "why": "misclassifying multi-path artifacts in the code map must fail the tracer's "
             "classification test"},
+    {"name": "mpd_choose_ranking_inverted",
+     "file": "primitives/multipath.py",
+     "find": "        -s[\"correctness\"], -s[\"mean_score\"], s[\"cost_hint\"], s[\"path_id\"]))",
+     "replace": "        s[\"correctness\"], -s[\"mean_score\"], s[\"cost_hint\"], s[\"path_id\"]))",
+     "catcher": [PY, "-m", "unittest", "tests.test_multipath"],
+     "why": "inverting the MPD correctness ranking picks the worst path and must fail the "
+            "choose-ranks-by-correctness test"},
 ]
 
 

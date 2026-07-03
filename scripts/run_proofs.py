@@ -124,6 +124,8 @@ STAGES = [
      [sys.executable, "scripts/run_place_discovery_benchmark.py", "--self-test"]),
     ("guvn_code_map",
      [sys.executable, "scripts/build_code_map.py", "--self-test"]),
+    ("multipath_demo",
+     [sys.executable, "scripts/run_multipath_demo.py", "--self-test"]),
     ("determinism_gate",
      [sys.executable, "scripts/check_determinism.py", "--self-test"]),
     ("quality_ratchet",
