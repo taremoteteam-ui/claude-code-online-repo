@@ -1,0 +1,17 @@
+{
+  "fixture_label": "fixture_synthetic",
+  "source_id": "src:fixture.copyleft",
+  "library": "copyleft_fixture",
+  "license": "GPL-3.0",
+  "retrieved_mode": "fixture_synthetic",
+  "note": "SYNTHETIC source with a non-permissive license, present to exercise the license gate: its formed primitives must be recorded as license_blocked (a promotion blocker), never marked use-ready.",
+  "functions": [
+    {
+      "name": "cluster_points",
+      "params": [{"name": "records", "type": "EntityRecordSet"}, {"name": "policy", "type": "ClusterPolicy"}],
+      "returns": "ClusterAssignmentSet",
+      "does": "Assign entity records to spatial clusters under a clustering policy.",
+      "effects": ["none"]
+    }
+  ]
+}

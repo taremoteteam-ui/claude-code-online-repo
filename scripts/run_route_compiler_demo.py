@@ -81,6 +81,8 @@ TARGETS = [
      "note": "entity records -> table via type adapter"},
     {"have": ["HRSASiteRecordSet"], "want": "PointFeatureCollection",
      "note": "entity records -> geojson via type adapter"},
+    {"have": ["GeoJsonDocument"], "want": "RowSet",
+     "note": "foundry-mined chain: parse_geojson->features_to_records->records_to_rows (3 mined steps)"},
 ]
 
 

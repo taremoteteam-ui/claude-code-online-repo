@@ -1,0 +1,38 @@
+{
+  "fixture_label": "fixture_synthetic",
+  "source_id": "src:fixture.geoutils",
+  "library": "geoutils_fixture",
+  "license": "MIT",
+  "retrieved_mode": "fixture_synthetic",
+  "note": "SYNTHETIC source shaped like an AST-mined library spec. No real repo was scraped; live mining runs elsewhere. Every formed primitive stays candidate=true / serves_truth=false until it earns a live source ref + receipts.",
+  "functions": [
+    {
+      "name": "parse_geojson",
+      "params": [{"name": "raw", "type": "GeoJsonDocument"}],
+      "returns": "PointFeatureCollection",
+      "does": "Parse a GeoJSON document into a validated point feature collection, rejecting non-Point geometries.",
+      "effects": ["none"]
+    },
+    {
+      "name": "features_to_records",
+      "params": [{"name": "fc", "type": "PointFeatureCollection"}],
+      "returns": "EntityRecordSet",
+      "does": "Flatten a point feature collection into entity records with lat/lon fields and carried properties.",
+      "effects": ["none"]
+    },
+    {
+      "name": "records_to_rows",
+      "params": [{"name": "records", "type": "EntityRecordSet"}],
+      "returns": "RowSet",
+      "does": "Pivot a set of entity records into a columns-and-rows table with a stable column order.",
+      "effects": ["none"]
+    },
+    {
+      "name": "fetch_tiles",
+      "params": [{"name": "aoi", "type": "AreaOfInterest"}, {"name": "policy", "type": "FetchPolicy"}],
+      "returns": "TileImageSet",
+      "does": "Fetch the map raster tiles covering an area of interest under a fetch policy.",
+      "effects": ["network_read"]
+    }
+  ]
+}

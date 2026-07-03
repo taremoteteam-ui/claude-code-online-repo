@@ -1,0 +1,49 @@
+{
+  "run_id": "foundryrun",
+  "lifecycle": "acquire -> form -> verify -> store -> use, engine-driven, zero model calls",
+  "sources": 2,
+  "per_source": [
+    {
+      "source_id": "src:fixture.geoutils",
+      "license": "MIT",
+      "acquire_path_chosen": "path:ingest.cached_snapshot",
+      "retrieved_mode": "fixture_synthetic",
+      "symbols": 4,
+      "fixture_verified": 4,
+      "license_blocked": 0
+    },
+    {
+      "source_id": "src:fixture.copyleft",
+      "license": "GPL-3.0",
+      "acquire_path_chosen": "path:ingest.cached_snapshot",
+      "retrieved_mode": "fixture_synthetic",
+      "symbols": 1,
+      "fixture_verified": 0,
+      "license_blocked": 1
+    }
+  ],
+  "store": {
+    "total_mined": 5,
+    "fixture_verified": 4,
+    "license_blocked": 1,
+    "note": "only fixture_verified mined primitives enter the composable graph"
+  },
+  "use": {
+    "target": "GeoJsonDocument -> RowSet",
+    "compiled": true,
+    "step_count": 3,
+    "mined_steps_used": [
+      "mined:geoutils_fixture.parse_geojson",
+      "mined:geoutils_fixture.features_to_records",
+      "mined:geoutils_fixture.records_to_rows"
+    ]
+  },
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "SYNTHETIC fixture sources only - no real repo scraped; live mining runs where the network policy allows",
+    "the acquisition path is CHOSEN by the decision engine from a portfolio, not hardcoded",
+    "the license gate blocked the non-permissive source; blocked primitives are stored but never enter the graph",
+    "mined primitives stay candidate=true / serves_truth=false until a live source ref + receipts attach"
+  ]
+}

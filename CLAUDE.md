@@ -135,6 +135,14 @@ python3 scripts/build_capability_graph.py --write
 python3 scripts/run_route_compiler_demo.py --self-test   # print compose rate
 python3 scripts/run_route_compiler_demo.py --write       # persist PlanLocks + gaps
 
+# Primitive foundry: the ingestion lifecycle (acquire/scrape -> form -> verify ->
+# store -> use), engine-driven and offline over synthetic fixture sources. Forms
+# edge-typed mined primitives, license-gates them, and registers verified ones
+# into the capability graph so they compose. Edit fixtures/foundry/ not pack files.
+python3 scripts/build_foundry_pack.py --write
+python3 scripts/check_foundry_pack.py --self-test
+python3 scripts/run_foundry_pipeline.py --self-test   # full lifecycle, zero model calls
+
 # Decision-portfolio substrate: the domain-agnostic "store all paths, let data
 # choose" engine. Build/check the portfolio pack, then the measured generality
 # demo (one engine drives retrieval-plane, remix-ladder, and a CI decision).

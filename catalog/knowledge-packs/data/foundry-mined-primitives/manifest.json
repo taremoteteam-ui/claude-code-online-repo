@@ -1,0 +1,21 @@
+{
+  "pack_id": "foundry-mined-primitives",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_foundry_pack.py",
+  "schema_refs": [
+    "schemas/mined_primitive.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "mined_primitives.jsonl": {
+      "rows": 5,
+      "content_sha256": "431e3063b0fa8f0f59e2185f63937ef72b5cdf7b35760800d2390fa0c9b74ead"
+    }
+  },
+  "row_counts": {
+    "mined_primitives.jsonl": 5
+  },
+  "total_rows": 5,
+  "candidate": true,
+  "serves_truth": false
+}

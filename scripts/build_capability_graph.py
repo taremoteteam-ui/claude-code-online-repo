@@ -53,6 +53,8 @@ SOURCES = [
      "primitive_id", "document_extraction", "kind"),
     ("type-adapters/type_adapters.jsonl",
      "adapter_id", "adapters", None),
+    ("foundry-mined-primitives/mined_primitives.jsonl",
+     "mined_primitive_id", "foundry", None),
 ]
 
 
@@ -96,6 +98,12 @@ def build_nodes() -> list[dict]:
     for rel, id_field, lane, kind_field in SOURCES:
         for row in load_jsonl(PACK_ROOT / rel):
             if "input_edge" not in row or "output_edge" not in row:
+                continue
+            # A mined primitive enters the composable graph only once it is
+            # use-ready: license-blocked / unverified rows are stored but not
+            # offered to the compiler.
+            if row.get("record_type") == "mined_primitive" and \
+                    row.get("verification_status") != "fixture_verified":
                 continue
             node = node_from_row(row, id_field, lane, kind_field)
             nodes[node["node_id"]] = node

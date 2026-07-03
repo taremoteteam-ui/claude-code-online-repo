@@ -59,6 +59,7 @@ recompute, never hand-type them.
 | **Place discovery / geospatial** | `place-discovery-geospatial-seeds/` | the reference lane: primitive cards, groups, variation overlays, source surfaces, benchmark task demands (see boundaries below) |
 | **Type adapters** | `type-adapters/` | reviewed deterministic `FromPort→ToPort` connectors, backed by real code + proofs, registered as graph nodes so the compiler bridges near-matches |
 | **Decision portfolios** | `decision-portfolios/` | the domain-agnostic "store all paths, let data choose" substrate (decision points, execution paths, receipt ledger, self-tuning supervisor) |
+| **Primitive foundry** | `foundry-mined-primitives/` | the ingestion lifecycle (acquire/scrape → form → verify → store → use) that turns a source into edge-typed, license-gated, verified mined primitives that compose on the graph |
 | **Capability graph** | `capability-graph/` | one typed node per primitive across every lane + the port-type producer/consumer index — the substrate the route compiler and universal search traverse |
 
 Every row is `candidate=true / serves_truth=false`. The domain enum already spans
@@ -87,6 +88,12 @@ no engine is specific to a lane, and none commits to a single method:
   `decision_supervisor.py`): generalizes the non-commitment law — store the
   space of paths as data, keep selection as a policy over an append-only receipt
   ledger; a self-tuning supervisor emits promote/retire/reopen recommendations.
+- **Primitive foundry** (`primitives/foundry.py`, `scripts/run_foundry_pipeline.py`):
+  the ingestion lifecycle — acquire/scrape (engine-chosen portfolio path) → form
+  (edge-type mined signatures) → verify (license gate + use-readiness) → store
+  (pack) → use (register verified mined primitives into the graph, where they
+  compile like any other node). Offline over synthetic fixture sources; live
+  mining swaps in where the network policy allows.
 
 ## Read first
 
