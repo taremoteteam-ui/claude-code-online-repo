@@ -1,0 +1,68 @@
+{
+  "run_id": "solverun",
+  "problem": "turn a raw geojson point source into a queryable table",
+  "retrieve": {
+    "top_hits": [
+      "mined:geoutils_fixture.parse_geojson",
+      "adapt:entity_records_to_geojson_points",
+      "prim:dbt.source_define",
+      "prim:er.contact_point_normalize"
+    ],
+    "matched_framework": "framework:geo.ingest_tabulate"
+  },
+  "chosen_strategy": "path:order.deterministic_compile",
+  "chosen_reason": "lowest-tier applicable path (receipts ignored by policy)",
+  "strategies": {
+    "deterministic_compile": {
+      "order": [
+        "mined:geoutils_fixture.parse_geojson",
+        "mined:geoutils_fixture.features_to_records",
+        "mined:geoutils_fixture.records_to_rows"
+      ],
+      "valid": true
+    },
+    "framework_fill": {
+      "order": [
+        "mined:geoutils_fixture.parse_geojson",
+        "mined:geoutils_fixture.features_to_records",
+        "adapt:entity_records_to_rows"
+      ],
+      "valid": true,
+      "filled": true
+    },
+    "llm_propose": {
+      "order": [
+        "mined:geoutils_fixture.parse_geojson",
+        "mined:geoutils_fixture.features_to_records",
+        "mined:geoutils_fixture.records_to_rows"
+      ],
+      "valid": true,
+      "proposal_valid": false,
+      "repaired": true
+    }
+  },
+  "execute": {
+    "ran": true,
+    "steps": 3,
+    "output_columns": [
+      "kind",
+      "lat",
+      "lon",
+      "name"
+    ],
+    "output_rows": 2,
+    "receipt_ids": [
+      "rcpt:610ab1372eb2d020",
+      "rcpt:c06a6271ccdddce1",
+      "rcpt:7f37b50d089b0f75"
+    ]
+  },
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "all three ordering strategies are VALIDATED by the same deterministic type-checker",
+    "the LLM path uses an offline stub proposer (0 tokens) that deliberately proposes an invalid order to exercise validate->repair; a real model plugs in unchanged",
+    "the safe default executes the deterministic-compiled order; an LLM order runs only if it validates",
+    "execution is real: each step emits an ExecutionReceipt; output is a genuine table from the fixture input"
+  ]
+}

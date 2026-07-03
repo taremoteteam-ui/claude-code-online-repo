@@ -88,6 +88,12 @@ no engine is specific to a lane, and none commits to a single method:
   `decision_supervisor.py`): generalizes the non-commitment law — store the
   space of paths as data, keep selection as a policy over an append-only receipt
   ledger; a self-tuning supervisor emits promote/retire/reopen recommendations.
+- **Solution frameworks + solve loop** (`primitives/orderers.py`,
+  `primitives/route_validator.py`, `scripts/run_solve_demo.py`): reusable typed
+  wiring scaffolds + an ordering PORTFOLIO (deterministic compile, framework
+  fill, LLM-propose-then-validate) that retrieves, wires, VALIDATES, and executes
+  primitives to solve a problem. LLM-based ordering is gated by the deterministic
+  validator — propose freely, run only if it type-checks.
 - **Primitive foundry** (`primitives/foundry.py`, `scripts/run_foundry_pipeline.py`):
   the ingestion lifecycle — acquire/scrape (engine-chosen portfolio path) → form
   (edge-type mined signatures) → verify (license gate + use-readiness) → store

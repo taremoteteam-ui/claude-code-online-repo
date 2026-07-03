@@ -143,6 +143,15 @@ python3 scripts/build_foundry_pack.py --write
 python3 scripts/check_foundry_pack.py --self-test
 python3 scripts/run_foundry_pipeline.py --self-test   # full lifecycle, zero model calls
 
+# Solution frameworks + ordering portfolio + solve loop: reusable typed wiring
+# scaffolds; ordering as a portfolio (deterministic compile / framework fill /
+# LLM-propose-then-validate); the solve orchestrator wires primitives to solve a
+# problem and executes the validated plan. LLM ordering is gated by the
+# deterministic route_validator (propose freely, run only if it type-checks).
+python3 scripts/build_solution_frameworks_pack.py --write
+python3 scripts/check_solution_frameworks_pack.py --self-test
+python3 scripts/run_solve_demo.py --self-test
+
 # Decision-portfolio substrate: the domain-agnostic "store all paths, let data
 # choose" engine. Build/check the portfolio pack, then the measured generality
 # demo (one engine drives retrieval-plane, remix-ladder, and a CI decision).

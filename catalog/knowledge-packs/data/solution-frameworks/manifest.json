@@ -1,0 +1,21 @@
+{
+  "pack_id": "solution-frameworks",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_solution_frameworks_pack.py",
+  "schema_refs": [
+    "schemas/solution_framework.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "solution_frameworks.jsonl": {
+      "rows": 3,
+      "content_sha256": "1d68286c455c2327a6de4af004d13723320719ed6d5d32abb608f43644e0211f"
+    }
+  },
+  "row_counts": {
+    "solution_frameworks.jsonl": 3
+  },
+  "total_rows": 3,
+  "candidate": true,
+  "serves_truth": false
+}
