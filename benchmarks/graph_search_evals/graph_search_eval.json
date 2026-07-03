@@ -1,0 +1,205 @@
+{
+  "record_type": "graph_search_eval",
+  "corpus_nodes": 2867,
+  "probes": 15,
+  "top_k": 5,
+  "lexical_only": {
+    "hit_at_k": 0.6667,
+    "mrr": 0.58
+  },
+  "lexical_plus_typed_edge": {
+    "hit_at_k": 0.6667,
+    "mrr": 0.6333
+  },
+  "typed_edge_lift_hit_at_k": 0.0,
+  "per_probe": [
+    {
+      "intent": "repair a bug from an issue by editing code and re-running the suite",
+      "want": "ValidatedPatch",
+      "expect": "swe.validate_patch",
+      "lexical_rank": 0,
+      "typed_rank": 0,
+      "top_typed": [
+        "prim:swe.reproduce_bug",
+        "resolved:swe.reproduce_bug.cli",
+        "prim:swe.parse_issue"
+      ]
+    },
+    {
+      "intent": "turn a github issue writeup into a structured brief",
+      "want": null,
+      "expect": "swe.parse_issue",
+      "lexical_rank": 1,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:swe.parse_issue",
+        "resolved:swe.parse_issue.pyfn",
+        "resolved:swe.parse_issue.cli"
+      ]
+    },
+    {
+      "intent": "build a searchable symbol map of a code repository",
+      "want": "RepoIndex",
+      "expect": "swe.build_repo_index",
+      "lexical_rank": 1,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:swe.build_repo_index",
+        "resolved:swe.build_repo_index.cli",
+        "resolved:swe.build_repo_index.k8sjob"
+      ]
+    },
+    {
+      "intent": "decide the big-O budget an input size allows before picking an approach",
+      "want": "ComplexityBudget",
+      "expect": "cp.estimate_complexity_budget",
+      "lexical_rank": 1,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:cp.estimate_complexity_budget",
+        "resolved:cp.estimate_complexity_budget.pyfn",
+        "resolved:cp.estimate_complexity_budget.cli"
+      ]
+    },
+    {
+      "intent": "run a candidate solution against test cases in a sandbox",
+      "want": "JudgeResult",
+      "expect": "cp.run_solution",
+      "lexical_rank": 1,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:cp.run_solution",
+        "resolved:cp.run_solution.k8sjob",
+        "resolved:cp.run_solution.pyfn"
+      ]
+    },
+    {
+      "intent": "shortest path over a weighted network from one source",
+      "want": "DistanceMap",
+      "expect": "algo.dijkstra",
+      "lexical_rank": 1,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:algo.dijkstra_shortest_path",
+        "resolved:algo.dijkstra_shortest_path.pyfn",
+        "resolved:algo.dijkstra_shortest_path.cli"
+      ]
+    },
+    {
+      "intent": "combine two record sets keeping every row",
+      "want": "UnionedRecordSet",
+      "expect": "mset.union",
+      "lexical_rank": 0,
+      "typed_rank": 0,
+      "top_typed": [
+        "prim:mset.fan_out_map",
+        "resolved:mset.fan_out_map.k8sjob",
+        "resolved:mset.fan_out_map.pyfn"
+      ]
+    },
+    {
+      "intent": "rows in the first set that are missing from the second",
+      "want": null,
+      "expect": "mset.except",
+      "lexical_rank": 0,
+      "typed_rank": 0,
+      "top_typed": [
+        "prim:analytics.attribution_first_touch",
+        "prim:analytics.first_last_value_per_group",
+        "prim:fmt.json_to_rows"
+      ]
+    },
+    {
+      "intent": "build a slowly changing dimension that keeps history",
+      "want": null,
+      "expect": "scd",
+      "lexical_rank": 2,
+      "typed_rank": 2,
+      "top_typed": [
+        "prim:analytics.slowly_changing_metric",
+        "prim:data.scd_merge",
+        "resolved:analytics.slowly_changing_metric.k8sjob"
+      ]
+    },
+    {
+      "intent": "group entities into blocks so comparison is tractable",
+      "want": "CandidatePair",
+      "expect": "er.candidate_block",
+      "lexical_rank": 0,
+      "typed_rank": 0,
+      "top_typed": [
+        "prim:er.comparison_vector_emit",
+        "prim:data.group_aggregate",
+        "prim:place_discovery.socrata_soql_dataset_ingester"
+      ]
+    },
+    {
+      "intent": "score how alike two short strings are",
+      "want": "SimilarityScore",
+      "expect": "sim.string_similarity",
+      "lexical_rank": 1,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:sim.string_similarity",
+        "resolved:sim.string_similarity.pyfn",
+        "resolved:sim.string_similarity.cli"
+      ]
+    },
+    {
+      "intent": "verify a password and issue a session for the user",
+      "want": null,
+      "expect": "auth.password_login_verify",
+      "lexical_rank": 0,
+      "typed_rank": 0,
+      "top_typed": [
+        "prim:auth.session_issue",
+        "resolved:auth.session_issue.pyfn",
+        "resolved:auth.session_issue.mcp"
+      ]
+    },
+    {
+      "intent": "download a video and turn its audio into a transcript",
+      "want": "TranscriptText",
+      "expect": "transcribe",
+      "lexical_rank": 5,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:media.transcribe_audio",
+        "prim:media.download_video",
+        "resolved:media.transcribe_audio.k8sjob"
+      ]
+    },
+    {
+      "intent": "collapse duplicate facility records within a radius",
+      "want": null,
+      "expect": "dedupe",
+      "lexical_rank": 1,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:place_discovery.spatial_dedupe_within_radius",
+        "grp:place_discovery.facility_enrichment_with_field_confidence",
+        "prim:place_discovery.facility_hours_services_extractor"
+      ]
+    },
+    {
+      "intent": "import a batch of customer rows into a CRM without duplicates",
+      "want": "CrmImportReceipt",
+      "expect": "crm_batch_import",
+      "lexical_rank": 1,
+      "typed_rank": 1,
+      "top_typed": [
+        "prim:crud.crm_batch_import",
+        "resolved:crud.crm_batch_import.pyfn",
+        "resolved:crud.crm_batch_import.cron"
+      ]
+    }
+  ],
+  "honesty_notes": [
+    "searches the full cross-lane graph; every other lane is a distractor",
+    "intents are paraphrased, not verbatim titles",
+    "typed plane uses the same canonical types the route compiler composes on",
+    "this is a small adversarial probe set - the number is a floor signal, not a tuned metric"
+  ],
+  "candidate": true,
+  "serves_truth": false
+}

@@ -60,6 +60,8 @@ STAGES = [
      [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-t", ".", "-v"]),
     ("candidate_search_eval",
      [sys.executable, "scripts/evaluate_candidate_search.py", "--self-test"]),
+    ("graph_search_eval",
+     [sys.executable, "scripts/evaluate_graph_search.py", "--self-test"]),
     ("cooccurrence_self_test",
      [sys.executable, "scripts/build_cooccurrence_edges.py", "--self-test"]),
     ("benchmark_harness_self_test",

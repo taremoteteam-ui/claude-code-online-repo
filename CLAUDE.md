@@ -76,6 +76,13 @@ python3 scripts/check_benchmark_run.py --self-test
 python3 scripts/evaluate_candidate_search.py --self-test   # print only
 python3 scripts/evaluate_candidate_search.py --write       # persist eval
 
+# HONEST cross-lane retrieval eval over the WHOLE capability graph (all 2867
+# nodes as distractors; paraphrased intents; lexical vs lexical+typed-edge).
+# See docs/codex/retrieval-architecture-red-team.md for why the pack-scoped
+# eval above reports 1.0 and this one reports a real floor.
+python3 scripts/evaluate_graph_search.py --self-test
+python3 scripts/evaluate_graph_search.py --write
+
 # Mine primitive co-occurrence edges from persisted run scorecards
 python3 scripts/build_cooccurrence_edges.py --self-test
 python3 scripts/build_cooccurrence_edges.py --write
