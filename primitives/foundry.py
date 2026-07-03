@@ -105,8 +105,21 @@ def acquire(source: dict, path: str = "cached_snapshot") -> tuple[dict, dict]:
     return snapshot, receipt
 
 
+def _sanitize_type(raw: object) -> str:
+    """Robustly coerce any source type string into a valid CamelCase port token.
+    Real mined signatures carry messy types ('List[str]', 'dict|None',
+    'record_set'); this makes form() never emit an unparseable edge. Clean
+    CamelCase names pass through unchanged."""
+    if not isinstance(raw, str):
+        return "Unit"
+    parts = re.findall(r"[A-Za-z0-9]+", raw)
+    if not parts:
+        return "Unit"
+    return "".join(p[:1].upper() + p[1:] for p in parts)
+
+
 def _edge_from_params(params: list[dict]) -> str:
-    ports = [p["type"] for p in params if p.get("type")]
+    ports = [_sanitize_type(p.get("type")) for p in params if p.get("type")]
     return "+".join(ports) if ports else "NoInput"
 
 
@@ -121,7 +134,7 @@ def form(snapshot: dict) -> list[dict]:
     for fn in snapshot["functions"]:
         symbol = fn["name"]
         in_edge = _edge_from_params(fn.get("params", []))
-        out_edge = fn.get("returns", "Unit")
+        out_edge = _sanitize_type(fn.get("returns"))
         effects = [e for e in fn.get("effects", ["none"]) if e in _VALID_EFFECTS] or ["none"]
         proofs = ["schema_validation"]
         for e in effects:

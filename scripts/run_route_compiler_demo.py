@@ -83,6 +83,10 @@ TARGETS = [
      "note": "entity records -> geojson via type adapter"},
     {"have": ["GeoJsonDocument"], "want": "RowSet",
      "note": "foundry-mined chain: parse_geojson->features_to_records->records_to_rows (3 mined steps)"},
+    {"have": ["ApiRequest"], "want": "RowSet",
+     "note": "cross-lane: existing paginated_fetch + mined flatten_pages + adapter (3 steps)"},
+    {"have": ["TimestampText"], "want": "EpochSeconds",
+     "note": "mined datetime topic: parse_timestamp->to_epoch (2 mined steps)"},
 ]
 
 

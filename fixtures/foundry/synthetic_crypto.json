@@ -1,0 +1,60 @@
+{
+  "fixture_label": "fixture_synthetic",
+  "source_id": "src:fixture.crypto",
+  "library": "crypto_fixture",
+  "license": "Apache-2.0",
+  "retrieved_mode": "fixture_synthetic",
+  "note": "SYNTHETIC crypto/hashing source.",
+  "functions": [
+    {
+      "name": "sha256_hash",
+      "params": [
+        {
+          "name": "buf",
+          "type": "ByteBuffer"
+        }
+      ],
+      "returns": "Sha256Hash",
+      "does": "Compute the SHA-256 hash of a byte buffer.",
+      "effects": [
+        "none"
+      ]
+    },
+    {
+      "name": "hmac_sign",
+      "params": [
+        {
+          "name": "buf",
+          "type": "ByteBuffer"
+        },
+        {
+          "name": "key",
+          "type": "SigningKey"
+        }
+      ],
+      "returns": "HmacSignature",
+      "does": "Sign a byte buffer with an HMAC key.",
+      "effects": [
+        "secret_read"
+      ]
+    },
+    {
+      "name": "verify_signature",
+      "params": [
+        {
+          "name": "buf",
+          "type": "ByteBuffer"
+        },
+        {
+          "name": "sig",
+          "type": "HmacSignature"
+        }
+      ],
+      "returns": "IntegrityCheck",
+      "does": "Verify a byte buffer against an HMAC signature.",
+      "effects": [
+        "none"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "fixture_label": "fixture_synthetic",
+  "source_id": "src:fixture.compress",
+  "library": "compress_fixture",
+  "license": "BSD-3-Clause",
+  "retrieved_mode": "fixture_synthetic",
+  "note": "SYNTHETIC compression source; compress/decompress are inverses.",
+  "functions": [
+    {
+      "name": "gzip_compress",
+      "params": [
+        {
+          "name": "buf",
+          "type": "ByteBuffer"
+        }
+      ],
+      "returns": "CompressedBuffer",
+      "does": "Gzip-compress a byte buffer.",
+      "effects": [
+        "none"
+      ]
+    },
+    {
+      "name": "gzip_decompress",
+      "params": [
+        {
+          "name": "buf",
+          "type": "CompressedBuffer"
+        }
+      ],
+      "returns": "ByteBuffer",
+      "does": "Gzip-decompress back to a byte buffer.",
+      "effects": [
+        "none"
+      ]
+    }
+  ]
+}

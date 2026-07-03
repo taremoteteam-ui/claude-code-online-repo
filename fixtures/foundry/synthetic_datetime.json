@@ -1,0 +1,56 @@
+{
+  "fixture_label": "fixture_synthetic",
+  "source_id": "src:fixture.datetime",
+  "library": "datetime_fixture",
+  "license": "MIT",
+  "retrieved_mode": "fixture_synthetic",
+  "note": "SYNTHETIC datetime source.",
+  "functions": [
+    {
+      "name": "parse_timestamp",
+      "params": [
+        {
+          "name": "raw",
+          "type": "TimestampText"
+        }
+      ],
+      "returns": "UtcTimestamp",
+      "does": "Parse a timestamp string into a UTC timestamp.",
+      "effects": [
+        "none"
+      ]
+    },
+    {
+      "name": "bucket_period",
+      "params": [
+        {
+          "name": "ts",
+          "type": "UtcTimestamp"
+        },
+        {
+          "name": "policy",
+          "type": "PeriodPolicy"
+        }
+      ],
+      "returns": "PeriodBucket",
+      "does": "Bucket a UTC timestamp into a calendar period.",
+      "effects": [
+        "none"
+      ]
+    },
+    {
+      "name": "to_epoch",
+      "params": [
+        {
+          "name": "ts",
+          "type": "UtcTimestamp"
+        }
+      ],
+      "returns": "EpochSeconds",
+      "does": "Convert a UTC timestamp to epoch seconds.",
+      "effects": [
+        "none"
+      ]
+    }
+  ]
+}

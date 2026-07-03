@@ -8,14 +8,14 @@
   ],
   "files": {
     "mined_primitives.jsonl": {
-      "rows": 5,
-      "content_sha256": "79896b97d09acf8a7a9c3b3dd96185ba3e13eb860e501cd8396c80c93dddb419"
+      "rows": 22,
+      "content_sha256": "418a1cd281de73d1f033dcfb1fa117088b7a5fe57e8919eb836bd8910ab947d4"
     }
   },
   "row_counts": {
-    "mined_primitives.jsonl": 5
+    "mined_primitives.jsonl": 22
   },
-  "total_rows": 5,
+  "total_rows": 22,
   "candidate": true,
   "serves_truth": false
 }

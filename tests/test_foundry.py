@@ -70,6 +70,28 @@ class FoundryTests(unittest.TestCase):
             self.assertIs(m["candidate"], True)
             self.assertIs(m["serves_truth"], False)
 
+    def test_robust_to_messy_and_missing_types(self):
+        # Real mined signatures carry messy type strings and missing returns;
+        # form() must still emit parseable edges and never crash.
+        messy = {"source_id": "src:fixture.messy", "library": "messy", "license": "MIT",
+                 "retrieved_mode": "fixture_synthetic",
+                 "functions": [
+                     {"name": "f", "params": [{"name": "x", "type": "List[str]"},
+                                              {"name": "y", "type": "dict|None"}],
+                      "returns": "record_set", "does": "handles messy types cleanly", "effects": ["none"]},
+                     {"name": "g", "params": [], "does": "no return type declared at all", "effects": ["none"]},
+                 ]}
+        import re as _re
+        snap, _ = acquire(messy)
+        rows = {m["symbol"]: m for m in form(snap)}
+        # messy param/return types sanitized to CamelCase alphanumeric edges
+        self.assertTrue(_re.match(r"^[A-Za-z0-9+]+$", rows["f"]["input_edge"]))
+        self.assertTrue(_re.match(r"^[A-Za-z0-9+]+$", rows["f"]["output_edge"]))
+        self.assertEqual(rows["f"]["output_edge"], "RecordSet")
+        # missing return -> Unit output, still forms and verifies structurally
+        self.assertEqual(rows["g"]["input_edge"], "NoInput")
+        self.assertEqual(rows["g"]["output_edge"], "Unit")
+
     def test_acquire_secret_scan_and_exclusion(self):
         dirty = {"source_id": "src:fixture.d", "library": "d", "license": "MIT",
                  "retrieved_mode": "fixture_synthetic",

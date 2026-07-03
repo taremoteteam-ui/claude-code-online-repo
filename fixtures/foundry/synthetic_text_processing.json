@@ -1,0 +1,60 @@
+{
+  "fixture_label": "fixture_synthetic",
+  "source_id": "src:fixture.textproc",
+  "library": "textproc_fixture",
+  "license": "MIT",
+  "retrieved_mode": "fixture_synthetic",
+  "note": "SYNTHETIC text-processing source; token_jaccard produces SimilarityScore (an existing type).",
+  "functions": [
+    {
+      "name": "tokenize_text",
+      "params": [
+        {
+          "name": "text",
+          "type": "TextString"
+        }
+      ],
+      "returns": "TokenList",
+      "does": "Split text into normalized lowercase tokens.",
+      "effects": [
+        "none"
+      ]
+    },
+    {
+      "name": "compute_ngrams",
+      "params": [
+        {
+          "name": "tokens",
+          "type": "TokenList"
+        },
+        {
+          "name": "policy",
+          "type": "NgramPolicy"
+        }
+      ],
+      "returns": "NgramSet",
+      "does": "Build the set of n-grams from a token list.",
+      "effects": [
+        "none"
+      ]
+    },
+    {
+      "name": "token_jaccard",
+      "params": [
+        {
+          "name": "a",
+          "type": "TokenList"
+        },
+        {
+          "name": "b",
+          "type": "TokenList"
+        }
+      ],
+      "returns": "SimilarityScore",
+      "does": "Compute the Jaccard similarity between two token lists.",
+      "effects": [
+        "none"
+      ]
+    }
+  ]
+}

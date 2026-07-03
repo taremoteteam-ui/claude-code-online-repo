@@ -1,0 +1,70 @@
+{
+  "fixture_label": "fixture_synthetic",
+  "source_id": "src:fixture.httpclient",
+  "library": "httpclient_fixture",
+  "license": "MIT",
+  "retrieved_mode": "fixture_synthetic",
+  "note": "SYNTHETIC API-client source. Chains into EntityRecordSet so mined API primitives compose with the bank.",
+  "functions": [
+    {
+      "name": "send_request",
+      "params": [
+        {
+          "name": "req",
+          "type": "ApiRequest"
+        }
+      ],
+      "returns": "ApiResponse",
+      "does": "Send an HTTP request and return the raw response envelope.",
+      "effects": [
+        "network_read"
+      ]
+    },
+    {
+      "name": "parse_response",
+      "params": [
+        {
+          "name": "resp",
+          "type": "ApiResponse"
+        }
+      ],
+      "returns": "RecordPage",
+      "does": "Parse a response body into a page of records.",
+      "effects": [
+        "none"
+      ]
+    },
+    {
+      "name": "paginate_stream",
+      "params": [
+        {
+          "name": "page",
+          "type": "RecordPage"
+        },
+        {
+          "name": "policy",
+          "type": "PaginationPolicy"
+        }
+      ],
+      "returns": "RecordPageStream",
+      "does": "Follow pagination cursors into a stream of record pages.",
+      "effects": [
+        "network_read"
+      ]
+    },
+    {
+      "name": "flatten_pages",
+      "params": [
+        {
+          "name": "stream",
+          "type": "RecordPageStream"
+        }
+      ],
+      "returns": "EntityRecordSet",
+      "does": "Flatten a stream of record pages into one entity record set.",
+      "effects": [
+        "none"
+      ]
+    }
+  ]
+}

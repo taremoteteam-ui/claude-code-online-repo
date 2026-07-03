@@ -1,0 +1,42 @@
+{
+  "fixture_label": "fixture_synthetic",
+  "source_id": "src:fixture.validate",
+  "library": "validate_fixture",
+  "license": "MIT",
+  "retrieved_mode": "fixture_synthetic",
+  "note": "SYNTHETIC contact-validation source.",
+  "functions": [
+    {
+      "name": "validate_email",
+      "params": [
+        {
+          "name": "field",
+          "type": "RawContactField"
+        }
+      ],
+      "returns": "ValidatedContactField",
+      "does": "Validate and normalize an email contact field.",
+      "effects": [
+        "none"
+      ]
+    },
+    {
+      "name": "normalize_phone",
+      "params": [
+        {
+          "name": "field",
+          "type": "RawContactField"
+        },
+        {
+          "name": "region",
+          "type": "RegionPolicy"
+        }
+      ],
+      "returns": "ValidatedContactField",
+      "does": "Normalize a phone contact field to E.164 for a region.",
+      "effects": [
+        "none"
+      ]
+    }
+  ]
+}
