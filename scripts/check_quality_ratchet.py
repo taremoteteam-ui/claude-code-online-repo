@@ -89,6 +89,11 @@ PROBES = [
      "path": "regimes.contextual.holdout_regret.argmax_contextual",
      "note": "holdout regret of the context-conditioned policy in the contextual regime "
              "(the data-selected winner; lower is better)"},
+    {"metric": "ope_dr_bad_model_bias", "direction": "down",
+     "cmd": [PY, "scripts/run_off_policy_evaluation_benchmark.py", "--self-test"],
+     "path": "estimators.DR_bad_model.abs_bias",
+     "note": "absolute bias of the doubly-robust estimator under a deliberately "
+             "misspecified reward model (the robustness result; lower is better)"},
 ]
 
 

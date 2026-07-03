@@ -98,6 +98,13 @@ MUTATIONS = [
      "replace": "        regret += rnd[\"true_means\"][chosen] - best",
      "catcher": [PY, "-m", "unittest", "tests.test_policy_evaluation"],
      "why": "inverting the counterfactual regret sign must fail the learner-beats-baseline test"},
+    {"name": "off_policy_dr_correction_dropped",
+     "file": "primitives/off_policy_estimators.py",
+     "find": "        total += baseline + w * (e[\"reward\"] - reward_model(x, a))",
+     "replace": "        total += baseline",
+     "catcher": [PY, "-m", "unittest", "tests.test_off_policy_estimators"],
+     "why": "dropping the doubly-robust correction collapses DR to the biased direct method "
+            "and must fail the misspecified-model robustness test"},
 ]
 
 

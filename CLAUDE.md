@@ -172,6 +172,13 @@ python3 scripts/run_decision_dag_demo.py --self-test
 # applied to the policy itself. See docs/codex/policy-selection-off-policy.md.
 python3 scripts/run_policy_selection_benchmark.py --self-test
 
+# Off-policy evaluation: estimate a target policy's value from PARTIAL-feedback
+# logs of a different behavior policy (IPS / SNIPS / DM / doubly-robust), checked
+# against the known true value. Shows DR stays unbiased under a misspecified
+# reward model. Closes the full-feedback caveat above. See
+# docs/codex/off-policy-evaluation.md.
+python3 scripts/run_off_policy_evaluation_benchmark.py --self-test
+
 # Verify-the-verifier gates: build twice byte-identically (determinism), inject
 # real defects and confirm the catching gate goes red (mutation), and fail on
 # silent regression of measured headline metrics (quality ratchet). Re-record the

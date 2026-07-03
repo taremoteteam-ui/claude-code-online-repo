@@ -48,6 +48,11 @@
       "baseline": 3.05,
       "direction": "down",
       "note": "holdout regret of the context-conditioned policy in the contextual regime (the data-selected winner; lower is better)"
+    },
+    "ope_dr_bad_model_bias": {
+      "baseline": 0.0013,
+      "direction": "down",
+      "note": "absolute bias of the doubly-robust estimator under a deliberately misspecified reward model (the robustness result; lower is better)"
     }
   }
 }
