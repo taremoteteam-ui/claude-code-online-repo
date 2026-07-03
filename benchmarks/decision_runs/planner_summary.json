@@ -1,0 +1,42 @@
+{
+  "run_id": "plannerrun",
+  "combination": {
+    "naive_cheapest": {
+      "decision:pipe.fetch": "path:pipe.fetch_fast",
+      "decision:pipe.parse": "path:pipe.parse_shallow",
+      "decision:pipe.verify": "path:pipe.verify_light"
+    },
+    "naive_reliability": 0.42,
+    "naive_meets_gate": false,
+    "planned": {
+      "decision:pipe.fetch": "path:pipe.fetch_robust",
+      "decision:pipe.parse": "path:pipe.parse_deep",
+      "decision:pipe.verify": "path:pipe.verify_light"
+    },
+    "planned_reliability": 0.6982,
+    "planned_expected_cost": 8.5729,
+    "method": "branch_and_bound_exact",
+    "min_reliability": 0.6,
+    "feasible": true,
+    "note": "the cheapest per-decision picks fail the reliability gate; the planner upgrades the least-cost stage(s) to meet it under the compatibility constraint"
+  },
+  "gate_ordering": {
+    "optimal_order": [
+      "cheap_lint",
+      "expensive_integration",
+      "schema_check"
+    ],
+    "expected_cost_optimal": 6.1,
+    "expected_cost_given_order": 11.09,
+    "expected_cost_reduction": 4.99,
+    "policy": "descending p_fail/cost (fail-fast per unit cost) - provably optimal for independent gates"
+  },
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "gate ordering is provably optimal for independent gates (adjacent-exchange on p_fail/cost)",
+    "combination search is exact branch-and-bound over the product space (small here)",
+    "success/failure probabilities come from receipts; cost from the declared cost model; nothing hand-typed",
+    "the engineer declares only paths + cost + win; the planner derives ordering/selection/combination"
+  ]
+}

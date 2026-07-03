@@ -84,6 +84,49 @@ Ledger + supervision report persist under `benchmarks/decision_runs/`. Wired as
 three `run_proofs.py` stages (build self-test, checker, engine demo); 25 stages
 green. Unit tests in `tests/test_decision_engine.py` (11).
 
+## The planner: the most efficient COMBINATION of gates/checkpoints/paths
+
+The engine picks one path for one decision. Real pipelines couple decisions, so
+`primitives/decision_planner.py` adds joint optimization — the piece that lets a
+project "drop in an engine that finds the most efficient combination of
+gates/paths" instead of an engineer hand-ordering them:
+
+- **`optimal_gate_order`** — order independent checkpoints to minimise expected
+  cost until the first failure. Provably optimal (adjacent-exchange): run gates
+  by descending `p_fail / cost` (cheapest-most-likely-to-fail first). Measured in
+  the demo: expected cost `11.09 → 6.10` for the same gate set, just by ordering.
+- **`plan_combination`** — branch-and-bound over the product of applicable paths
+  across several decisions to find the min-expected-cost combination that clears
+  a whole-plan reliability checkpoint (∏ success ≥ R) and an optional budget,
+  honouring a compatibility predicate (the coupling). Exact for the small
+  portfolios real pipelines have; greedy fallback (disclosed) above a size cap.
+  Demo: the cheapest per-decision picks give reliability `0.42 < 0.6` and fail
+  the gate; the planner upgrades the least-cost stages to `0.698` under the
+  constraint — a combination the local optimum never finds. Verified against
+  brute force in `tests/test_decision_planner.py`.
+
+Both are receipt-driven (win-rates → success/failure probabilities, cost models →
+cost) and disclose their arithmetic. The engineer declares only the path space,
+the cost model, and what a win is; the planner derives ordering, selection, and
+combination from data — no further engineering decision.
+
+## Drop-in for any project: `primitives/decision_kit.py`
+
+`DecisionKit` wires the engine + planner to any codebase in ~3 lines with a
+pluggable ledger sink (in-memory / JSONL / any callable — the storage seam):
+
+```python
+kit = DecisionKit(ledger=JsonlLedger("ledger.jsonl")).load_pack()
+choice = kit.decide("decision:retry.policy", {"idempotent": True})   # engine picks
+# ... run choice["chosen_path"] ...
+kit.record("decision:retry.policy", choice["chosen_path"], ctx, win=1.0, cost=12)
+plan = kit.plan(["d:fetch", "d:parse", "d:verify"], ctx, min_reliability=0.6)   # planner combines
+```
+
+Because selection/ordering/combination are pure functions over (portfolio,
+context, ledger), the same kit runs on files today and a database tomorrow
+without touching a single call site.
+
 ## The honest boundary (where "all paths" stops being literal)
 
 Typed by **cost × reversibility**:

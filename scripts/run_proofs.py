@@ -58,6 +58,8 @@ STAGES = [
      [sys.executable, "scripts/check_decision_portfolio_pack.py", "--self-test"]),
     ("decision_engine_demo",
      [sys.executable, "scripts/run_decision_engine_demo.py", "--self-test"]),
+    ("decision_planner_demo",
+     [sys.executable, "scripts/run_decision_planner_demo.py", "--self-test"]),
     ("foundry_builder_self_test",
      [sys.executable, "scripts/build_foundry_pack.py", "--self-test"]),
     ("foundry_pack_checker",
