@@ -166,6 +166,15 @@ python3 scripts/build_decision_frameworks_pack.py --write
 python3 scripts/check_decision_frameworks_pack.py --self-test
 python3 scripts/run_decision_dag_demo.py --self-test
 
+# Coding-problem primitive mining: harvest synthetic LeetCode/competitive/
+# interview/hackathon problems, SOLVE them with real code composed from working
+# algorithmic kernels, decompose + store, and measure reuse (few kernels covering
+# many problems). The checker re-runs every kernel self-test and every solution
+# against its fixtures. See docs/codex/coding-problem-primitive-mining.md.
+python3 scripts/build_coding_primitive_pack.py --write
+python3 scripts/check_coding_primitive_pack.py --self-test
+python3 scripts/run_coding_primitive_pipeline.py --self-test
+
 # Off-policy policy selection: replay a logged full-feedback history through
 # every selection policy (via the real engine), let the data pick the lowest-
 # regret one, and verify the pick on a held-out log. The non-commitment law

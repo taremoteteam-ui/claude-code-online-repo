@@ -1,0 +1,32 @@
+{
+  "pack_id": "coding-problem-primitives",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_coding_primitive_pack.py",
+  "schema_refs": [
+    "schemas/algorithmic_primitive_card.schema.json",
+    "schemas/coding_problem_card.schema.json",
+    "schemas/coding_solution_card.schema.json"
+  ],
+  "files": {
+    "algorithmic_primitives.jsonl": {
+      "rows": 12,
+      "content_sha256": "0c969d64303758d495ff901a237525e196da922cae21ed69b07516602d9bd6a6"
+    },
+    "coding_problems.jsonl": {
+      "rows": 17,
+      "content_sha256": "d371be2b6ec11faa835d36d11cc8ea3b163c93f24f2e401bf459e32ea617a2ef"
+    },
+    "coding_solutions.jsonl": {
+      "rows": 17,
+      "content_sha256": "5acd32866eab4b6c37fe8bfdd5f82d423d13354a08ab7cfb4f0ffd162d55a5e6"
+    }
+  },
+  "row_counts": {
+    "algorithmic_primitives.jsonl": 12,
+    "coding_problems.jsonl": 17,
+    "coding_solutions.jsonl": 17
+  },
+  "total_rows": 46,
+  "candidate": true,
+  "serves_truth": false
+}

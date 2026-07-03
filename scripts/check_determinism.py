@@ -29,6 +29,7 @@ BUILDERS = [
     "scripts/build_capability_graph.py",
     "scripts/build_solution_frameworks_pack.py",
     "scripts/build_decision_frameworks_pack.py",
+    "scripts/build_coding_primitive_pack.py",
 ]
 
 

@@ -94,6 +94,15 @@ PROBES = [
      "path": "estimators.DR_bad_model.abs_bias",
      "note": "absolute bias of the doubly-robust estimator under a deliberately "
              "misspecified reward model (the robustness result; lower is better)"},
+    {"metric": "coding_problems_solved", "direction": "up",
+     "cmd": [PY, "scripts/run_coding_primitive_pipeline.py", "--self-test"],
+     "path": "problems_solved",
+     "note": "harvested coding problems whose solution passes all its fixture test cases "
+             "(live run; must not silently drop)"},
+    {"metric": "coding_test_cases_passed", "direction": "up",
+     "cmd": [PY, "scripts/run_coding_primitive_pipeline.py", "--self-test"],
+     "path": "test_cases_passed",
+     "note": "total coding-problem fixture test cases passing across all solutions"},
 ]
 
 

@@ -105,6 +105,13 @@ MUTATIONS = [
      "catcher": [PY, "-m", "unittest", "tests.test_off_policy_estimators"],
      "why": "dropping the doubly-robust correction collapses DR to the biased direct method "
             "and must fail the misspecified-model robustness test"},
+    {"name": "algo_union_find_counter_corrupted",
+     "file": "primitives/algorithmic_primitives.py",
+     "find": "        self.components -= 1",
+     "replace": "        self.components += 1",
+     "catcher": [PY, "-m", "unittest", "tests.test_coding_solutions"],
+     "why": "corrupting the shared union-find component counter must fail every solution "
+            "that reuses it (islands, provinces) - the decomposition has teeth"},
 ]
 
 
