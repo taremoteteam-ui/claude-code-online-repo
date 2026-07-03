@@ -77,6 +77,10 @@ TARGETS = [
      "note": "CP loop: parse->constraints->budget->classify->select->fill->tests->run (8 steps)"},
     {"have": ["ProblemStatement"], "want": "ComplexityBudget",
      "note": "CP budgeting prefix: parse->constraints->budget (3 steps)"},
+    {"have": ["HRSASiteRecordSet"], "want": "RowSet",
+     "note": "entity records -> table via type adapter"},
+    {"have": ["HRSASiteRecordSet"], "want": "PointFeatureCollection",
+     "note": "entity records -> geojson via type adapter"},
 ]
 
 
@@ -151,10 +155,18 @@ def run(write: bool) -> dict:
                     })
 
     tiers = {}
+    adapter_steps = 0
+    adapter_mediated_routes = 0
     for r in routes:
+        used_adapter = False
         for s in r["route_steps"]:
+            if s.get("is_adapter"):
+                adapter_steps += 1
+                used_adapter = True
             for c in s["satisfied_by"]:
                 tiers[c["tier"]] = tiers.get(c["tier"], 0) + 1
+        if used_adapter:
+            adapter_mediated_routes += 1
 
     summary = {
         "run_id": run_id,
@@ -165,12 +177,16 @@ def run(write: bool) -> dict:
         "runtime_llm_tokens": 0,
         "mean_step_count": round(sum(r["step_count"] for r in routes) / len(routes), 2) if routes else 0.0,
         "connection_tiers": tiers,
+        "adapter_steps": adapter_steps,
+        "adapter_mediated_routes": adapter_mediated_routes,
         "normalization_candidates": len(norm_candidates),
         "schema_problems": schema_problems,
         "honesty_notes": [
             "zero model calls: routes assembled purely from typed edges",
             "not every target composes; the gap + normalization queue is the deliverable",
             "typed-tier hops rely on reviewed synonyms and are labeled, never silent",
+            "adapter steps are reviewed deterministic bridges (kind=type_adapter), "
+            "disclosed as explicit steps - never a silent type collapse",
         ],
     }
 

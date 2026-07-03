@@ -35,6 +35,8 @@
         "properties": {
           "step": { "type": "integer", "minimum": 1 },
           "node_id": { "type": "string" },
+          "kind": { "type": "string" },
+          "is_adapter": { "type": "boolean" },
           "satisfied_by": {
             "type": "array",
             "items": {

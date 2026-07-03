@@ -104,9 +104,16 @@ python3 scripts/check_universal_primitive_pack.py --self-test
 python3 scripts/build_warehouse_analytics_pack.py --write
 python3 scripts/check_warehouse_analytics_pack.py --self-test
 
-# Edge compiler: build the typed capability graph across all lanes, then
-# compile primitive chains by edge/type compatibility (zero model calls) and
-# measure the compose rate + port-normalization/connector gap queue
+# Type-adapter connector layer: reviewed deterministic bridges FromPort->ToPort
+# (backed by real implementations in primitives/type_adapters.py; the checker
+# runs each adapter's fixture through its proofs). Registered as capability-graph
+# nodes so the compiler inserts them - disclosed as explicit adapter steps.
+python3 scripts/build_type_adapters_pack.py --write
+python3 scripts/check_type_adapters_pack.py --self-test
+
+# Edge compiler: build the typed capability graph across all lanes (primitives +
+# type adapters), then compile primitive chains by edge/type compatibility (zero
+# model calls) and measure the compose rate + adapter usage + gap queue
 python3 scripts/build_capability_graph.py --write
 python3 scripts/run_route_compiler_demo.py --self-test   # print compose rate
 python3 scripts/run_route_compiler_demo.py --write       # persist PlanLocks + gaps

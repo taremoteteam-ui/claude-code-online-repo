@@ -1,0 +1,23 @@
+{
+  "run_id": "routerun-20260703T085926Z",
+  "targets": 35,
+  "compiled": 31,
+  "gaps": 4,
+  "compose_rate": 0.8857,
+  "runtime_llm_tokens": 0,
+  "mean_step_count": 2.35,
+  "connection_tiers": {
+    "exact": 81,
+    "typed": 10
+  },
+  "adapter_steps": 7,
+  "adapter_mediated_routes": 6,
+  "normalization_candidates": 4,
+  "schema_problems": [],
+  "honesty_notes": [
+    "zero model calls: routes assembled purely from typed edges",
+    "not every target composes; the gap + normalization queue is the deliverable",
+    "typed-tier hops rely on reviewed synonyms and are labeled, never silent",
+    "adapter steps are reviewed deterministic bridges (kind=type_adapter), disclosed as explicit steps - never a silent type collapse"
+  ]
+}

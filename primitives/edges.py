@@ -63,6 +63,11 @@ _SYNONYM_MAP: dict[str, str] = {
     "InputTable": "TabularDataset",
     "SourceTable": "TabularDataset",
     "RowSet": "TabularDataset",
+    # A JSON object IS a JSON document - same shape, no transform needed.
+    "JsonObject": "JsonDocument",
+    # An inbound login attempt carries exactly the login credential a verifier
+    # consumes; substitutable with no reshape.
+    "LoginAttempt": "LoginCredential",
 }
 
 _ROLE_DATA = "data"

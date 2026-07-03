@@ -51,6 +51,8 @@ SOURCES = [
      "resolved_id", "warehouse_analytics", None),
     ("document-extraction-seeds/extraction_primitives.jsonl",
      "primitive_id", "document_extraction", "kind"),
+    ("type-adapters/type_adapters.jsonl",
+     "adapter_id", "adapters", None),
 ]
 
 

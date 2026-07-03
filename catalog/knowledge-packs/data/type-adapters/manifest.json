@@ -1,0 +1,21 @@
+{
+  "pack_id": "type-adapters",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_type_adapters_pack.py",
+  "schema_refs": [
+    "schemas/type_adapter.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "type_adapters.jsonl": {
+      "rows": 6,
+      "content_sha256": "c66346ac4a9d1584c65f36c76d575fd01a307da6e78b68b773f83f8c7eee6c1d"
+    }
+  },
+  "row_counts": {
+    "type_adapters.jsonl": 6
+  },
+  "total_rows": 6,
+  "candidate": true,
+  "serves_truth": false
+}

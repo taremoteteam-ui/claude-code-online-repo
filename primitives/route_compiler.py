@@ -152,8 +152,9 @@ def _route(have, want, want_type, chain, node_by_id, have_types) -> dict:
             if op["canonical_type"] not in upstream:
                 upstream[op["canonical_type"]] = (nid, op["name"])
                 step_index[op["canonical_type"]] = i
-        steps.append({"step": i, "node_id": nid, "satisfied_by": satisfied,
-                      "produces": produces})
+        steps.append({"step": i, "node_id": nid, "kind": node.get("kind", "primitive"),
+                      "is_adapter": node.get("kind") == "type_adapter",
+                      "satisfied_by": satisfied, "produces": produces})
 
     route_repr = [[s["node_id"], [c["canonical_type"] for c in s["satisfied_by"]]] for s in steps]
     route_hash = "sha256:" + hashlib.sha256(
