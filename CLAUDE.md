@@ -42,6 +42,10 @@ rewrite.
 - `docs/codex/project-transfer-context.md` — the drop-in `CONTEXT.md` template
   and phased playbook for MIGRATING another large project onto this architecture
   (invariants, concept-mapping table, strangler-fig phases, status ledger, traps).
+- `docs/aidoneright/README.md` — the AIDoneRight STANDARDS HUB: the org-wide rule
+  index (000 Invariants, 001 Globally-Unique-Variable-Names + tracing, 002
+  Multiple-Path Development, 003 verify-the-verifier, 004 transfer) with reference
+  impls, plus `templates/aidoneright-project-template/` to start a new project.
 
 ## Non-negotiable conventions
 
