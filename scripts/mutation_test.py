@@ -119,6 +119,13 @@ MUTATIONS = [
      "catcher": [PY, "-m", "unittest", "tests.test_policy_learning"],
      "why": "flipping the CRM variance penalty to a bonus (rewarding uncertainty) must fail "
             "the penalty-never-increases-score test"},
+    {"name": "guvn_multipath_classification_broken",
+     "file": "primitives/guvn.py",
+     "find": "        \"multi_path_artifacts\": [a for a, m in classified.items() if m[\"kind\"] == \"multi_path\"],",
+     "replace": "        \"multi_path_artifacts\": [a for a, m in classified.items() if m[\"kind\"] == \"internal\"],",
+     "catcher": [PY, "-m", "unittest", "tests.test_guvn"],
+     "why": "misclassifying multi-path artifacts in the code map must fail the tracer's "
+            "classification test"},
 ]
 
 
