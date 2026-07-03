@@ -112,6 +112,13 @@ MUTATIONS = [
      "catcher": [PY, "-m", "unittest", "tests.test_coding_solutions"],
      "why": "corrupting the shared union-find component counter must fail every solution "
             "that reuses it (islands, provinces) - the decomposition has teeth"},
+    {"name": "crm_variance_penalty_sign_flip",
+     "file": "primitives/policy_learning.py",
+     "find": "    return value - lam * penalty",
+     "replace": "    return value + lam * penalty",
+     "catcher": [PY, "-m", "unittest", "tests.test_policy_learning"],
+     "why": "flipping the CRM variance penalty to a bonus (rewarding uncertainty) must fail "
+            "the penalty-never-increases-score test"},
 ]
 
 

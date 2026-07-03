@@ -191,6 +191,13 @@ python3 scripts/run_policy_selection_benchmark.py --self-test
 # docs/codex/off-policy-evaluation.md.
 python3 scripts/run_off_policy_evaluation_benchmark.py --self-test
 
+# Counterfactual risk minimization: LEARN a policy from logs by maximizing a
+# variance-penalized off-policy estimate (POEM). Gated on the robust claims
+# (learning beats the logging policy; converges to optimal); the penalty's effect
+# is REPORTED honestly (a disclosed negative finding here, not tuned to a win).
+# See docs/codex/counterfactual-risk-minimization.md.
+python3 scripts/run_policy_learning_benchmark.py --self-test
+
 # Verify-the-verifier gates: build twice byte-identically (determinism), inject
 # real defects and confirm the catching gate goes red (mutation), and fail on
 # silent regression of measured headline metrics (quality ratchet). Re-record the
