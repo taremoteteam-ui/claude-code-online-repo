@@ -5,15 +5,15 @@ into edge-typed, verified, composable primitives — the working first slice of
 `docs/codex/repo-mining-factory-spec.md` and `docs/codex/primitive-foundry-
 operating-manual.md`, wired to the flexible decision engine.
 
-## What it covers (the full lifecycle, in code)
+## What it covers (the full lifecycle, in code) — capabilities per stage
 
-| Stage | Code | What it does |
+| Stage | Code | Capabilities |
 | --- | --- | --- |
-| **Acquire (scrape)** | `primitives/foundry.py:acquire` + `decision:ingest.acquire_strategy` | the decision engine picks an acquisition path from a portfolio (`cached_snapshot → structured_api → ast_parse → …`); `acquire()` reads the source and emits a snapshot + receipt disclosing `retrieved_mode` |
-| **Form (ingest)** | `primitives/foundry.py:form` | edge-types each mined signature to the shared port vocabulary (`primitives/edges.py`) → a `mined_primitive` card; runs the **license gate** (non-permissive → `license_blocked` promotion blocker) |
-| **Verify** | `primitives/foundry.py:verify` | use-readiness gate: edges parse to real ports, effects valid, license permissive → flips `verification_status` to `fixture_verified` |
-| **Store** | `scripts/build_foundry_pack.py` + `schemas/mined_primitive.schema.json` | writes the `foundry-mined-primitives/` pack (manifest + content hash); the checker re-derives every verification status so none can be hand-tuned |
-| **Use** | `scripts/build_capability_graph.py` (foundry source) + route compiler | only `fixture_verified` mined primitives enter the capability graph; the compiler then chains them like any other node |
+| **Acquire (scrape)** | `foundry.py:acquire` + `decision:ingest.acquire_strategy` | engine-chosen acquisition path from a portfolio; **secret scan** (AWS/GitHub/private-key/`api_key=` patterns → promotion blocker); **vendored/generated exclusion**; snapshot + receipt disclosing `retrieved_mode`, `symbols_kept`, `excluded_symbols`, `secret_findings` |
+| **Form (ingest)** | `foundry.py:form` | edge-types each signature to the shared vocabulary; resolves **port roles** (required-data vs request-config vs outputs) via `primitives/edges.py`; carries a **`handler_ref`** when the source ships one; runs the **license gate**; dedupes by contract+symbol |
+| **Verify** | `foundry.py:verify` | a check **ladder** → `unverified` / `fixture_verified` (edges parse, an output *data* port exists, every effect has a proof obligation, license permissive) / **`fixture_executable`** (all that **and** a resolvable handler — proven to actually transform its input edge into its output edge) / `license_blocked` |
+| **Store** | `build_foundry_pack.py` + `schemas/mined_primitive.schema.json` | writes the pack (manifest + content hash); the checker re-derives every verification status and the license-gate coherence so nothing is hand-tuned |
+| **Use** | `build_capability_graph.py` + `route_compiler.py` + **`route_runtime.py`** + `graph_search.py` | only verified/executable primitives enter the graph; USE then **retrieves** them by intent, measures **compose-lift** (targets that compile only because the source exists), emits a **PlanLock**, and **executes** the route for real — one `ExecutionReceipt` per step |
 
 ## The measured proof (offline, zero model calls)
 
@@ -21,19 +21,25 @@ operating-manual.md`, wired to the flexible decision engine.
 synthetic fixture sources:
 
 ```text
-ACQUIRE  engine chose path:ingest.cached_snapshot; retrieved_mode=fixture_synthetic
-FORM     5 mined primitives across 2 sources
-VERIFY   4 fixture_verified (MIT source) + 1 license_blocked (GPL source)
-STORE    only the 4 verified enter the composable graph
-USE      GeoJsonDocument -> RowSet compiles in 3 MINED steps:
-           mined:geoutils_fixture.parse_geojson      -> PointFeatureCollection
-           mined:geoutils_fixture.features_to_records -> EntityRecordSet
-           mined:geoutils_fixture.records_to_rows     -> RowSet
+ACQUIRE  engine chose path:ingest.cached_snapshot; retrieved_mode=fixture_synthetic;
+         _vendored_shim EXCLUDED; secret scan clean
+FORM     5 mined primitives (edge-typed, port-roled, license-gated)
+VERIFY   3 fixture_executable (handler-backed) + 1 fixture_verified (fetch_tiles,
+         network effect, no handler) + 1 license_blocked (GPL source)
+STORE    only the verified/executable enter the composable graph
+USE      retrieve: intent "parse a geojson document..." -> mined parse_geojson,
+                   features_to_records
+         compose-lift: 3/3 targets unlocked ONLY by the foundry lane (measured
+                   by compiling WITH vs WITHOUT it)
+         planlock: GeoJsonDocument -> RowSet, route_hash sha256:b1bc..., 3 mined steps
+         execute:  RAN the route on a fixture GeoJSON -> a real 2-row table
+                   {columns: [kind,lat,lon,name]}, 3 ExecutionReceipts, effects={none}
 ```
 
-A mined primitive composes with the seeded bank purely from its typed edges — no
-one read its body. That is the whole thesis, demonstrated on freshly-formed
-primitives.
+A freshly-formed mined primitive is **retrieved, composed, and actually run** —
+producing a real artifact with a receipt trail — purely from its typed edges.
+That is the whole thesis, end to end, on primitives that did not exist before
+this run.
 
 ## Honesty & boundaries
 

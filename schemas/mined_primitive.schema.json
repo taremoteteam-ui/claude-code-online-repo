@@ -51,7 +51,19 @@
     "proof_obligations": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
     "license": { "type": "string" },
     "retrieved_mode": { "enum": ["fixture_synthetic", "live_network"] },
-    "verification_status": { "enum": ["unverified", "fixture_verified", "license_blocked"] },
+    "verification_status": {
+      "enum": ["unverified", "fixture_verified", "fixture_executable", "license_blocked"]
+    },
+    "handler_ref": { "type": "string", "pattern": "^primitives\\.[a-z_]+:[a-z0-9_]+$" },
+    "port_roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required_inputs": { "type": "array", "items": { "type": "string" } },
+        "config_inputs": { "type": "array", "items": { "type": "string" } },
+        "outputs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
     "promotion_blockers": { "type": "array", "items": { "type": "string" } },
     "source_ref": { "type": "string", "minLength": 3 },
     "version": { "type": "string" },

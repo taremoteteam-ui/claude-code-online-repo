@@ -89,8 +89,8 @@ def run_checks() -> dict:
             problems.append(f"{r['mined_primitive_id']}: permissive license but license_blocked")
         if not permissive and not blocked and not r.get("promotion_blockers"):
             problems.append(f"{r['mined_primitive_id']}: non-permissive license not blocked")
-        if blocked and r["verification_status"] == "fixture_verified":
-            problems.append(f"{r['mined_primitive_id']}: license_blocked cannot be fixture_verified")
+        if blocked and r["verification_status"] in ("fixture_verified", "fixture_executable"):
+            problems.append(f"{r['mined_primitive_id']}: license_blocked cannot be verified/executable")
         # verification recomputable
         recomputed = verify(r)["verification_status"]
         if recomputed != r["verification_status"]:

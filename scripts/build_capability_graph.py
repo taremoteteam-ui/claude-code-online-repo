@@ -103,7 +103,7 @@ def build_nodes() -> list[dict]:
             # use-ready: license-blocked / unverified rows are stored but not
             # offered to the compiler.
             if row.get("record_type") == "mined_primitive" and \
-                    row.get("verification_status") != "fixture_verified":
+                    row.get("verification_status") not in ("fixture_verified", "fixture_executable"):
                 continue
             node = node_from_row(row, id_field, lane, kind_field)
             nodes[node["node_id"]] = node

@@ -24,26 +24,95 @@
   ],
   "store": {
     "total_mined": 5,
-    "fixture_verified": 4,
+    "fixture_verified": 1,
+    "fixture_executable": 3,
     "license_blocked": 1,
-    "note": "only fixture_verified mined primitives enter the composable graph"
+    "new_ports_introduced": [
+      "EntityRecordSet",
+      "PointFeatureCollection",
+      "TabularDataset",
+      "TileImageSet"
+    ],
+    "note": "only fixture_verified/executable mined primitives enter the composable graph"
   },
   "use": {
-    "target": "GeoJsonDocument -> RowSet",
-    "compiled": true,
-    "step_count": 3,
-    "mined_steps_used": [
-      "mined:geoutils_fixture.parse_geojson",
-      "mined:geoutils_fixture.features_to_records",
-      "mined:geoutils_fixture.records_to_rows"
-    ]
+    "retrieve": {
+      "intent": "parse a geojson document into a point feature collection",
+      "mined_hits": [
+        "mined:geoutils_fixture.parse_geojson",
+        "mined:geoutils_fixture.features_to_records"
+      ]
+    },
+    "compose_lift": {
+      "targets": [
+        {
+          "have": [
+            "GeoJsonDocument"
+          ],
+          "want": "RowSet",
+          "compiles": true,
+          "unlocked_by_foundry": true
+        },
+        {
+          "have": [
+            "GeoJsonDocument"
+          ],
+          "want": "EntityRecordSet",
+          "compiles": true,
+          "unlocked_by_foundry": true
+        },
+        {
+          "have": [
+            "PointFeatureCollection"
+          ],
+          "want": "RowSet",
+          "compiles": true,
+          "unlocked_by_foundry": true
+        }
+      ],
+      "unlocked_by_foundry": 3,
+      "note": "targets that compile ONLY because the mined source exists"
+    },
+    "planlock": {
+      "target": "GeoJsonDocument -> RowSet",
+      "compiled": true,
+      "route_hash": "sha256:b1bc4f3539322592c1a824b4b9ce01b6f41f5d1d4b49e18e32b74cfdf3624188",
+      "step_count": 3,
+      "mined_steps_used": [
+        "mined:geoutils_fixture.parse_geojson",
+        "mined:geoutils_fixture.features_to_records",
+        "mined:geoutils_fixture.records_to_rows"
+      ]
+    },
+    "execute": {
+      "ran": true,
+      "steps_executed": 3,
+      "effects_union": [
+        "none"
+      ],
+      "output_columns": [
+        "kind",
+        "lat",
+        "lon",
+        "name"
+      ],
+      "output_row_count": 2,
+      "receipt_ids": [
+        "rcpt:272d597ca75ec4a2",
+        "rcpt:8466dad9f0508c35",
+        "rcpt:37fa736db24da985"
+      ],
+      "unimplemented": []
+    }
   },
   "candidate": true,
   "serves_truth": false,
   "honesty_notes": [
     "SYNTHETIC fixture sources only - no real repo scraped; live mining runs where the network policy allows",
-    "the acquisition path is CHOSEN by the decision engine from a portfolio, not hardcoded",
+    "the acquisition path is CHOSEN by the decision engine; secret-scan + vendored-exclusion gates run at acquire",
     "the license gate blocked the non-permissive source; blocked primitives are stored but never enter the graph",
+    "USE executes the mined route for real: each step emits an ExecutionReceipt (input/output hash, effects, proofs, timing)",
+    "compose-lift is measured by compiling WITH vs WITHOUT the foundry lane - no hand-typed number",
     "mined primitives stay candidate=true / serves_truth=false until a live source ref + receipts attach"
   ]
 }

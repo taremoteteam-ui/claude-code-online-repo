@@ -70,6 +70,69 @@ class FoundryTests(unittest.TestCase):
             self.assertIs(m["candidate"], True)
             self.assertIs(m["serves_truth"], False)
 
+    def test_acquire_secret_scan_and_exclusion(self):
+        dirty = {"source_id": "src:fixture.d", "library": "d", "license": "MIT",
+                 "retrieved_mode": "fixture_synthetic",
+                 "functions": [
+                     {"name": "keep", "params": [], "returns": "X", "does": "kept function", "effects": ["none"]},
+                     {"name": "vend", "params": [], "returns": "Y", "does": "vendored", "effects": ["none"], "vendored": True},
+                     {"name": "leaky", "params": [], "returns": "Z", "does": "has api_key='abcdefzzzz'", "effects": ["none"]},
+                 ]}
+        snap, receipt = acquire(dirty)
+        self.assertIn("vend", receipt["excluded_symbols"])
+        self.assertEqual(receipt["symbols_kept"], 2)
+        self.assertFalse(receipt["secret_scan_clean"])
+        self.assertTrue(receipt["secret_findings"])
+
+    def test_form_sets_port_roles(self):
+        snap, _ = acquire(GEO)
+        m = {x["symbol"]: x for x in form(snap)}["fetch_y"]
+        self.assertIn("AreaOfInterest", m["port_roles"]["required_inputs"])
+        self.assertIn("FetchPolicy", m["port_roles"]["config_inputs"])
+
+    def test_handler_backed_is_executable(self):
+        src = {"source_id": "src:fixture.h", "library": "geoutils_fixture", "license": "MIT",
+               "retrieved_mode": "fixture_synthetic",
+               "functions": [{"name": "parse_geojson",
+                              "params": [{"name": "raw", "type": "GeoJsonDocument"}],
+                              "returns": "PointFeatureCollection", "does": "parse geojson into points",
+                              "effects": ["none"],
+                              "handler": "primitives.foundry_handlers:parse_geojson"}]}
+        snap, _ = acquire(src)
+        m = form(snap)[0]
+        self.assertEqual(m["handler_ref"], "primitives.foundry_handlers:parse_geojson")
+        self.assertEqual(verify(m)["verification_status"], "fixture_executable")
+
+
+class RouteRuntimeTests(unittest.TestCase):
+    def test_executes_mined_chain_and_emits_receipts(self):
+        from primitives.route_runtime import execute_route
+        from primitives.foundry_handlers import HANDLERS
+        route = {
+            "compiled": True, "want": "RowSet", "want_canonical_type": "TabularDataset",
+            "route_steps": [
+                {"node_id": "mined:geoutils_fixture.parse_geojson"},
+                {"node_id": "mined:geoutils_fixture.features_to_records"},
+                {"node_id": "mined:geoutils_fixture.records_to_rows"},
+            ],
+        }
+        fc = {"type": "FeatureCollection", "features": [
+            {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-74.0, 40.7]},
+             "properties": {"name": "A"}}]}
+        run = execute_route(route, HANDLERS, {"GeoJsonDocument": fc}, run_id="t")
+        self.assertTrue(run["ran"])
+        self.assertEqual(run["steps_executed"], 3)
+        self.assertEqual(len(run["step_receipts"]), 3)
+        self.assertEqual(run["want_value"]["rows"], [[40.7, -74.0, "A"]])
+
+    def test_unimplemented_node_stops_honestly(self):
+        from primitives.route_runtime import execute_route
+        route = {"compiled": True, "want": "X", "want_canonical_type": "X",
+                 "route_steps": [{"node_id": "mined:nope.missing"}]}
+        run = execute_route(route, {}, {}, run_id="t")
+        self.assertFalse(run["ran"])
+        self.assertEqual(run["unimplemented"], ["mined:nope.missing"])
+
 
 if __name__ == "__main__":
     unittest.main()

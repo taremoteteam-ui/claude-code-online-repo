@@ -34,6 +34,26 @@ sys.path.insert(0, str(REPO_ROOT))
 from primitives.foundry import acquire, form, verify  # noqa: E402
 from primitives.decision_engine import choose  # noqa: E402
 from primitives.route_compiler import compile_route  # noqa: E402
+from primitives.route_runtime import execute_route  # noqa: E402
+from primitives.graph_search import GraphSearchIndex  # noqa: E402
+from primitives.foundry_handlers import HANDLERS  # noqa: E402
+
+# A tiny fixture GeoJSON input the mined route actually runs on (USE-execute).
+FIXTURE_GEOJSON = {
+    "type": "FeatureCollection",
+    "features": [
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-74.0, 40.7]},
+         "properties": {"name": "A", "kind": "clinic"}},
+        {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-73.9, 40.8]},
+         "properties": {"name": "B", "kind": "clinic"}},
+    ],
+}
+# Targets to test compose-lift: which only compile because the mined source exists.
+LIFT_TARGETS = [
+    (["GeoJsonDocument"], "RowSet"),
+    (["GeoJsonDocument"], "EntityRecordSet"),
+    (["PointFeatureCollection"], "RowSet"),
+]
 
 FIXTURES = REPO_ROOT / "fixtures" / "foundry"
 PACK = REPO_ROOT / "catalog" / "knowledge-packs" / "data" / "decision-portfolios"
@@ -76,27 +96,71 @@ def run(write: bool) -> dict:
         })
 
     verified = [m for m in all_mined if m["verification_status"] == "fixture_verified"]
+    executable = [m for m in all_mined if m["verification_status"] == "fixture_executable"]
     blocked = [m for m in all_mined if m["verification_status"] == "license_blocked"]
+    mined_ids = {m["mined_primitive_id"] for m in all_mined}
+    new_ports = sorted({t for m in (verified + executable)
+                        for t in m["port_roles"]["outputs"]})
 
-    # USE: compile a route over the graph that chains mined primitives.
+    # === USE stage (expanded) ===
     nodes = [json.loads(l) for l in GRAPH.read_text().splitlines() if l.strip()]
+    nodes_without_foundry = [n for n in nodes if n.get("lane") != "foundry"]
+
+    # (a) RETRIEVE: find the mined primitives by a natural-language intent.
+    index = GraphSearchIndex(nodes=nodes)
+    retrieved = [r["node_id"] for r in index.search(
+        "parse a geojson document into a point feature collection",
+        want="PointFeatureCollection", top_k=5)
+        if r["node_id"].startswith("mined:")]
+
+    # (b) COMPOSE + compose-LIFT: how many targets only compile because the
+    # mined source exists (compile with vs without the foundry lane).
+    lift = []
+    for have, want in LIFT_TARGETS:
+        with_f = compile_route(have, want, nodes)["compiled"]
+        without_f = compile_route(have, want, nodes_without_foundry)["compiled"]
+        lift.append({"have": have, "want": want, "compiles": with_f,
+                     "unlocked_by_foundry": bool(with_f and not without_f)})
+    unlocked = [t for t in lift if t["unlocked_by_foundry"]]
+
+    # (c) PlanLock for the flagship mined route.
     route = compile_route(["GeoJsonDocument"], "RowSet", nodes)
     mined_steps = [s["node_id"] for s in route.get("route_steps", []) if s["node_id"].startswith("mined:")]
+
+    # (d) EXECUTE: actually RUN the compiled mined route on the fixture GeoJSON,
+    # emitting an ExecutionReceipt per step - USE is real, not just a plan.
+    run = execute_route(route, HANDLERS, {"GeoJsonDocument": FIXTURE_GEOJSON}, run_id="foundryrun")
 
     summary = {
         "run_id": "foundryrun",
         "lifecycle": "acquire -> form -> verify -> store -> use, engine-driven, zero model calls",
         "sources": len(stages), "per_source": stages,
-        "store": {"total_mined": len(all_mined), "fixture_verified": len(verified),
-                  "license_blocked": len(blocked),
-                  "note": "only fixture_verified mined primitives enter the composable graph"},
-        "use": {"target": "GeoJsonDocument -> RowSet", "compiled": route["compiled"],
-                "step_count": route.get("step_count", 0), "mined_steps_used": mined_steps},
+        "store": {"total_mined": len(all_mined),
+                  "fixture_verified": len(verified), "fixture_executable": len(executable),
+                  "license_blocked": len(blocked), "new_ports_introduced": new_ports,
+                  "note": "only fixture_verified/executable mined primitives enter the composable graph"},
+        "use": {
+            "retrieve": {"intent": "parse a geojson document into a point feature collection",
+                         "mined_hits": retrieved},
+            "compose_lift": {"targets": lift, "unlocked_by_foundry": len(unlocked),
+                             "note": "targets that compile ONLY because the mined source exists"},
+            "planlock": {"target": "GeoJsonDocument -> RowSet", "compiled": route["compiled"],
+                         "route_hash": route.get("route_hash"), "step_count": route.get("step_count", 0),
+                         "mined_steps_used": mined_steps},
+            "execute": {"ran": run["ran"], "steps_executed": run["steps_executed"],
+                        "effects_union": run["effects_union"],
+                        "output_columns": (run["want_value"] or {}).get("columns"),
+                        "output_row_count": len((run["want_value"] or {}).get("rows", [])),
+                        "receipt_ids": [r["receipt_id"] for r in run["step_receipts"]],
+                        "unimplemented": run["unimplemented"]},
+        },
         "candidate": True, "serves_truth": False,
         "honesty_notes": [
             "SYNTHETIC fixture sources only - no real repo scraped; live mining runs where the network policy allows",
-            "the acquisition path is CHOSEN by the decision engine from a portfolio, not hardcoded",
+            "the acquisition path is CHOSEN by the decision engine; secret-scan + vendored-exclusion gates run at acquire",
             "the license gate blocked the non-permissive source; blocked primitives are stored but never enter the graph",
+            "USE executes the mined route for real: each step emits an ExecutionReceipt (input/output hash, effects, proofs, timing)",
+            "compose-lift is measured by compiling WITH vs WITHOUT the foundry lane - no hand-typed number",
             "mined primitives stay candidate=true / serves_truth=false until a live source ref + receipts attach",
         ],
     }
@@ -116,13 +180,18 @@ def main() -> int:
         return 2
     summary = run(write=args.write)
     print(json.dumps(summary, indent=2))
-    # Honest gate: all five stages ran; the license gate blocked >=1; a mined
-    # route compiled using >=1 mined primitive.
+    # Honest gate: all five stages produced real output - license gate blocked
+    # >=1, >=1 executable mined primitive, a mined route compiled AND executed
+    # end-to-end emitting receipts, and the source unlocked >=1 target.
+    use = summary["use"]
     ok = (summary["sources"] >= 1
           and summary["store"]["license_blocked"] >= 1
-          and summary["store"]["fixture_verified"] >= 1
-          and summary["use"]["compiled"] is True
-          and len(summary["use"]["mined_steps_used"]) >= 1)
+          and summary["store"]["fixture_executable"] >= 1
+          and use["planlock"]["compiled"] is True
+          and len(use["planlock"]["mined_steps_used"]) >= 1
+          and use["execute"]["ran"] is True
+          and use["execute"]["output_row_count"] >= 1
+          and use["compose_lift"]["unlocked_by_foundry"] >= 1)
     return 0 if ok else 1
 
 

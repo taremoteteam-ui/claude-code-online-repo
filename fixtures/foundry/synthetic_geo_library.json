@@ -11,21 +11,24 @@
       "params": [{"name": "raw", "type": "GeoJsonDocument"}],
       "returns": "PointFeatureCollection",
       "does": "Parse a GeoJSON document into a validated point feature collection, rejecting non-Point geometries.",
-      "effects": ["none"]
+      "effects": ["none"],
+      "handler": "primitives.foundry_handlers:parse_geojson"
     },
     {
       "name": "features_to_records",
       "params": [{"name": "fc", "type": "PointFeatureCollection"}],
       "returns": "EntityRecordSet",
       "does": "Flatten a point feature collection into entity records with lat/lon fields and carried properties.",
-      "effects": ["none"]
+      "effects": ["none"],
+      "handler": "primitives.foundry_handlers:features_to_records"
     },
     {
       "name": "records_to_rows",
       "params": [{"name": "records", "type": "EntityRecordSet"}],
       "returns": "RowSet",
       "does": "Pivot a set of entity records into a columns-and-rows table with a stable column order.",
-      "effects": ["none"]
+      "effects": ["none"],
+      "handler": "primitives.foundry_handlers:records_to_rows"
     },
     {
       "name": "fetch_tiles",
@@ -33,6 +36,14 @@
       "returns": "TileImageSet",
       "does": "Fetch the map raster tiles covering an area of interest under a fetch policy.",
       "effects": ["network_read"]
+    },
+    {
+      "name": "_vendored_shim",
+      "params": [{"name": "x", "type": "Anything"}],
+      "returns": "Anything",
+      "does": "Vendored third-party shim that must be excluded from mining.",
+      "effects": ["none"],
+      "vendored": true
     }
   ]
 }
