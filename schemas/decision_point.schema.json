@@ -29,11 +29,22 @@
     "contract": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["input", "output", "win_definition"],
+      "required": ["input", "output", "win_definition", "consumes", "produces"],
       "properties": {
         "input": { "type": "string", "minLength": 3 },
         "output": { "type": "string", "minLength": 3 },
-        "win_definition": { "type": "string", "minLength": 10 }
+        "win_definition": { "type": "string", "minLength": 10 },
+        "consumes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "description": "state keys this fork requires from the initial state or an upstream fork's produces"
+        },
+        "produces": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "minItems": 1,
+          "description": "state keys this fork yields (the edge downstream forks consume)"
+        }
       }
     },
     "selection_policy": {

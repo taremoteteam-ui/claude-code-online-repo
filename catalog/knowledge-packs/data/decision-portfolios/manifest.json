@@ -9,19 +9,19 @@
   ],
   "files": {
     "decision_points.jsonl": {
-      "rows": 5,
-      "content_sha256": "eb96b389057a6fd90e2b2f675fdb97a2748d7722b039b20cf87e342460b83bf3"
+      "rows": 6,
+      "content_sha256": "9437c73a937f55e047bc9e707e12d00043f9e5a986c0f72567f62c6d1d549fb2"
     },
     "execution_paths.jsonl": {
-      "rows": 15,
-      "content_sha256": "fc72d1bc8281db27ff6c723db03334237bda05ad1ef99c7159a26709bdf94ea6"
+      "rows": 18,
+      "content_sha256": "24fcb445327b68b7c1157f79fecfced2fc6a84a759967da942791dbf76befd92"
     }
   },
   "row_counts": {
-    "decision_points.jsonl": 5,
-    "execution_paths.jsonl": 15
+    "decision_points.jsonl": 6,
+    "execution_paths.jsonl": 18
   },
-  "total_rows": 20,
+  "total_rows": 24,
   "candidate": true,
   "serves_truth": false
 }

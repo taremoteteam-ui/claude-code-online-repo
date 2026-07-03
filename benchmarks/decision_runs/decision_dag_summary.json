@@ -1,0 +1,64 @@
+{
+  "run_id": "dagrun",
+  "framework": "dframework:solve",
+  "problem": "Solve a stated problem end to end by retrieving primitives, wiring a validated order, and executing it.",
+  "fork_edges": [
+    {
+      "from": "orchestration.ordering_strategy",
+      "to": "solve.execution_target",
+      "on": [
+        "validated_order"
+      ]
+    },
+    {
+      "from": "retrieval.plane_selection",
+      "to": "orchestration.ordering_strategy",
+      "on": [
+        "candidate_set"
+      ]
+    }
+  ],
+  "compiled_order": [
+    "retrieval.plane_selection",
+    "orchestration.ordering_strategy",
+    "solve.execution_target"
+  ],
+  "matches_declared_framework": true,
+  "dag_valid": true,
+  "plan_hash": "dhash:33d2f6521fcd96a0",
+  "wired_plan": [
+    {
+      "fork": "retrieval.plane_selection",
+      "path": "retrieval.lexical_only",
+      "consumes_available": true,
+      "produces": [
+        "candidate_set"
+      ]
+    },
+    {
+      "fork": "orchestration.ordering_strategy",
+      "path": "order.deterministic_compile",
+      "consumes_available": true,
+      "produces": [
+        "validated_order"
+      ]
+    },
+    {
+      "fork": "solve.execution_target",
+      "path": "exec.local_python",
+      "consumes_available": true,
+      "produces": [
+        "execution_result"
+      ]
+    }
+  ],
+  "reached_goal": true,
+  "candidate": true,
+  "serves_truth": false,
+  "honesty_notes": [
+    "fork edges are DERIVED from consumes/produces contracts, not hand-wired",
+    "the fork order is compiled by the same forward-chaining the route compiler uses for primitives",
+    "each fork's path is resolved by the engine; the wired plan threads state fork to fork",
+    "the decision framework is validated by the same wave rule as the warehouse multi-wave pipelines"
+  ]
+}

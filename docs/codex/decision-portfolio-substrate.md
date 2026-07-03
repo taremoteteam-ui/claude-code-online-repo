@@ -110,6 +110,35 @@ cost) and disclose their arithmetic. The engineer declares only the path space,
 the cost model, and what a win is; the planner derives ordering, selection, and
 combination from data — no further engineering decision.
 
+## Contracts, edges, and frameworks BETWEEN forks (the decision graph)
+
+Primitives compose by typed edges; so should decisions. `primitives/
+decision_graph.py` makes the control-flow tree edge-typed, so forks compose the
+same way primitives do:
+
+- **Contract per fork.** Each decision's `contract` now declares `consumes` and
+  `produces` — the state keys it needs and yields. A fork is a typed node.
+- **Edges derived, not hand-wired.** Fork A → fork B whenever B consumes a key A
+  produces (`build_decision_edges`). The demo derives
+  `retrieval → ordering` (on `candidate_set`) and `ordering → execution` (on
+  `validated_order`) with no wiring by hand.
+- **Compile the fork order.** `compile_decision_order(decisions, initial_keys,
+  goal_keys)` forward-chains over state keys to order the forks that reach the
+  goal — the *route compiler, for decisions* — or returns a gap with the first
+  unmet key.
+- **Decision frameworks.** A `decision_framework` (own schema/pack) is a reusable
+  typed DAG of forks solving a meta-problem; the checker validates it composes by
+  the same wave rule the warehouse multi-wave pipelines use (every consumed key
+  produced by the initial state or an earlier fork) and reaches the goal.
+
+`scripts/run_decision_dag_demo.py` ties it together: for `dframework:solve` it
+derives the fork edges, compiles the order (matching the declared framework),
+then resolves each fork to a path and threads the produced state forward — a
+fully wired decision plan from `{problem_intent, want_type, have, want,
+effect_profile}` to `execution_result`. The capability graph (runtime) and the
+decision graph (control flow) are now the same kind of object, composed by the
+same machinery.
+
 ## Drop-in for any project: `primitives/decision_kit.py`
 
 `DecisionKit` wires the engine + planner to any codebase in ~3 lines with a

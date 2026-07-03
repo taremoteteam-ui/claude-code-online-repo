@@ -159,6 +159,13 @@ python3 scripts/build_decision_portfolio_pack.py --write
 python3 scripts/check_decision_portfolio_pack.py --self-test
 python3 scripts/run_decision_engine_demo.py --self-test   # measured, zero model calls
 
+# Decision graph + frameworks: forks carry state contracts (consumes/produces),
+# so decisions compose by edges like primitives do. Build/check a decision
+# framework (a reusable typed DAG of forks) and run the wired-plan demo.
+python3 scripts/build_decision_frameworks_pack.py --write
+python3 scripts/check_decision_frameworks_pack.py --self-test
+python3 scripts/run_decision_dag_demo.py --self-test
+
 # Everything at once (CI runs this on every push)
 python3 scripts/run_proofs.py
 ```

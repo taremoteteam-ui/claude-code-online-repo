@@ -1,0 +1,21 @@
+{
+  "pack_id": "decision-frameworks",
+  "pack_version": "0.1.0",
+  "generated_by": "scripts/build_decision_frameworks_pack.py",
+  "schema_refs": [
+    "schemas/decision_framework.schema.json",
+    "schemas/pack_manifest.schema.json"
+  ],
+  "files": {
+    "decision_frameworks.jsonl": {
+      "rows": 1,
+      "content_sha256": "d8de4feb6dea257cca1d8f00a359886479dfa55c74f0fbcdff4233874222a74f"
+    }
+  },
+  "row_counts": {
+    "decision_frameworks.jsonl": 1
+  },
+  "total_rows": 1,
+  "candidate": true,
+  "serves_truth": false
+}
